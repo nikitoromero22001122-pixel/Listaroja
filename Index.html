@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discurso y Novedades Lista Roja - Centro de Estudiantes</title>
+    <style>
+        /* Variables base para Modo Claro */
+        :root {
+            --rojo-principal: #e63946;
+            --rojo-oscuro: #b7094c;
+            --blanco: #ffffff;
+            --gris-claro: #f8f9fa;
+            --texto-oscuro: #2b2d42;
+            --fondo-gradiente: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --tarjeta-fondo: var(--blanco);
+            --tarjeta-seccion: var(--gris-claro);
+            --texto-secundario: #555555;
+            --sombra: rgba(0, 0, 0, 0.15);
+        }
+
+        /* Variables para Modo Oscuro */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --blanco: #1e1e24;
+                --gris-claro: #2b2b36;
+                --texto-oscuro: #f8f9fa;
+                --fondo-gradiente: linear-gradient(135deg, #0f0f12 0%, #1a1a24 100%);
+                --tarjeta-fondo: #16161a;
+                --tarjeta-seccion: #22222b;
+                --texto-secundario: #b0b0bc;
+                --sombra: rgba(0, 0, 0, 0.5);
+                --rojo-principal: #ff4d5a;
+                --rojo-oscuro: #d91e5c;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--fondo-gradiente);
+            color: var(--texto-oscuro);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background-color: var(--tarjeta-fondo);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px var(--sombra);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Encabezado */
+        .header {
+            background: linear-gradient(135deg, var(--rojo-principal), var(--rojo-oscuro));
+            color: #ffffff;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .lista-roja-badge {
+            background-color: #ffffff;
+            color: #b7094c;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            animation: pulse 2s infinite;
+        }
+
+        /* Títulos de sección */
+        .section-title {
+            text-align: center;
+            color: var(--rojo-oscuro);
+            margin: 40px 0 20px 0;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--rojo-principal);
+            padding-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        /* Contenido/Tarjetas */
+        .content {
+            padding: 30px;
+        }
+
+        .section-card {
+            background-color: var(--tarjeta-seccion);
+            border-left: 5px solid var(--rojo-principal);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .section-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px var(--sombra);
+        }
+
+        .section-card h3 {
+            color: var(--rojo-principal);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Novedad destacada */
+        .novedad-card {
+            border-left-color: #fca311; /* Color distintivo para novedades */
+        }
+        .novedad-card h3 {
+            color: #fca311;
+        }
+
+        /* Lógica del texto interactivo */
+        .text-summary {
+            font-style: italic;
+            color: var(--texto-secundario);
+            transition: color 0.3s ease;
+        }
+
+        .expandable-wrapper {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.5s ease-out;
+        }
+
+        .text-full {
+            overflow: hidden;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            text-align: justify;
+        }
+
+        .section-card.expanded .expandable-wrapper {
+            grid-template-rows: 1fr;
+        }
+
+        .section-card.expanded .text-full {
+            padding-top: 15px;
+        }
+
+        .section-card.expanded .text-summary {
+            display: none;
+        }
+
+        /* Botón */
+        .btn-toggle {
+            background-color: var(--rojo-principal);
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            margin-top: 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: background 0.3s, transform 0.2s;
+            outline: none;
+        }
+
+        .btn-toggle:hover {
+            background-color: var(--rojo-oscuro);
+            transform: scale(1.05);
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .resaltado-texto {
+            color: var(--rojo-principal);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Lista Roja</h1>
+        <div class="lista-roja-badge">¡Gracias por su apoyo!</div>
+        <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.9;">Centro de Estudiantes</p>
+    </div>
+
+    <div class="content">
+
+        <h2 class="section-title">Novedades</h2>
+
+        <div class="section-card novedad-card">
+            <h3>Agradecimiento 22-05-26</h3>
+            <p class="text-summary">Un mensaje especial tras la jornada electoral.</p>
+            <div class="expandable-wrapper">
+                <div class="text-full">
+                    En nombre de la <span class="resaltado-texto">Lista Roja</span>, agradecerles a cada uno de los alumnos que dieron su voto.<br><br>
+                    Todas las propuestas y más serán cumplidas en la institución escolar.
+                </div>
+            </div>
+            <button class="btn-toggle">Leer más</button>
+        </div>
+
+
+        <h2 class="section-title">Nuestras Propuestas</h2>
+
+        <div class="section-card">
+            <h3>Apertura y Bienvenida</h3>
+            <p class="text-summary">Saludo inicial a la comunidad estudiantil y presentación del equipo de 12 integrantes.</p>
+            <div class="expandable-wrapper">
+                <div class="text-full">
+                    Muy buenos días/tardes a todos los compañeros, a los profesores, al personal de la escuela y a todos los que nos acompañan hoy. <br><br>
+                    Soy [Nombre de la presidenta], y en representación de los 12 integrantes de la <span class="resaltado-texto">Lista Roja</span>, les doy la bienvenida a este cierre de campaña. Hoy nos juntamos no solo para despedir esta etapa, sino para agradecerles por escucharnos y confiar en nosotros. Traemos propuestas reales, pensadas para todos.
+                </div>
+            </div>
+            <button class="btn-toggle">Leer más</button>
+        </div>
+
+        <div class="section-card">
+            <h3>Consigna 1: Jornadas de Cine</h3>
+            <p class="text-summary">Creación de espacios de esparcimiento para ver películas y disfrutar juntos.</p>
+            <div class="expandable-wrapper">
+                <div class="text-full">
+                    Primero, queremos organizar jornadas de cine: espacios de esparcimiento, donde podamos compartir un buen momento, ver películas y disfrutar juntos, unidos como grupo.
+                </div>
+            </div>
+            <button class="btn-toggle">Leer más</button>
+        </div>
+
+        <div class="section-card">
+            <h3>Consigna 2: Apoyo Escolar</h3>
+            <p class="text-summary">Un grupo de ayuda mutua para que nadie se quede con dudas en las materias.</p>
+            <div class="expandable-wrapper">
+                <div class="text-full">
+                    También crearemos un grupo de apoyo escolar: para que quien tenga dificultades en alguna materia pueda recibir ayuda, y para que entre todos nos podamos apoyar y aprender mejor, sin que nadie se quede solo con dudas.
+                </div>
+            </div>
+            <button class="btn-toggle">Leer más</button>
+        </div>
+
+        <div class="section-card">
+            <h3>Consigna 3: Mejoras en los Baños y Espejos</h3>
+            <p class="text-summary">Compromiso de higiene y colocación de un espejo en el baño de varones.</p>
+            <div class="expandable-wrapper">
+                <div class="text-full">
+                    Sabemos que los baños son un lugar que todos usamos todos los días, por eso nuestro compromiso es trabajar para que tanto los de mujeres como los de varones estén en mucho mejor estado, más limpios y en mejores condiciones. Y sabemos que hay algo que muchos compañeros pedían: vamos a gestionar para colocar un espejo en el baño de varones, porque sabemos que es una necesidad que tienen ustedes.
+                </div>
+            </div>
+            <button class="btn-toggle">Leer más</button>
+        </div>
+
+        <div class="section-card">
+            <h3>Consigna 4: Cambio de Uniforme</h3>
+            <p class="text-summary">Debate abierto para buscar opciones de uniformes más cómodas y prácticas.</p>
+            <div class="expandable-wrapper">
+                <div class="text-full">
+                    Además, tenemos una propuesta muy importante: vamos a buscar el cambio de uniforme. Queremos escuchar sus opiniones, pensar entre todos en opciones que sean más cómodas, prácticas y que nos representen mejor, porque sabemos que el uniforme es algo que usamos todos los días y que queremos que sea de agrado para toda la comunidad.
+                </div>
+            </div>
+            <button class="btn-toggle">Leer más</button>
+        </div>
+
+        <div class="section-card">
+            <h3>Compromiso y Mensaje de Unión</h3>
+            <p class="text-summary">Reflexión sobre el futuro y la convivencia con las demás listas tras la votación.</p>
+            <div class="expandable-wrapper">
+                <div class="text-full">
+                    Estas no son solo palabras: si somos elegidos, nuestro trabajo va a ser constante. La <span class="resaltado-texto">Lista Roja</span> es trabajo y compromiso. <br><br>
+                    Quiero decirles algo más: el viernes no importa cuál sea el resultado, porque las tres listas buscamos lo mismo: mejorar nuestra escuela. Después de esto seguiremos siendo compañeros, seguiremos estando juntos y construyendo una mejor institución para todos. ¡Muchas gracias por apoyarnos y Viva la <span class="resaltado-texto">Lista Roja</span>!
+                </div>
+            </div>
+            <button class="btn-toggle">Leer más</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const botones = document.querySelectorAll('.btn-toggle');
+
+    botones.forEach(boton => {
+        boton.addEventListener('click', function() {
+            const tarjeta = this.closest('.section-card');
+            tarjeta.classList.toggle('expanded');
+            
+            if (tarjeta.classList.contains('expanded')) {
+                this.textContent = 'Leer menos';
+            } else {
+                this.textContent = 'Leer más';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
