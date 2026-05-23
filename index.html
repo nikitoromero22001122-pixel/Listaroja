@@ -17,6 +17,9 @@
             --tarjeta-seccion: var(--gris-claro);
             --texto-secundario: #555555;
             --sombra: rgba(0, 0, 0, 0.15);
+            --tiktok-bg: #000000;
+            --tiktok-text: #ffffff;
+            --credits-text: #777777;
         }
 
         /* Variables para Modo Oscuro */
@@ -32,6 +35,9 @@
                 --sombra: rgba(0, 0, 0, 0.5);
                 --rojo-principal: #ff4d5a;
                 --rojo-oscuro: #d91e5c;
+                --tiktok-bg: #ffffff;
+                --tiktok-text: #000000;
+                --credits-text: #a0a0b0;
             }
         }
 
@@ -111,6 +117,7 @@
         /* Contenido/Tarjetas */
         .content {
             padding: 30px;
+            padding-bottom: 10px;
         }
 
         .section-card {
@@ -136,7 +143,7 @@
 
         /* Novedad destacada */
         .novedad-card {
-            border-left-color: #fca311; /* Color distintivo para novedades */
+            border-left-color: #fca311;
         }
         .novedad-card h3 {
             color: #fca311;
@@ -174,7 +181,7 @@
             display: none;
         }
 
-        /* Botón */
+        /* Botón de Leer Más */
         .btn-toggle {
             background-color: var(--rojo-principal);
             color: #ffffff;
@@ -192,6 +199,59 @@
         .btn-toggle:hover {
             background-color: var(--rojo-oscuro);
             transform: scale(1.05);
+        }
+
+        /* Redes Sociales / Footer */
+        .social-footer {
+            background-color: var(--tarjeta-seccion);
+            text-align: center;
+            padding: 25px 20px;
+            border-top: 2px solid var(--rojo-principal);
+            transition: background-color 0.3s ease;
+        }
+
+        .social-footer h3 {
+            color: var(--texto-oscuro);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .tiktok-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--tiktok-bg);
+            color: var(--tiktok-text);
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, color 0.3s;
+            gap: 10px;
+        }
+
+        .tiktok-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px var(--sombra);
+        }
+
+        .tiktok-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Firma de créditos */
+        .credits {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: var(--credits-text);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+            transition: color 0.3s ease;
         }
 
         /* Animaciones */
@@ -246,7 +306,7 @@
             <div class="expandable-wrapper">
                 <div class="text-full">
                     Muy buenos días/tardes a todos los compañeros, a los profesores, al personal de la escuela y a todos los que nos acompañan hoy. <br><br>
-                    Soy Suarez Sofia, y en representación de los 12 integrantes de la <span class="resaltado-texto">Lista Roja</span>, les doy la bienvenida a este cierre de campaña. Hoy nos juntamos no solo para despedir esta etapa, sino para agradecerles por escucharnos y confiar en nosotros. Traemos propuestas reales, pensadas para todos.
+                    Soy [Nombre de la presidenta], y en representación de los 12 integrantes de la <span class="resaltado-texto">Lista Roja</span>, les doy la bienvenida a este cierre de campaña. Hoy nos juntamos no solo para despedir esta etapa, sino para agradecerles por escucharnos y confiar en nosotros. Traemos propuestas reales, pensadas para todos.
                 </div>
             </div>
             <button class="btn-toggle">Leer más</button>
@@ -308,6 +368,17 @@
             <button class="btn-toggle">Leer más</button>
         </div>
 
+    </div>
+
+    <div class="social-footer">
+        <h3>¡Síguenos y entérate de todo!</h3>
+        <a href="https://www.tiktok.com/@listaroja26?_r=1&_t=ZS-96bOK0KU134" target="_blank" rel="noopener noreferrer" class="tiktok-btn">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+            </svg>
+            Síguenos en TikTok
+        </a>
+        <div class="credits">Hecho por Niko.z</div>
     </div>
 </div>
 
