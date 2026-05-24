@@ -331,6 +331,16 @@
             color: var(--rojo-principal);
             font-weight: bold;
         }
+        
+        .timer-box {
+            background: linear-gradient(135deg, var(--tarjeta-seccion), var(--tarjeta-fondo));
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px dashed var(--rojo-oscuro);
+            margin-bottom: 20px;
+            color: var(--texto-oscuro);
+        }
     </style>
 </head>
 <body>
@@ -358,23 +368,19 @@
             <button class="btn-toggle">Leer más</button>
         </div>
 
+        <h2 class="section-title">Cuenta Regresiva</h2>
+        
+        <div class="timer-box" id="countdown-container">
+            <h3 style="color: var(--rojo-principal); margin-bottom: 10px;">Próximo Evento Estudiantil</h3>
+            <p style="font-size: 1.1rem; font-weight: bold; opacity: 0.8;" id="timer-message">
+                No hay cuenta regresiva activa.
+            </p>
+        </div>
 
         <h2 class="section-title">Nuestras Propuestas</h2>
 
         <div class="section-card">
-            <h3>Apertura y Bienvenida</h3>
-            <p class="text-summary">Saludo inicial a la comunidad estudiantil y presentación del equipo de 12 integrantes.</p>
-            <div class="expandable-wrapper">
-                <div class="text-full">
-                    Muy buenos días/tardes a todos los compañeros, a los profesores, al personal de la escuela y a todos los que nos acompañan hoy. <br><br>
-                    Soy Suarez Sofia (presidenta), y en representación de los 12 integrantes de la <span class="resaltado-texto">Lista Roja</span>, les doy la bienvenida a este cierre de campaña. Hoy nos juntamos no solo para despedir esta etapa, sino para agradecerles por escucharnos y confiar en nosotros. Traemos propuestas reales, pensadas para todos.
-                </div>
-            </div>
-            <button class="btn-toggle">Leer más</button>
-        </div>
-
-        <div class="section-card">
-            <h3>Consigna 1: Jornadas de Cine</h3>
+            <h3>Promesa a cumplir 1: Jornadas de Cine</h3>
             <p class="text-summary">Creación de espacios de esparcimiento para ver películas y disfrutar juntos.</p>
             <div class="expandable-wrapper">
                 <div class="text-full">
@@ -385,7 +391,7 @@
         </div>
 
         <div class="section-card">
-            <h3>Consigna 2: Apoyo Escolar</h3>
+            <h3>Promesa a cumplir 2: Apoyo Escolar</h3>
             <p class="text-summary">Un grupo de ayuda mutua para que nadie se quede con dudas en las materias.</p>
             <div class="expandable-wrapper">
                 <div class="text-full">
@@ -396,7 +402,7 @@
         </div>
 
         <div class="section-card">
-            <h3>Consigna 3: Mejoras en los Baños y Espejos</h3>
+            <h3>Promesa a cumplir 3: Mejoras en los Baños y Espejos</h3>
             <p class="text-summary">Compromiso de higiene y colocación de un espejo en el baño de varones.</p>
             <div class="expandable-wrapper">
                 <div class="text-full">
@@ -407,23 +413,11 @@
         </div>
 
         <div class="section-card">
-            <h3>Consigna 4: Cambio de Uniforme</h3>
+            <h3>Promesa a cumplir 4: Cambio de Uniforme</h3>
             <p class="text-summary">Debate abierto para buscar opciones de uniformes más cómodas y prácticas.</p>
             <div class="expandable-wrapper">
                 <div class="text-full">
                     Además, tenemos una propuesta muy importante: vamos a buscar el cambio de uniforme. Queremos escuchar sus opiniones, pensar entre todos en opciones que sean más cómodas, prácticas y que nos representen mejor, porque sabemos que el uniforme es algo que usamos todos los días y que queremos que sea de agrado para toda la comunidad.
-                </div>
-            </div>
-            <button class="btn-toggle">Leer más</button>
-        </div>
-
-        <div class="section-card">
-            <h3>Compromiso y Mensaje de Unión</h3>
-            <p class="text-summary">Reflexión sobre el futuro y la convivencia con las demás listas tras la votación.</p>
-            <div class="expandable-wrapper">
-                <div class="text-full">
-                    Estas no son solo palabras: si somos elegidos, nuestro trabajo va a ser constante. La <span class="resaltado-texto">Lista Roja</span> es trabajo y compromiso. <br><br>
-                    Quiero decirles algo más: el viernes no importa cuál sea el resultado, porque las tres listas buscamos lo mismo: mejorar nuestra escuela. Después de esto seguiremos siendo compañeros, seguiremos estando juntos y construyendo una mejor institución para todos. ¡Muchas gracias por apoyarnos y Viva la <span class="resaltado-texto">Lista Roja</span>!
                 </div>
             </div>
             <button class="btn-toggle">Leer más</button>
