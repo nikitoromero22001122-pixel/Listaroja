@@ -471,28 +471,23 @@
 <script>
     // Lógica para expandir/contraer las tarjetas originales
     const botonesToggle = document.querySelectorAll('.btn-toggle:not([onclick])');
-
     botonesToggle.forEach(boton => {
         boton.addEventListener('click', function() {
             const tarjeta = this.closest('.section-card');
             tarjeta.classList.toggle('expanded');
-            
-            if (tarjeta.classList.contains('expanded')) {
-                this.textContent = 'Leer menos';
-            } else {
-                this.textContent = 'Leer más';
-            }
+            this.textContent = tarjeta.classList.contains('expanded') ? 'Leer menos' : 'Leer más';
         });
     });
 
     // ==========================================
-    // LÓGICA DEL BUZÓN Y PANEL (SISTEMA ANÓNIMO)
+    // CONEXIÓN EN LA NUBE (FIREBASE)
     // ==========================================
     
-    // CONFIGURACIÓN: Cambia aquí la contraseña del panel
+    // URL DE FIREBASE INTEGRADA
+    const FIREBASE_URL = "https://lista-roja-5ab69-default-rtdb.firebaseio.com/"; 
     const PASSWORD_CORRECTA = "roja2026"; 
 
-    // Guardar propuesta
+    // Enviar a la nube de manera 100% anónima
     function enviarPropuesta() {
         const txtArea = document.getElementById('input-propuesta');
         const propuestaTexto = txtArea.value.trim();
@@ -502,26 +497,29 @@
             return;
         }
 
-        // Obtener las propuestas ya guardadas o iniciar array vacío
-        let propuestas = JSON.parse(localStorage.getItem('propuestasAnonimas')) || [];
-
-        // Estructura de la propuesta (sólo texto y fecha, sin rastros de ID de usuario)
         const nuevaPropuesta = {
             texto: propuestaTexto,
             fecha: new Date().toLocaleString('es-AR')
         };
 
-        propuestas.push(nuevaPropuesta);
-        localStorage.setItem('propuestasAnonimas', JSON.stringify(propuestas));
-
-        // Feedback y reset
-        alert("¡Tu propuesta ha sido enviada de forma anónima! Muchas gracias.");
-        txtArea.value = "";
-        
-        // Si el admin ya está logueado, actualizar la lista automáticamente
-        if (!document.getElementById('admin-panel').classList.contains('hidden')) {
-            cargarPropuestasEnPanel();
-        }
+        // Enviar vía POST a Firebase en formato JSON
+        fetch(`${FIREBASE_URL}propuestas.json`, {
+            method: 'POST',
+            body: JSON.stringify(nuevaPropuesta),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(res => {
+            if(res.ok) {
+                alert("¡Tu propuesta ha sido enviada a la nube de forma anónima!");
+                txtArea.value = "";
+                if (!document.getElementById('admin-panel').classList.contains('hidden')) {
+                    cargarPropuestasEnPanel();
+                }
+            } else {
+                alert("Hubo un error al conectar con el servidor.");
+            }
+        })
+        .catch(err => alert("Error de red: " + err));
     }
 
     // Verificar Contraseña Admin
@@ -531,48 +529,55 @@
         if (inputPass === PASSWORD_CORRECTA) {
             document.getElementById('admin-login').classList.add('hidden');
             document.getElementById('admin-panel').classList.remove('hidden');
-            document.getElementById('pass-admin').value = ""; // Limpiar input
+            document.getElementById('pass-admin').value = ""; 
             cargarPropuestasEnPanel();
         } else {
-            alert("Contraseña incorrecta. Inténtalo de nuevo.");
+            alert("Contraseña incorrecta.");
         }
     }
 
-    // Mostrar las propuestas guardadas en el panel
+    // Descargar y mostrar propuestas desde Firebase
     function cargarPropuestasEnPanel() {
         const contenedor = document.getElementById('contenedor-propuestas');
-        contenedor.innerHTML = ""; // Limpiar previo
+        contenedor.innerHTML = "<p style='font-size:0.9rem; color:var(--texto-secundario);'>Cargando propuestas desde la nube...</p>";
 
-        const propuestas = JSON.parse(localStorage.getItem('propuestasAnonimas')) || [];
+        fetch(`${FIREBASE_URL}propuestas.json`)
+        .then(res => res.json())
+        .then(data => {
+            contenedor.innerHTML = "";
+            if (!data) {
+                contenedor.innerHTML = "<p style='font-size:0.9rem; color:var(--texto-secundario);'>No hay propuestas enviadas aún.</p>";
+                return;
+            }
 
-        if (propuestas.length === 0) {
-            contenedor.innerHTML = "<p style='font-size:0.9rem; color:var(--texto-secundario);'>No hay propuestas enviadas aún.</p>";
-            return;
-        }
-
-        // Mostrar de la más nueva a la más vieja
-        propuestas.reverse().forEach(prop => {
-            const item = document.createElement('div');
-            item.className = 'propuesta-item';
-            item.innerHTML = `
-                <span class="propuesta-date">${prop.fecha}</span>
-                <p>${prop.texto}</p>
-            `;
-            contenedor.appendChild(item);
+            // Firebase devuelve un objeto de objetos, lo convertimos en array y lo invertimos
+            const lista = Object.keys(data).map(key => data[key]);
+            
+            lista.reverse().forEach(prop => {
+                const item = document.createElement('div');
+                item.className = 'propuesta-item';
+                item.innerHTML = `
+                    <span class="propuesta-date">${prop.fecha}</span>
+                    <p>${prop.texto}</p>
+                `;
+                contenedor.appendChild(item);
+            });
+        })
+        .catch(err => {
+            contenedor.innerHTML = "<p style='color:red;'>Error al cargar los datos.</p>";
         });
     }
 
-    // Cerrar sesión del panel
     function cerrarSesion() {
         document.getElementById('admin-panel').classList.add('hidden');
         document.getElementById('admin-login').classList.remove('hidden');
     }
 
-    // Borrar todo el historial (Opcional para mantenimiento)
+    // Borrar todo el nodo en Firebase
     function borrarTodas() {
-        if (confirm("¿Estás seguro de que quieres borrar TODAS las propuestas del sistema?")) {
-            localStorage.removeItem('propuestasAnonimas');
-            cargarPropuestasEnPanel();
+        if (confirm("¿Estás seguro de que quieres borrar TODAS las propuestas de la nube?")) {
+            fetch(`${FIREBASE_URL}propuestas.json`, { method: 'DELETE' })
+            .then(() => cargarPropuestasEnPanel());
         }
     }
 </script>
