@@ -181,13 +181,20 @@
             display: none;
         }
 
-        /* Botón de Leer Más */
+        /* Contenedor de Botones */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* Botones */
         .btn-toggle {
             background-color: var(--rojo-principal);
             color: #ffffff;
             border: none;
             padding: 8px 16px;
-            margin-top: 15px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
@@ -199,6 +206,42 @@
         .btn-toggle:hover {
             background-color: var(--rojo-oscuro);
             transform: scale(1.05);
+        }
+
+        /* Botón de Voz (TTS) */
+        .btn-tts {
+            background-color: transparent;
+            color: var(--rojo-principal);
+            border: 2px solid var(--rojo-principal);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            outline: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-tts:hover {
+            background-color: var(--rojo-principal);
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        /* Animación cuando está hablando */
+        .btn-tts.speaking {
+            background-color: var(--rojo-principal);
+            color: #ffffff;
+            animation: tts-pulse 1.5s infinite;
+        }
+
+        @keyframes tts-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(230, 57, 70, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
         }
 
         /* Redes Sociales / Footer */
@@ -290,11 +333,13 @@
             <p class="text-summary">Un mensaje especial tras la jornada electoral.</p>
             <div class="expandable-wrapper">
                 <div class="text-full">
-                    En nombre de la <span class="resaltado-texto">Lista Roja</span>, agradecerles a cada uno de los alumnos que dieron su voto.<br><br>
-                    Todas las propuestas y más serán cumplidas en la institución escolar.
+                    En nombre de la Lista Roja, agradecerles a cada uno de los alumnos que dieron su voto. Todas las propuestas y más serán cumplidas en la institución escolar.
                 </div>
             </div>
-            <button class="btn-toggle">Leer más</button>
+            <div class="action-buttons">
+                <button class="btn-toggle">Leer más</button>
+                <button class="btn-tts">🔊 Escuchar</button>
+            </div>
         </div>
 
 
@@ -305,11 +350,13 @@
             <p class="text-summary">Saludo inicial a la comunidad estudiantil y presentación del equipo de 12 integrantes.</p>
             <div class="expandable-wrapper">
                 <div class="text-full">
-                    Muy buenos días/tardes a todos los compañeros, a los profesores, al personal de la escuela y a todos los que nos acompañan hoy. <br><br>
-                    Soy Suarez Sofia, y en representación de los 12 integrantes de la <span class="resaltado-texto">Lista Roja</span>, les doy la bienvenida a este cierre de campaña. Hoy nos juntamos no solo para despedir esta etapa, sino para agradecerles por escucharnos y confiar en nosotros. Traemos propuestas reales, pensadas para todos.
+                    Muy buenos días o tardes a todos los compañeros, a los profesores, al personal de la escuela y a todos los que nos acompañan hoy. Soy la presidenta, y en representación de los 12 integrantes de la Lista Roja, les doy la bienvenida a este cierre de campaña. Hoy nos juntamos no solo para despedir esta etapa, sino para agradecerles por escucharnos y confiar en nosotros. Traemos propuestas reales, pensadas para todos.
                 </div>
             </div>
-            <button class="btn-toggle">Leer más</button>
+            <div class="action-buttons">
+                <button class="btn-toggle">Leer más</button>
+                <button class="btn-tts">🔊 Escuchar</button>
+            </div>
         </div>
 
         <div class="section-card">
@@ -320,7 +367,10 @@
                     Primero, queremos organizar jornadas de cine: espacios de esparcimiento, donde podamos compartir un buen momento, ver películas y disfrutar juntos, unidos como grupo.
                 </div>
             </div>
-            <button class="btn-toggle">Leer más</button>
+            <div class="action-buttons">
+                <button class="btn-toggle">Leer más</button>
+                <button class="btn-tts">🔊 Escuchar</button>
+            </div>
         </div>
 
         <div class="section-card">
@@ -331,7 +381,10 @@
                     También crearemos un grupo de apoyo escolar: para que quien tenga dificultades en alguna materia pueda recibir ayuda, y para que entre todos nos podamos apoyar y aprender mejor, sin que nadie se quede solo con dudas.
                 </div>
             </div>
-            <button class="btn-toggle">Leer más</button>
+            <div class="action-buttons">
+                <button class="btn-toggle">Leer más</button>
+                <button class="btn-tts">🔊 Escuchar</button>
+            </div>
         </div>
 
         <div class="section-card">
@@ -342,7 +395,10 @@
                     Sabemos que los baños son un lugar que todos usamos todos los días, por eso nuestro compromiso es trabajar para que tanto los de mujeres como los de varones estén en mucho mejor estado, más limpios y en mejores condiciones. Y sabemos que hay algo que muchos compañeros pedían: vamos a gestionar para colocar un espejo en el baño de varones, porque sabemos que es una necesidad que tienen ustedes.
                 </div>
             </div>
-            <button class="btn-toggle">Leer más</button>
+            <div class="action-buttons">
+                <button class="btn-toggle">Leer más</button>
+                <button class="btn-tts">🔊 Escuchar</button>
+            </div>
         </div>
 
         <div class="section-card">
@@ -353,7 +409,10 @@
                     Además, tenemos una propuesta muy importante: vamos a buscar el cambio de uniforme. Queremos escuchar sus opiniones, pensar entre todos en opciones que sean más cómodas, prácticas y que nos representen mejor, porque sabemos que el uniforme es algo que usamos todos los días y que queremos que sea de agrado para toda la comunidad.
                 </div>
             </div>
-            <button class="btn-toggle">Leer más</button>
+            <div class="action-buttons">
+                <button class="btn-toggle">Leer más</button>
+                <button class="btn-tts">🔊 Escuchar</button>
+            </div>
         </div>
 
         <div class="section-card">
@@ -361,11 +420,13 @@
             <p class="text-summary">Reflexión sobre el futuro y la convivencia con las demás listas tras la votación.</p>
             <div class="expandable-wrapper">
                 <div class="text-full">
-                    Estas no son solo palabras: si somos elegidos, nuestro trabajo va a ser constante. La <span class="resaltado-texto">Lista Roja</span> es trabajo y compromiso. <br><br>
-                    Quiero decirles algo más: el viernes no importa cuál sea el resultado, porque las tres listas buscamos lo mismo: mejorar nuestra escuela. Después de esto seguiremos siendo compañeros, seguiremos estando juntos y construyendo una mejor institución para todos. ¡Muchas gracias por apoyarnos y Viva la <span class="resaltado-texto">Lista Roja</span>!
+                    Estas no son solo palabras: si somos elegidos, nuestro trabajo va a ser constante. La Lista Roja es trabajo y compromiso. Quiero decirles algo más: el viernes no importa cuál sea el resultado, porque las tres listas buscamos lo mismo: mejorar nuestra escuela. Después de esto seguiremos siendo compañeros, seguiremos estando juntos y construyendo una mejor institución para todos. ¡Muchas gracias por apoyarnos y Viva la Lista Roja!
                 </div>
             </div>
-            <button class="btn-toggle">Leer más</button>
+            <div class="action-buttons">
+                <button class="btn-toggle">Leer más</button>
+                <button class="btn-tts">🔊 Escuchar</button>
+            </div>
         </div>
 
     </div>
@@ -383,9 +444,10 @@
 </div>
 
 <script>
-    const botones = document.querySelectorAll('.btn-toggle');
+    // Lógica para expandir/contraer las tarjetas
+    const botonesToggle = document.querySelectorAll('.btn-toggle');
 
-    botones.forEach(boton => {
+    botonesToggle.forEach(boton => {
         boton.addEventListener('click', function() {
             const tarjeta = this.closest('.section-card');
             tarjeta.classList.toggle('expanded');
@@ -395,6 +457,61 @@
             } else {
                 this.textContent = 'Leer más';
             }
+        });
+    });
+
+    // Lógica para Texto a Voz (Text-to-Speech)
+    const botonesTTS = document.querySelectorAll('.btn-tts');
+
+    botonesTTS.forEach(boton => {
+        boton.addEventListener('click', function() {
+            const tarjeta = this.closest('.section-card');
+            // Extraemos solo el texto que queremos leer
+            const texto = tarjeta.querySelector('.text-full').textContent.trim();
+
+            // Si el botón ya está hablando, lo detenemos
+            if (this.classList.contains('speaking')) {
+                window.speechSynthesis.cancel();
+                this.classList.remove('speaking');
+                this.innerHTML = '🔊 Escuchar';
+                return;
+            }
+
+            // Cancelar cualquier lectura anterior para que no se superpongan
+            window.speechSynthesis.cancel();
+            
+            // Reiniciar todos los botones visualmente
+            botonesTTS.forEach(btn => {
+                btn.classList.remove('speaking');
+                btn.innerHTML = '🔊 Escuchar';
+            });
+
+            // Configurar la voz
+            const mensaje = new SpeechSynthesisUtterance(texto);
+            mensaje.lang = 'es-AR'; // Español con acento de Argentina
+            mensaje.rate = 1;       // Velocidad normal
+            mensaje.pitch = 1;      // Tono normal
+
+            // Evento cuando empieza a hablar
+            mensaje.onstart = () => {
+                this.classList.add('speaking');
+                this.innerHTML = '⏸️ Detener';
+            };
+
+            // Evento cuando termina de hablar de forma natural
+            mensaje.onend = () => {
+                this.classList.remove('speaking');
+                this.innerHTML = '🔊 Escuchar';
+            };
+
+            // Evento por si ocurre un error
+            mensaje.onerror = () => {
+                this.classList.remove('speaking');
+                this.innerHTML = '🔊 Escuchar';
+            };
+
+            // Ejecutar la voz
+            window.speechSynthesis.speak(mensaje);
         });
     });
 </script>
