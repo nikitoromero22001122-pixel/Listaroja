@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -462,23 +463,28 @@
 
     // Lógica para Texto a Voz (Text-to-Speech)
     const botonesTTS = document.querySelectorAll('.btn-tts');
+    
+    // VARIABLES GLOBALES IMPORTANTES: Evitan que el navegador corte el audio
+    let currentUtterance = null;
+    let keepAliveTimer = null;
 
     botonesTTS.forEach(boton => {
         boton.addEventListener('click', function() {
             const tarjeta = this.closest('.section-card');
-            // Extraemos solo el texto que queremos leer
             const texto = tarjeta.querySelector('.text-full').textContent.trim();
 
             // Si el botón ya está hablando, lo detenemos
             if (this.classList.contains('speaking')) {
                 window.speechSynthesis.cancel();
+                if (keepAliveTimer) clearInterval(keepAliveTimer);
                 this.classList.remove('speaking');
                 this.innerHTML = '🔊 Escuchar';
                 return;
             }
 
-            // Cancelar cualquier lectura anterior para que no se superpongan
+            // Cancelar cualquier lectura o temporizador anterior
             window.speechSynthesis.cancel();
+            if (keepAliveTimer) clearInterval(keepAliveTimer);
             
             // Reiniciar todos los botones visualmente
             botonesTTS.forEach(btn => {
@@ -486,32 +492,43 @@
                 btn.innerHTML = '🔊 Escuchar';
             });
 
-            // Configurar la voz
-            const mensaje = new SpeechSynthesisUtterance(texto);
-            mensaje.lang = 'es-AR'; // Español con acento de Argentina
-            mensaje.rate = 1;       // Velocidad normal
-            mensaje.pitch = 1;      // Tono normal
+            // Configurar la voz y guardarla en la variable global
+            currentUtterance = new SpeechSynthesisUtterance(texto);
+            currentUtterance.lang = 'es-AR';
+            currentUtterance.rate = 1;       
+            currentUtterance.pitch = 1;      
 
             // Evento cuando empieza a hablar
-            mensaje.onstart = () => {
+            currentUtterance.onstart = () => {
                 this.classList.add('speaking');
                 this.innerHTML = '⏸️ Detener';
+                
+                // EL TRUCO (Hack): Pausar y reanudar instantáneamente cada 14 seg
+                // Esto engaña al navegador para que no "duerma" el motor de voz
+                keepAliveTimer = setInterval(() => {
+                    if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+                        window.speechSynthesis.pause();
+                        window.speechSynthesis.resume();
+                    }
+                }, 14000);
             };
 
-            // Evento cuando termina de hablar de forma natural
-            mensaje.onend = () => {
+            // Evento cuando termina de hablar
+            currentUtterance.onend = () => {
                 this.classList.remove('speaking');
                 this.innerHTML = '🔊 Escuchar';
+                if (keepAliveTimer) clearInterval(keepAliveTimer);
             };
 
             // Evento por si ocurre un error
-            mensaje.onerror = () => {
+            currentUtterance.onerror = () => {
                 this.classList.remove('speaking');
                 this.innerHTML = '🔊 Escuchar';
+                if (keepAliveTimer) clearInterval(keepAliveTimer);
             };
 
             // Ejecutar la voz
-            window.speechSynthesis.speak(mensaje);
+            window.speechSynthesis.speak(currentUtterance);
         });
     });
 </script>
