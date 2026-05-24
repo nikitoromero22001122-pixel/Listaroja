@@ -95,6 +95,8 @@
             display: inline-block;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
             animation: pulse 2s infinite;
+            cursor: pointer; /* Hace que parezca cliqueable */
+            user-select: none; /* Evita que el texto se seleccione al hacer clics rápidos */
         }
 
         /* Títulos de sección */
@@ -336,7 +338,7 @@
 <div class="container">
     <div class="header">
         <h1>Lista Roja</h1>
-        <div class="lista-roja-badge">¡Gracias por su apoyo!</div>
+        <div class="lista-roja-badge" id="secret-badge">¡Gracias por su apoyo!</div>
         <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.9;">Centro de Estudiantes</p>
     </div>
 
@@ -365,7 +367,7 @@
             <div class="expandable-wrapper">
                 <div class="text-full">
                     Muy buenos días/tardes a todos los compañeros, a los profesores, al personal de la escuela y a todos los que nos acompañan hoy. <br><br>
-                    Soy la presidenta, y en representación de los 12 integrantes de la <span class="resaltado-texto">Lista Roja</span>, les doy la bienvenida a este cierre de campaña. Hoy nos juntamos no solo para despedir esta etapa, sino para agradecerles por escucharnos y confiar en nosotros. Traemos propuestas reales, pensadas para todos.
+                    Soy Suarez Sofia (presidenta), y en representación de los 12 integrantes de la <span class="resaltado-texto">Lista Roja</span>, les doy la bienvenida a este cierre de campaña. Hoy nos juntamos no solo para despedir esta etapa, sino para agradecerles por escucharnos y confiar en nosotros. Traemos propuestas reales, pensadas para todos.
                 </div>
             </div>
             <button class="btn-toggle">Leer más</button>
@@ -435,22 +437,24 @@
             <button class="btn-submit" onclick="enviarPropuesta()">Enviar Propuesta</button>
         </div>
 
-        <h2 class="section-title">Administración</h2>
-        <div class="section-card admin-section">
-            <h3>Revisar Sugerencias</h3>
-            <p class="text-summary" style="font-style: normal; font-size: 0.9rem;">Área exclusiva para el comité de la Lista Roja.</p>
-            
-            <div id="admin-login">
-                <input type="password" id="pass-admin" class="input-password" placeholder="Contraseña de Admin">
-                <br>
-                <button class="btn-admin" onclick="verificarPassword()">Ingresar al Panel</button>
-            </div>
+        <div id="super-admin-container" class="hidden">
+            <h2 class="section-title">Administración</h2>
+            <div class="section-card admin-section">
+                <h3>Revisar Sugerencias</h3>
+                <p class="text-summary" style="font-style: normal; font-size: 0.9rem;">Área exclusiva para el comité de la Lista Roja.</p>
+                
+                <div id="admin-login">
+                    <input type="password" id="pass-admin" class="input-password" placeholder="Contraseña de Admin">
+                    <br>
+                    <button class="btn-admin" onclick="verificarPassword()">Ingresar al Panel</button>
+                </div>
 
-            <div id="admin-panel" class="hidden">
-                <button class="btn-toggle" onclick="cerrarSesion()" style="background-color: #6c757d; margin-bottom: 15px;">Cerrar Sesión</button>
-                <button class="btn-toggle" onclick="borrarTodas()" style="background-color: #343a40; margin-bottom: 15px; margin-left: 5px;">Borrar Todo</button>
-                <div id="contenedor-propuestas" class="propuestas-list">
-                    </div>
+                <div id="admin-panel" class="hidden">
+                    <button class="btn-toggle" onclick="cerrarSesion()" style="background-color: #6c757d; margin-bottom: 15px;">Cerrar Sesión</button>
+                    <button class="btn-toggle" onclick="borrarTodas()" style="background-color: #343a40; margin-bottom: 15px; margin-left: 5px;">Borrar Todo</button>
+                    <div id="contenedor-propuestas" class="propuestas-list">
+                        </div>
+                </div>
             </div>
         </div>
 
@@ -477,6 +481,35 @@
             tarjeta.classList.toggle('expanded');
             this.textContent = tarjeta.classList.contains('expanded') ? 'Leer menos' : 'Leer más';
         });
+    });
+
+    // ==========================================
+    // LÓGICA DE EASTER EGG (MOSTRAR ADMIN)
+    // ==========================================
+    const secretBadge = document.getElementById('secret-badge');
+    const superAdminContainer = document.getElementById('super-admin-container');
+    let clickCount = 0;
+    let clickTimer;
+
+    secretBadge.addEventListener('click', () => {
+        clickCount++;
+        clearTimeout(clickTimer);
+        
+        // Si toca 5 veces seguidas...
+        if (clickCount >= 5) {
+            superAdminContainer.classList.toggle('hidden'); // Alterna entre mostrar/ocultar
+            clickCount = 0; // Reiniciamos el contador
+            
+            // Si se acaba de mostrar, hacemos scroll hacia abajo suavemente
+            if(!superAdminContainer.classList.contains('hidden')){
+                superAdminContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Si pasa 1.5 segundos sin hacer clic, el contador vuelve a cero
+        clickTimer = setTimeout(() => {
+            clickCount = 0;
+        }, 1500);
     });
 
     // ==========================================
@@ -571,6 +604,8 @@
     function cerrarSesion() {
         document.getElementById('admin-panel').classList.add('hidden');
         document.getElementById('admin-login').classList.remove('hidden');
+        // Opcional: ocultar todo el contenedor de admin de nuevo al cerrar sesión
+        superAdminContainer.classList.add('hidden'); 
     }
 
     // Borrar todo el nodo en Firebase
