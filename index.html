@@ -219,10 +219,12 @@
             font-family: inherit;
             resize: none;
             margin-top: 10px;
+            transition: all 0.3s ease;
         }
 
         .form-propuesta textarea:focus {
             outline: 2px solid var(--rojo-principal);
+            border-color: transparent;
         }
 
         /* Estilos del Panel de Administración */
@@ -264,6 +266,50 @@
         }
         .hidden {
             display: none !important;
+        }
+
+        /* ========================================= */
+        /* SISTEMA DE NOTIFICACIONES (TOASTS LINDOS) */
+        /* ========================================= */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 90%;
+            max-width: 400px;
+            pointer-events: none; /* Para que no bloqueen clics debajo */
+        }
+
+        .toast {
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideInUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOut 0.4s ease forwards 3s;
+            opacity: 0;
+        }
+
+        .toast.success { background-color: #2a9d8f; }
+        .toast.error { background-color: #e63946; }
+        .toast.warning { background-color: #fca311; color: #000; }
+
+        @keyframes slideInUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
         }
 
         /* Redes Sociales / Footer */
@@ -323,7 +369,6 @@
             color: var(--instagram-text);
         }
 
-        /* Firma de créditos */
         .credits {
             margin-top: 20px;
             font-size: 0.8rem;
@@ -334,7 +379,6 @@
             transition: color 0.3s ease;
         }
 
-        /* Animaciones */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -510,8 +554,10 @@
     </div>
 </div>
 
+<div id="toast-container"></div>
+
 <script>
-    // Lógica para expandir/contraer las tarjetas
+    // Lógica para expandir/contraer las tarjetas originales
     const botonesToggle = document.querySelectorAll('.btn-toggle:not([onclick])');
     botonesToggle.forEach(boton => {
         boton.addEventListener('click', function() {
@@ -520,6 +566,31 @@
             this.textContent = tarjeta.classList.contains('expanded') ? 'Leer menos' : 'Leer más';
         });
     });
+
+    // ==========================================
+    // FUNCIÓN DE NOTIFICACIONES LINDAS (TOASTS)
+    // ==========================================
+    function mostrarToast(mensaje, tipo = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${tipo}`;
+        
+        let icono = '🔔';
+        if(tipo === 'success') icono = '✅';
+        if(tipo === 'error') icono = '❌';
+        if(tipo === 'warning') icono = '⚠️';
+
+        toast.innerHTML = `<span style="font-size: 1.2rem;">${icono}</span> <span>${mensaje}</span>`;
+        
+        container.appendChild(toast);
+
+        // Remover el elemento del DOM después de que termine la animación (3.5s aprox)
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
+        }, 3500);
+    }
 
     // ==========================================
     // LÓGICA DE EASTER EGG (MOSTRAR ADMIN)
@@ -558,7 +629,7 @@
         const propuestaTexto = txtArea.value.trim();
 
         if (propuestaTexto === "") {
-            alert("Por favor, escribe algo antes de enviar.");
+            mostrarToast("Por favor, escribe algo antes de enviar.", "warning");
             return;
         }
 
@@ -574,16 +645,16 @@
         })
         .then(res => {
             if(res.ok) {
-                alert("¡Tu propuesta ha sido enviada a la nube de forma anónima!");
+                mostrarToast("¡Tu propuesta ha sido enviada con éxito!", "success");
                 txtArea.value = "";
                 if (!document.getElementById('admin-panel').classList.contains('hidden')) {
                     cargarPropuestasEnPanel();
                 }
             } else {
-                alert("Hubo un error al conectar con el servidor.");
+                mostrarToast("Hubo un error al conectar con el servidor.", "error");
             }
         })
-        .catch(err => alert("Error de red: " + err));
+        .catch(err => mostrarToast("Error de red. Intenta de nuevo.", "error"));
     }
 
     function verificarPassword() {
@@ -593,9 +664,10 @@
             document.getElementById('admin-login').classList.add('hidden');
             document.getElementById('admin-panel').classList.remove('hidden');
             document.getElementById('pass-admin').value = ""; 
+            mostrarToast("Sesión iniciada correctamente.", "success");
             cargarPropuestasEnPanel();
         } else {
-            alert("Contraseña incorrecta.");
+            mostrarToast("Contraseña incorrecta.", "error");
         }
     }
 
@@ -626,6 +698,7 @@
         })
         .catch(err => {
             contenedor.innerHTML = "<p style='color:red;'>Error al cargar los datos.</p>";
+            mostrarToast("Error al cargar datos.", "error");
         });
     }
 
@@ -633,12 +706,17 @@
         document.getElementById('admin-panel').classList.add('hidden');
         document.getElementById('admin-login').classList.remove('hidden');
         superAdminContainer.classList.add('hidden'); 
+        mostrarToast("Sesión cerrada.", "warning");
     }
 
     function borrarTodas() {
         if (confirm("¿Estás seguro de que quieres borrar TODAS las propuestas de la nube?")) {
             fetch(`${FIREBASE_URL}propuestas.json`, { method: 'DELETE' })
-            .then(() => cargarPropuestasEnPanel());
+            .then(() => {
+                cargarPropuestasEnPanel();
+                mostrarToast("Todas las propuestas fueron borradas.", "success");
+            })
+            .catch(err => mostrarToast("Error al borrar.", "error"));
         }
     }
 </script>
