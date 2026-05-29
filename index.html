@@ -496,15 +496,15 @@
             
             <div class="board-three-columns">
                 <div class="board-col col-importante">
-                    <h4>🚨 Crítico</h4>
+                    <h4>🚨 Importante</h4>
                     <div id="area-importante" class="col-content-area"></div>
                 </div>
                 <div class="board-col col-prioridad">
-                    <h4>⭐ Prioridad</h4>
+                    <h4>⭐ Relevante</h4>
                     <div id="area-prioridad" class="col-content-area"></div>
                 </div>
                 <div class="board-col col-poca">
-                    <h4>☕ Standby</h4>
+                    <h4>☕ Poco Relevante</h4>
                     <div id="area-poca" class="col-content-area"></div>
                 </div>
             </div>
@@ -692,9 +692,9 @@
                             <label style="font-size:0.75rem; color:var(--texto-secundario);">Mover a:</label>
                             <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}', this.value)">
                                 <option value="inbox" selected>➕ Asignar cuadro...</option>
-                                <option value="importante">🚨 Crítico</option>
-                                <option value="prioridad">⭐ Prioridad</option>
-                                <option value="poca">☕ Standby</option>
+                                <option value="importante">🚨 Importante</option>
+                                <option value="prioridad">⭐ Relevante</option>
+                                <option value="poca">☕ Poco Relevante</option>
                             </select>
                             <button class="btn-delete-item" onclick="eliminarMensaje('${prop.id}')">Borrar</button>
                         </div>
@@ -708,9 +708,9 @@
                         </div>
                         <div class="action-bar-admin">
                             <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}', this.value)">
-                                <option value="importante" ${prop.estado === 'importante' ? 'selected' : ''}>🚨 Crítico</option>
-                                <option value="prioridad" ${prop.estado === 'prioridad' ? 'selected' : ''}>⭐ Prioridad</option>
-                                <option value="poca" ${prop.estado === 'poca' ? 'selected' : ''}>☕ Standby</option>
+                                <option value="importante" ${prop.estado === 'importante' ? 'selected' : ''}>🚨 Importante</option>
+                                <option value="prioridad" ${prop.estado === 'prioridad' ? 'selected' : ''}>⭐ Relevante</option>
+                                <option value="poca" ${prop.estado === 'poca' ? 'selected' : ''}>☕ Poco Relevante</option>
                                 <option value="inbox">📥 Regresar al Buzón</option>
                             </select>
                             <button class="btn-delete-item" onclick="eliminarMensaje('${prop.id}')">✕</button>
