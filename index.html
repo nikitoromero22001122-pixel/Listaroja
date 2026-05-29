@@ -22,8 +22,9 @@
             --instagram-bg: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             --instagram-text: #ffffff;
             --credits-text: #777777;
-            /* Colores para el tablero */
-            --bg-inbox: #e9ecef;
+            
+            /* Colores Tablero */
+            --bg-inbox: #edf2f7;
             --bg-importante: #ffe3e3;
             --bg-prioridad: #fff3cd;
             --bg-poca: #d1ecf1;
@@ -47,8 +48,9 @@
                 --instagram-bg: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
                 --instagram-text: #ffffff;
                 --credits-text: #a0a0b0;
-                /* Colores para el tablero oscuro */
-                --bg-inbox: #2a2a35;
+                
+                /* Colores Tablero Oscuro */
+                --bg-inbox: #25252f;
                 --bg-importante: #4a1c22;
                 --bg-prioridad: #4a3c1c;
                 --bg-poca: #1c3a4a;
@@ -85,9 +87,8 @@
             margin-top: 20px;
         }
 
-        /* Contenedor extra ancho para el admin */
         .container-admin {
-            max-width: 1200px;
+            max-width: 1100px;
         }
 
         /* Encabezado */
@@ -119,7 +120,7 @@
             user-select: none;
         }
 
-        /* Títulos de sección */
+        /* Títulos */
         .section-title {
             text-align: center;
             color: var(--rojo-oscuro);
@@ -129,16 +130,9 @@
             letter-spacing: 1px;
             border-bottom: 2px solid var(--rojo-principal);
             padding-bottom: 10px;
-            transition: color 0.3s ease;
         }
 
-        .section-title:first-child { margin-top: 0; }
-
-        /* Contenido/Tarjetas */
-        .content {
-            padding: 30px;
-            padding-bottom: 10px;
-        }
+        .content { padding: 30px; padding-bottom: 10px; }
 
         .section-card {
             background-color: var(--tarjeta-seccion);
@@ -146,7 +140,7 @@
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
@@ -155,21 +149,11 @@
             box-shadow: 0 8px 15px var(--sombra);
         }
 
-        .section-card h3 {
-            color: var(--rojo-principal);
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-
+        .section-card h3 { color: var(--rojo-principal); margin-bottom: 10px; font-size: 1.2rem; }
         .novedad-card { border-left-color: #fca311; }
         .novedad-card h3 { color: #fca311; }
 
-        /* Lógica del texto interactivo */
-        .text-summary {
-            font-style: italic;
-            color: var(--texto-secundario);
-            transition: color 0.3s ease;
-        }
+        .text-summary { font-style: italic; color: var(--texto-secundario); }
 
         .expandable-wrapper {
             display: grid;
@@ -177,18 +161,12 @@
             transition: grid-template-rows 0.5s ease-out;
         }
 
-        .text-full {
-            overflow: hidden;
-            line-height: 1.6;
-            font-size: 0.95rem;
-            text-align: justify;
-        }
-
+        .text-full { overflow: hidden; line-height: 1.6; font-size: 0.95rem; text-align: justify; }
         .section-card.expanded .expandable-wrapper { grid-template-rows: 1fr; }
         .section-card.expanded .text-full { padding-top: 15px; }
         .section-card.expanded .text-summary { display: none; }
 
-        /* Botones generales */
+        /* Botones */
         .btn-toggle, .btn-submit, .btn-admin {
             background-color: var(--rojo-principal);
             color: #ffffff;
@@ -200,7 +178,6 @@
             font-weight: bold;
             font-size: 0.85rem;
             transition: background 0.3s, transform 0.2s;
-            outline: none;
         }
 
         .btn-toggle:hover, .btn-submit:hover, .btn-admin:hover {
@@ -208,160 +185,117 @@
             transform: scale(1.05);
         }
 
-        /* Estilos del Formulario de Propuestas */
         .form-propuesta textarea {
-            width: 100%;
-            height: 100px;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid var(--texto-secundario);
-            background-color: var(--tarjeta-fondo);
-            color: var(--texto-oscuro);
-            font-family: inherit;
-            resize: none;
-            margin-top: 10px;
+            width: 100%; height: 100px; padding: 12px; border-radius: 8px;
+            border: 1px solid var(--texto-secundario); background-color: var(--tarjeta-fondo);
+            color: var(--texto-oscuro); font-family: inherit; resize: none; margin-top: 10px;
         }
-        .form-propuesta textarea:focus {
-            outline: 2px solid var(--rojo-principal);
-        }
+        .form-propuesta textarea:focus { outline: 2px solid var(--rojo-principal); }
 
         /* ==================================================== */
-        /* NUEVOS ESTILOS DEL PANEL DE ADMINISTRACIÓN / TABLERO */
+        /* DISEÑO EXCLUSIVO DEL PANEL DE ADMINISTRACIÓN SEPARADO*/
         /* ==================================================== */
         .input-password {
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid var(--texto-secundario);
-            background-color: var(--tarjeta-fondo);
-            color: var(--texto-oscuro);
-            margin: 20px 0;
-            width: 100%;
-            max-width: 300px;
-            font-size: 1rem;
-            text-align: center;
+            padding: 12px 15px; border-radius: 8px; border: 1px solid var(--texto-secundario);
+            background-color: var(--tarjeta-fondo); color: var(--texto-oscuro); margin: 20px 0;
+            width: 100%; max-width: 300px; font-size: 1rem; text-align: center;
         }
 
-        .board-container {
+        /* Bloque 1: Buzón de entrada vertical */
+        .inbox-block-wrapper {
+            background-color: var(--bg-inbox);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        .inbox-list-vertical {
             display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            padding-bottom: 20px;
-            min-height: 60vh;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 320px;
+            overflow-y: auto;
+            margin-top: 15px;
+            padding-right: 5px;
         }
 
+        /* Bloque 2: Estructura del Cuadro / Tablero */
+        .board-three-columns {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
         .board-col {
             flex: 1;
-            min-width: 250px;
+            min-width: 280px;
             border-radius: 12px;
             padding: 15px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             border-top: 5px solid;
+            min-height: 350px;
         }
-
-        .col-inbox { background-color: var(--bg-inbox); border-top-color: #6c757d; }
         .col-importante { background-color: var(--bg-importante); border-top-color: #e63946; }
         .col-prioridad { background-color: var(--bg-prioridad); border-top-color: #fca311; }
         .col-poca { background-color: var(--bg-poca); border-top-color: #457b9d; }
 
-        .board-col h3 {
-            text-align: center;
-            font-size: 1.1rem;
-            color: var(--texto-oscuro);
-            margin-bottom: 10px;
+        .board-col h4 {
+            text-align: center; font-size: 1rem; color: var(--texto-oscuro); text-transform: uppercase;
+        }
+        .col-content-area {
+            display: flex; flex-direction: column; gap: 10px; height: 100%;
         }
 
+        /* Tarjetas de Mensajes */
         .propuesta-item {
             background-color: var(--tarjeta-fondo);
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 0.9rem;
+            padding: 12px; border-radius: 8px; font-size: 0.9rem;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex; flex-direction: column; gap: 8px;
+            border: 1px solid rgba(0,0,0,0.08);
             position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            border: 1px solid rgba(0,0,0,0.1);
         }
+        .propuesta-date { font-size: 0.75rem; color: var(--texto-secundario); }
 
-        .propuesta-date {
-            font-size: 0.75rem;
-            color: var(--texto-secundario);
-            font-weight: bold;
+        /* Botón de Clasificación Dinámico (+) */
+        .action-bar-admin {
+            display: flex; justify-content: flex-end; align-items: center; gap: 10px;
+            border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 8px; margin-top: 4px;
         }
-
-        .admin-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 5px;
-            padding-top: 10px;
-            border-top: 1px dashed var(--texto-secundario);
+        .btn-add-to-board {
+            background-color: #28a745; color: white; border: none;
+            padding: 4px 10px; border-radius: 4px; font-weight: bold;
+            cursor: pointer; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px;
         }
+        .btn-add-to-board:hover { background-color: #218838; }
 
-        .select-estado {
-            padding: 5px;
-            border-radius: 4px;
-            background-color: var(--tarjeta-seccion);
-            color: var(--texto-oscuro);
-            border: 1px solid var(--texto-secundario);
-            font-size: 0.8rem;
-            outline: none;
-            cursor: pointer;
+        .select-directo-organizar {
+            padding: 3px; font-size: 0.75rem; border-radius: 4px;
+            background: var(--tarjeta-seccion); color: var(--texto-oscuro);
+            border: 1px solid var(--texto-secundario); outline: none; cursor: pointer;
         }
 
         .btn-delete-item {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: bold;
-            transition: background 0.2s;
+            background-color: #dc3545; color: white; border: none;
+            padding: 4px 8px; border-radius: 4px; cursor: pointer;
+            font-size: 0.75rem; font-weight: bold;
         }
         .btn-delete-item:hover { background-color: #bd2130; }
 
         .hidden { display: none !important; }
 
-        /* Redes Sociales / Footer */
-        .social-footer {
-            background-color: var(--tarjeta-seccion);
-            text-align: center;
-            padding: 25px 20px;
-            border-top: 2px solid var(--rojo-principal);
-        }
-        .social-buttons-container {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 15px;
-        }
-        .social-btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            text-decoration: none; padding: 12px 24px; border-radius: 50px;
-            font-weight: bold; font-size: 1rem; color: #fff; gap: 10px;
-        }
+        /* Footer */
+        .social-footer { background-color: var(--tarjeta-seccion); text-align: center; padding: 25px 20px; border-top: 2px solid var(--rojo-principal); }
+        .social-buttons-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 15px; }
+        .social-btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; padding: 12px 24px; border-radius: 50px; font-weight: bold; color: #fff; gap: 10px; }
         .tiktok-btn { background-color: var(--tiktok-bg); color: var(--tiktok-text); }
         .instagram-btn { background: var(--instagram-bg); color: var(--instagram-text); }
-
         .resaltado-texto { color: var(--rojo-principal); font-weight: bold; }
-        
-        .timer-box {
-            background: linear-gradient(135deg, var(--tarjeta-seccion), var(--tarjeta-fondo));
-            text-align: center;
-            padding: 20px; border-radius: 8px; border: 2px dashed var(--rojo-oscuro);
-            margin-bottom: 20px; color: var(--texto-oscuro);
-        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -379,7 +313,7 @@
             <h3>Elección de la Mascota Escolar 🐾 26-05-26</h3>
             <p class="text-summary">¡Llegó el momento de diseñar al personaje que nos representará!</p>
             <div class="expandable-wrapper">
-                <div class="text-full">A todos los alumnos... <span class="resaltado-texto">¡Manos a la obra!</span></div>
+                <div class="text-full">A todos los alumnos de la institución... <span class="resaltado-texto">¡Manos a la obra!</span></div>
             </div>
             <button class="btn-toggle">Leer más</button>
         </div>
@@ -397,7 +331,7 @@
         <h2 class="section-title">Buzón Anónimo</h2>
         <div class="section-card form-propuesta">
             <h3>¡Envía tu Propuesta!</h3>
-            <p class="text-summary" style="font-style: normal; font-size: 0.9rem;">Tu opinión nos importa. Escribe qué te gustaría cambiar o añadir en la escuela de forma 100% anónima.</p>
+            <p class="text-summary" style="font-style: normal; font-size: 0.9rem;">Tu opinión nos importa. Escribe de forma 100% anónima.</p>
             <textarea id="input-propuesta" placeholder="Escribe tu propuesta aquí..."></textarea>
             <button class="btn-submit" onclick="enviarPropuesta()">Enviar Propuesta</button>
         </div>
@@ -413,49 +347,58 @@
 </div>
 
 <div class="container container-admin hidden" id="admin-view">
-    <div class="header" style="background: #343a40;">
-        <h1>Área Restringida</h1>
-        <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.9;">Comité de la Lista Roja</p>
+    <div class="header" style="background: #2b2b36;">
+        <h1>Panel de Gestión Interna</h1>
+        <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">Lista Roja - Administración</p>
     </div>
 
     <div class="content">
         <div id="admin-login" style="text-align: center; padding: 40px 0;">
-            <h2 style="color: var(--texto-oscuro);">Ingrese Credenciales</h2>
-            <input type="password" id="pass-admin" class="input-password" placeholder="Contraseña de Admin">
+            <h2 style="color: var(--texto-oscuro);">Llave de Acceso</h2>
+            <input type="password" id="pass-admin" class="input-password" placeholder="Contraseña del Comité">
             <br>
-            <button class="btn-admin" onclick="verificarPassword()">Acceder al Tablero</button>
+            <button class="btn-admin" onclick="verificarPassword()">Ingresar al Sistema</button>
             <br><br>
-            <button class="btn-toggle" style="background-color: transparent; color: var(--rojo-principal); border: 1px solid var(--rojo-principal);" onclick="salirDelPanel()">Volver al Sitio Principal</button>
+            <button class="btn-toggle" style="background: transparent; color: var(--rojo-principal); border: 1px solid var(--rojo-principal);" onclick="salirDelPanel()">Regresar al Inicio</button>
         </div>
 
         <div id="admin-dashboard" class="hidden">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="color: var(--texto-oscuro);">Tablero de Organización</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid var(--texto-secundario); padding-bottom: 10px;">
+                <h2 style="color: var(--texto-oscuro); font-size: 1.3rem;">🎛️ Centro de Moderación</h2>
                 <div>
-                    <button class="btn-toggle" onclick="cerrarSesion()" style="background-color: #6c757d; margin-top: 0;">Cerrar Sesión</button>
-                    <button class="btn-toggle" onclick="salirDelPanel()" style="background-color: var(--rojo-principal); margin-top: 0; margin-left: 10px;">Volver al Sitio</button>
+                    <button class="btn-toggle" onclick="cerrarSesion()" style="background-color: #6c757d; margin-top:0;">Bloquear</button>
+                    <button class="btn-toggle" onclick="salirDelPanel()" style="background-color: var(--rojo-principal); margin-top:0; margin-left:8px;">Salir</button>
                 </div>
             </div>
 
-            <div class="board-container">
-                <div class="board-col col-inbox">
-                    <h3>📥 Sugerencias Enviadas</h3>
-                    <div id="col-inbox-content"></div>
-                </div>
+            <div class="inbox-block-wrapper">
+                <h3 style="color: var(--texto-oscuro); font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+                    📥 Propuestas y Sugerencias Enviadas 
+                    <span style="font-size: 0.8rem; background: var(--rojo-principal); color: white; padding: 2px 8px; border-radius: 10px;" id="badge-contador">0</span>
+                </h3>
+                <p style="font-size: 0.8rem; color: var(--texto-secundario); margin-top: 2px;">Mensajes nuevos que esperan ser clasificados en el cuadro inferior.</p>
+                
+                <div id="contenedor-inbox-vertical" class="inbox-list-vertical">
+                    </div>
+            </div>
 
+            <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">📊 Cuadro de Clasificación de Ideas</h3>
+            <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 15px;">Usa el botón (+) de arriba para acomodar las ideas estratégicamente en estas columnas.</p>
+            
+            <div class="board-three-columns">
                 <div class="board-col col-importante">
-                    <h3>🚨 Importante</h3>
-                    <div id="col-importante-content"></div>
+                    <h4>🚨 Importante</h4>
+                    <div id="area-importante" class="col-content-area"></div>
                 </div>
 
                 <div class="board-col col-prioridad">
-                    <h3>⭐ Prioridad</h3>
-                    <div id="col-prioridad-content"></div>
+                    <h4>⭐ Prioridad</h4>
+                    <div id="area-prioridad" class="col-content-area"></div>
                 </div>
 
                 <div class="board-col col-poca">
-                    <h3>☕ Poca Prioridad</h3>
-                    <div id="col-poca-content"></div>
+                    <h4>☕ Poca Prioridad</h4>
+                    <div id="area-poca" class="col-content-area"></div>
                 </div>
             </div>
         </div>
@@ -463,7 +406,7 @@
 </div>
 
 <script>
-    // Expansión de tarjetas del sitio principal
+    // Sistema básico de despliegue del menú de lectura
     const botonesToggle = document.querySelectorAll('.btn-toggle:not([onclick])');
     botonesToggle.forEach(boton => {
         boton.addEventListener('click', function() {
@@ -474,39 +417,31 @@
     });
 
     // ==========================================
-    // SISTEMA DE NAVEGACIÓN (EASTER EGG AISLADO)
+    // SISTEMA DE AISLAMIENTO (5 CLICKS)
     // ==========================================
     const secretBadge = document.getElementById('secret-badge');
     const mainView = document.getElementById('main-view');
     const adminView = document.getElementById('admin-view');
-    
-    let clickCount = 0;
-    let clickTimer;
+    let clickCount = 0; let clickTimer;
 
     secretBadge.addEventListener('click', () => {
-        clickCount++;
-        clearTimeout(clickTimer);
-        
+        clickCount++; clearTimeout(clickTimer);
         if (clickCount >= 5) {
-            // Aislar y entrar al panel
             mainView.classList.add('hidden');
             adminView.classList.remove('hidden');
             clickCount = 0;
         }
-
-        clickTimer = setTimeout(() => {
-            clickCount = 0;
-        }, 1500);
+        clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
     });
 
     function salirDelPanel() {
         adminView.classList.add('hidden');
         mainView.classList.remove('hidden');
-        cerrarSesion(); // Por seguridad, al volver, cierra la sesión del tablero
+        cerrarSesion();
     }
 
     // ==========================================
-    // CONEXIÓN A LA NUBE (FIREBASE)
+    // CONEXIÓN DIRECTA CON FIREBASE RTDB
     // ==========================================
     const FIREBASE_URL = "https://lista-roja-5ab69-default-rtdb.firebaseio.com/"; 
     const PASSWORD_CORRECTA = "roja2026"; 
@@ -520,11 +455,10 @@
             return;
         }
 
-        // AL ENVIAR, SE LE ASIGNA EL ESTADO 'inbox' POR DEFECTO
         const nuevaPropuesta = {
             texto: propuestaTexto,
             fecha: new Date().toLocaleString('es-AR'),
-            estado: 'inbox' 
+            estado: 'inbox' // Por defecto cae al buzón separado
         };
 
         fetch(`${FIREBASE_URL}propuestas.json`, {
@@ -537,7 +471,7 @@
                 alert("¡Tu propuesta ha sido enviada a la nube de forma anónima!");
                 txtArea.value = "";
             } else {
-                alert("Hubo un error al conectar con el servidor.");
+                alert("Error de conexión al servidor.");
             }
         })
         .catch(err => alert("Error de red: " + err));
@@ -545,7 +479,6 @@
 
     function verificarPassword() {
         const inputPass = document.getElementById('pass-admin').value;
-
         if (inputPass === PASSWORD_CORRECTA) {
             document.getElementById('admin-login').classList.add('hidden');
             document.getElementById('admin-dashboard').classList.remove('hidden');
@@ -557,90 +490,104 @@
     }
 
     function cargarPropuestasEnPanel() {
-        // Limpiar las 4 columnas
-        document.getElementById('col-inbox-content').innerHTML = "";
-        document.getElementById('col-importante-content').innerHTML = "";
-        document.getElementById('col-prioridad-content').innerHTML = "";
-        document.getElementById('col-poca-content').innerHTML = "";
+        // Limpiamos la bandeja y las 3 columnas del cuadro
+        const bandejaInbox = document.getElementById('contenedor-inbox-vertical');
+        bandejaInbox.innerHTML = "";
+        document.getElementById('area-importante').innerHTML = "";
+        document.getElementById('area-prioridad').innerHTML = "";
+        document.getElementById('area-poca').innerHTML = "";
 
         fetch(`${FIREBASE_URL}propuestas.json`)
         .then(res => res.json())
         .then(data => {
-            if (!data) return;
+            if (!data) {
+                bandejaInbox.innerHTML = "<p style='font-size:0.85rem; color:var(--texto-secundario); text-align:center; padding:15px;'>Buzón vacío de manera absoluta.</p>";
+                document.getElementById('badge-contador').textContent = "0";
+                return;
+            }
 
-            const listaConClaves = Object.keys(data).map(key => {
+            const lista = Object.keys(data).map(key => {
                 return {
                     id: key,
                     texto: data[key].texto,
                     fecha: data[key].fecha,
-                    estado: data[key].estado || 'inbox' // Si es vieja y no tiene estado, va al inbox
+                    estado: data[key].estado || 'inbox'
                 }
             });
             
-            // Invertimos para ver las más nuevas primero
-            listaConClaves.reverse().forEach(prop => {
+            let countInbox = 0;
+            lista.reverse().forEach(prop => {
                 const item = document.createElement('div');
                 item.className = 'propuesta-item';
-                
-                // Selector para cambiar de estado
-                const opcionesEstado = `
-                    <select class="select-estado" onchange="cambiarEstadoTarjeta('${prop.id}', this.value)">
-                        <option value="inbox" ${prop.estado === 'inbox' ? 'selected' : ''}>📥 Bandeja</option>
-                        <option value="importante" ${prop.estado === 'importante' ? 'selected' : ''}>🚨 Importante</option>
-                        <option value="prioridad" ${prop.estado === 'prioridad' ? 'selected' : ''}>⭐ Prioridad</option>
-                        <option value="poca" ${prop.estado === 'poca' ? 'selected' : ''}>☕ Poca Prioridad</option>
-                    </select>
-                `;
 
-                item.innerHTML = `
-                    <div>
-                        <span class="propuesta-date">${prop.fecha}</span>
-                        <p style="margin-top: 5px;">${prop.texto}</p>
-                    </div>
-                    <div class="admin-controls">
-                        ${opcionesEstado}
-                        <button class="btn-delete-item" onclick="borrarPropuestaIndividual('${prop.id}')">Borrar</button>
-                    </div>
-                `;
-                
-                // Insertar en la columna correspondiente
-                const columnaDestino = document.getElementById(`col-${prop.estado}-content`);
-                if (columnaDestino) {
-                    columnaDestino.appendChild(item);
+                if (prop.estado === 'inbox') {
+                    countInbox++;
+                    // Estructura especial para la BANDEJA DE ENTRADA con el botón (+) clasificador
+                    item.innerHTML = `
+                        <div>
+                            <span class="propuesta-date">📅 ${prop.fecha}</span>
+                            <p style="margin-top: 4px; font-weight: 500;">${prop.texto}</p>
+                        </div>
+                        <div class="action-bar-admin">
+                            <label style="font-size:0.75rem; color:var(--texto-secundario);">Mover a:</label>
+                            <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}', this.value)">
+                                <option value="inbox" selected>➕ Asignar cuadro...</option>
+                                <option value="importante">🚨 Importante</option>
+                                <option value="prioridad">⭐ Prioridad</option>
+                                <option value="poca">☕ Poca Prioridad</option>
+                            </select>
+                            <button class="btn-delete-item" onclick="eliminarMensaje('${prop.id}')">Borrar</button>
+                        </div>
+                    `;
+                    bandejaInbox.appendChild(item);
+                } else {
+                    // Estructura limpia para las columnas del CUADRO organizador de abajo
+                    item.innerHTML = `
+                        <div>
+                            <span class="propuesta-date">📅 ${prop.fecha}</span>
+                            <p style="margin-top: 4px;">${prop.texto}</p>
+                        </div>
+                        <div class="action-bar-admin">
+                            <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}', this.value)">
+                                <option value="importante" ${prop.estado === 'importante' ? 'selected' : ''}>🚨 Importante</option>
+                                <option value="prioridad" ${prop.estado === 'prioridad' ? 'selected' : ''}>⭐ Prioridad</option>
+                                <option value="poca" ${prop.estado === 'poca' ? 'selected' : ''}>☕ Poca Prioridad</option>
+                                <option value="inbox">📥 Regresar al Buzón</option>
+                            </select>
+                            <button class="btn-delete-item" onclick="eliminarMensaje('${prop.id}')">✕</button>
+                        </div>
+                    `;
+                    
+                    const areaDestino = document.getElementById(`area-${prop.estado}`);
+                    if (areaDestino) areaDestino.appendChild(item);
                 }
             });
+
+            document.getElementById('badge-contador').textContent = countInbox;
+            if (countInbox === 0) {
+                bandejaInbox.innerHTML = "<p style='font-size:0.85rem; color:var(--texto-secundario); text-align:center; padding:15px;'>🎉 ¡Todo clasificado en el cuadro!</p>";
+            }
         })
-        .catch(err => {
-            alert("Error al cargar los datos del tablero.");
-        });
+        .catch(err => console.log("Error al sincronizar base de datos: ", err));
     }
 
-    // NUEVA FUNCIÓN: Actualiza el estado de una tarjeta en Firebase
-    function cambiarEstadoTarjeta(idPropuesta, nuevoEstado) {
+    function moverAEstado(idPropuesta, nuevoEstado) {
         fetch(`${FIREBASE_URL}propuestas/${idPropuesta}.json`, {
-            method: 'PATCH', // Usamos PATCH para actualizar solo un campo sin borrar el resto
+            method: 'PATCH',
             body: JSON.stringify({ estado: nuevoEstado }),
             headers: { 'Content-Type': 'application/json' }
         })
         .then(res => {
-            if(res.ok) {
-                cargarPropuestasEnPanel(); // Recarga y reordena las tarjetas
-            } else {
-                alert("No se pudo mover la tarjeta.");
-            }
-        })
-        .catch(err => alert("Error de red: " + err));
+            if(res.ok) cargarPropuestasEnPanel();
+        });
     }
 
-    function borrarPropuestaIndividual(idPropuesta) {
-        if (confirm("¿Borrar definitivamente este mensaje?")) {
-            fetch(`${FIREBASE_URL}propuestas/${idPropuesta}.json`, {
-                method: 'DELETE'
-            })
+    function eliminarMensaje(idPropuesta) {
+        if (confirm("¿Eliminar este comentario permanentemente de la base de datos?")) {
+            fetch(`${FIREBASE_URL}propuestas/${idPropuesta}.json`, { method: 'DELETE' })
             .then(res => {
                 if(res.ok) cargarPropuestasEnPanel();
-            })
-            .catch(err => alert("Error al eliminar: " + err));
+            });
         }
     }
 
