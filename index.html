@@ -73,6 +73,7 @@
             min-height: 100vh;
             padding: 20px;
             transition: background 0.3s ease, color 0.3s ease;
+            position: relative; /* Para las partículas */
         }
 
         .container {
@@ -83,8 +84,16 @@
             box-shadow: 0 15px 35px var(--sombra);
             overflow: hidden;
             animation: fadeIn 0.8s ease-out;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            transition: background-color 0.3s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             margin-top: 20px;
+            z-index: 10;
+            position: relative;
+        }
+
+        /* EFECTO HOVER PARA EL PANEL CENTRAL */
+        .container:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
         }
 
         .container-admin {
@@ -213,7 +222,53 @@
             width: 100%; max-width: 300px; font-size: 1rem; text-align: center;
         }
 
-        /* Bloque 1: Buzón de entrada vertical */
+        /* Reloj Digital */
+        #admin-clock {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.2rem;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--texto-oscuro);
+            background: rgba(0, 0, 0, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            #admin-clock {
+                background: rgba(255, 255, 255, 0.05);
+            }
+        }
+
+        /* Partículas Flotantes */
+        #particles-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 1; /* Detrás de la tarjeta central que tiene z-index 10 */
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -20px;
+            border-radius: 50%;
+            background: rgba(230, 57, 70, 0.3); /* Rojo sutil */
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-110vh) translateX(30px) scale(1.5); opacity: 0; }
+        }
+
+        /* Bloques de Tablero */
         .inbox-block-wrapper {
             background-color: var(--bg-inbox);
             border-radius: 12px;
@@ -222,43 +277,22 @@
             border: 1px solid rgba(0,0,0,0.1);
         }
         .inbox-list-vertical {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: 320px;
-            overflow-y: auto;
-            margin-top: 15px;
-            padding-right: 5px;
+            display: flex; flex-direction: column; gap: 12px;
+            max-height: 320px; overflow-y: auto; margin-top: 15px; padding-right: 5px;
         }
-
-        /* Bloque 2: Estructura del Cuadro / Tablero */
         .board-three-columns {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 10px;
+            display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px;
         }
         .board-col {
-            flex: 1;
-            min-width: 280px;
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            border-top: 5px solid;
-            min-height: 350px;
+            flex: 1; min-width: 280px; border-radius: 12px; padding: 15px;
+            display: flex; flex-direction: column; gap: 12px; border-top: 5px solid; min-height: 350px;
         }
         .col-importante { background-color: var(--bg-importante); border-top-color: #e63946; }
         .col-prioridad { background-color: var(--bg-prioridad); border-top-color: #fca311; }
         .col-poca { background-color: var(--bg-poca); border-top-color: #457b9d; }
 
-        .board-col h4 {
-            text-align: center; font-size: 1rem; color: var(--texto-oscuro); text-transform: uppercase;
-        }
-        .col-content-area {
-            display: flex; flex-direction: column; gap: 10px; height: 100%;
-        }
+        .board-col h4 { text-align: center; font-size: 1rem; color: var(--texto-oscuro); text-transform: uppercase; }
+        .col-content-area { display: flex; flex-direction: column; gap: 10px; height: 100%; }
 
         /* Tarjetas de Mensajes */
         .propuesta-item {
@@ -266,27 +300,22 @@
             padding: 12px; border-radius: 8px; font-size: 0.9rem;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             display: flex; flex-direction: column; gap: 8px;
-            border: 1px solid rgba(0,0,0,0.08);
-            position: relative;
+            border: 1px solid rgba(0,0,0,0.08); position: relative;
         }
         .propuesta-date { font-size: 0.75rem; color: var(--texto-secundario); }
 
-        /* Botón de Clasificación Dinámico (+) */
         .action-bar-admin {
             display: flex; justify-content: flex-end; align-items: center; gap: 10px;
             border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 8px; margin-top: 4px;
         }
-
         .select-directo-organizar {
             padding: 3px; font-size: 0.75rem; border-radius: 4px;
             background: var(--tarjeta-seccion); color: var(--texto-oscuro);
             border: 1px solid var(--texto-secundario); outline: none; cursor: pointer;
         }
-
         .btn-delete-item {
             background-color: #dc3545; color: white; border: none;
-            padding: 4px 8px; border-radius: 4px; cursor: pointer;
-            font-size: 0.75rem; font-weight: bold;
+            padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;
         }
         .btn-delete-item:hover { background-color: #bd2130; }
 
@@ -308,6 +337,8 @@
 </head>
 <body>
 
+<div id="particles-container" class="hidden"></div>
+
 <div class="container" id="main-view">
     <div class="header">
         <h1>Lista Roja</h1>
@@ -316,9 +347,7 @@
     </div>
 
     <div class="content">
-
         <h2 class="section-title">Novedades</h2>
-
         <div class="section-card novedad-card">
             <h3>Elección de la Mascota Escolar 🐾 26-05-26</h3>
             <p class="text-summary">¡Llegó el momento de diseñar al personaje que nos representará!</p>
@@ -349,7 +378,6 @@
         </div>
 
         <h2 class="section-title">Cuenta Regresiva</h2>
-        
         <div class="timer-box" id="countdown-container">
             <h3 style="color: var(--rojo-principal); margin-bottom: 10px;">Próximo Evento</h3>
             <p style="font-size: 1.1rem; font-weight: bold; opacity: 0.8;" id="timer-message">
@@ -358,7 +386,6 @@
         </div>
 
         <h2 class="section-title">Promesas a Cumplir</h2>
-
         <div class="section-card">
             <h3>Jornadas de Cine</h3>
             <p class="text-summary">Creación de espacios de esparcimiento para ver películas y disfrutar juntos.</p>
@@ -415,25 +442,17 @@
     <div class="social-footer">
         <h3>¡Síguenos y entérate de todo!</h3>
         <div class="social-buttons-container">
-            <a href="https://www.tiktok.com/@listaroja26?_r=1&_t=ZS-96bOK0KU134" target="_blank" rel="noopener noreferrer" class="social-btn tiktok-btn">
-                <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-                </svg>
-                TikTok
-            </a>
-            <a href="https://www.instagram.com/listaroja39?igsh=MW5naXVycXVtY2tzeA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram-btn">
-                <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
-                </svg>
-                Instagram
-            </a>
+            <a href="https://www.tiktok.com/@listaroja26?_r=1&_t=ZS-96bOK0KU134" target="_blank" rel="noopener noreferrer" class="social-btn tiktok-btn">TikTok</a>
+            <a href="https://www.instagram.com/listaroja39?igsh=MW5naXVycXVtY2tzeA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram-btn">Instagram</a>
         </div>
         <div class="credits">Hecho por Niko.z</div>
     </div>
 </div>
 
 <div class="container container-admin hidden" id="admin-view">
-    <div class="header" style="background: #2b2b36;">
+    <div class="header" style="background: #2b2b36; position: relative;">
+        <div id="admin-clock">00:00:00</div>
+        
         <h1>Panel de Gestión Interna</h1>
         <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">Lista Roja - Administración</p>
     </div>
@@ -463,9 +482,7 @@
                     <span style="font-size: 0.8rem; background: var(--rojo-principal); color: white; padding: 2px 8px; border-radius: 10px;" id="badge-contador">0</span>
                 </h3>
                 <p style="font-size: 0.8rem; color: var(--texto-secundario); margin-top: 2px;">Mensajes nuevos que esperan ser clasificados en el cuadro inferior.</p>
-                
-                <div id="contenedor-inbox-vertical" class="inbox-list-vertical">
-                    </div>
+                <div id="contenedor-inbox-vertical" class="inbox-list-vertical"></div>
             </div>
 
             <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">📊 Cuadro de Clasificación de Ideas</h3>
@@ -476,12 +493,10 @@
                     <h4>🚨 Importante</h4>
                     <div id="area-importante" class="col-content-area"></div>
                 </div>
-
                 <div class="board-col col-prioridad">
                     <h4>⭐ Prioridad</h4>
                     <div id="area-prioridad" class="col-content-area"></div>
                 </div>
-
                 <div class="board-col col-poca">
                     <h4>☕ Poca Prioridad</h4>
                     <div id="area-poca" class="col-content-area"></div>
@@ -492,7 +507,9 @@
 </div>
 
 <script>
-    // Sistema básico de despliegue del menú de lectura
+    // ==========================================
+    // SISTEMA DE LECTURA (BOTONES)
+    // ==========================================
     const botonesToggle = document.querySelectorAll('.btn-toggle:not([onclick])');
     botonesToggle.forEach(boton => {
         boton.addEventListener('click', function() {
@@ -503,18 +520,74 @@
     });
 
     // ==========================================
+    // RELOJ DIGITAL Y PARTÍCULAS
+    // ==========================================
+    let relojInterval;
+
+    function iniciarReloj() {
+        const divReloj = document.getElementById('admin-clock');
+        // Limpiamos si hay uno previo
+        if(relojInterval) clearInterval(relojInterval);
+        
+        relojInterval = setInterval(() => {
+            const ahora = new Date();
+            const hora = ahora.getHours().toString().padStart(2, '0');
+            const minutos = ahora.getMinutes().toString().padStart(2, '0');
+            const segundos = ahora.getSeconds().toString().padStart(2, '0');
+            divReloj.textContent = `${hora}:${minutos}:${segundos}`;
+        }, 1000);
+    }
+
+    function generarParticulas() {
+        const contenedor = document.getElementById('particles-container');
+        contenedor.innerHTML = ''; // Limpiar anteriores si existían
+        
+        const cantidadParticulas = 35; // Cuántas burbujas querés
+        
+        for (let i = 0; i < cantidadParticulas; i++) {
+            let particula = document.createElement('div');
+            particula.classList.add('particle');
+            
+            // Tamaño aleatorio (entre 3px y 12px)
+            let size = Math.random() * 9 + 3;
+            particula.style.width = `${size}px`;
+            particula.style.height = `${size}px`;
+            
+            // Posición horizontal aleatoria
+            particula.style.left = `${Math.random() * 100}vw`;
+            
+            // Duración y retraso de animación aleatorio para que se vea natural
+            let duracion = Math.random() * 10 + 5; // Entre 5 y 15 segundos en subir
+            let retraso = Math.random() * 5;
+            
+            particula.style.animationDuration = `${duracion}s`;
+            particula.style.animationDelay = `${retraso}s`;
+            
+            contenedor.appendChild(particula);
+        }
+    }
+
+    // ==========================================
     // SISTEMA DE AISLAMIENTO (5 CLICKS)
     // ==========================================
     const secretBadge = document.getElementById('secret-badge');
     const mainView = document.getElementById('main-view');
     const adminView = document.getElementById('admin-view');
+    const particlesView = document.getElementById('particles-container');
+    
     let clickCount = 0; let clickTimer;
 
     secretBadge.addEventListener('click', () => {
         clickCount++; clearTimeout(clickTimer);
         if (clickCount >= 5) {
+            // Entrar al panel
             mainView.classList.add('hidden');
             adminView.classList.remove('hidden');
+            particlesView.classList.remove('hidden');
+            
+            generarParticulas();
+            iniciarReloj();
+            
             clickCount = 0;
         }
         clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
@@ -523,6 +596,9 @@
     function salirDelPanel() {
         adminView.classList.add('hidden');
         mainView.classList.remove('hidden');
+        particlesView.classList.add('hidden');
+        
+        if(relojInterval) clearInterval(relojInterval);
         cerrarSesion();
     }
 
@@ -544,7 +620,7 @@
         const nuevaPropuesta = {
             texto: propuestaTexto,
             fecha: new Date().toLocaleString('es-AR'),
-            estado: 'inbox' // Por defecto cae al buzón separado
+            estado: 'inbox' 
         };
 
         fetch(`${FIREBASE_URL}propuestas.json`, {
@@ -576,7 +652,6 @@
     }
 
     function cargarPropuestasEnPanel() {
-        // Limpiamos la bandeja y las 3 columnas del cuadro
         const bandejaInbox = document.getElementById('contenedor-inbox-vertical');
         bandejaInbox.innerHTML = "";
         document.getElementById('area-importante').innerHTML = "";
@@ -608,7 +683,6 @@
 
                 if (prop.estado === 'inbox') {
                     countInbox++;
-                    // Estructura especial para la BANDEJA DE ENTRADA con el botón (+) clasificador
                     item.innerHTML = `
                         <div>
                             <span class="propuesta-date">📅 ${prop.fecha}</span>
@@ -627,7 +701,6 @@
                     `;
                     bandejaInbox.appendChild(item);
                 } else {
-                    // Estructura limpia para las columnas del CUADRO organizador de abajo
                     item.innerHTML = `
                         <div>
                             <span class="propuesta-date">📅 ${prop.fecha}</span>
