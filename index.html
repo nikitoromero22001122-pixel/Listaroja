@@ -73,7 +73,6 @@
             min-height: 100vh;
             padding: 20px;
             transition: background 0.3s ease, color 0.3s ease;
-            position: relative; 
         }
 
         .container {
@@ -84,23 +83,12 @@
             box-shadow: 0 15px 35px var(--sombra);
             overflow: hidden;
             animation: fadeIn 0.8s ease-out;
-            transition: background-color 0.3s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
             margin-top: 20px;
-            z-index: 10;
-            position: relative;
         }
 
-        .container:hover {
-            transform: translateY(-5px) scale(1.01);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-        }
-
-        /* DISEÑO EXCLUSIVO DEL PANEL ADMIN (GLOW NEÓN) */
         .container-admin {
             max-width: 1100px;
-            animation: fadeIn 0.8s ease-out, neonPulse 3s infinite alternate !important;
-            border: 1px solid rgba(230, 57, 70, 0.3);
-            position: relative;
         }
 
         /* Encabezado */
@@ -146,7 +134,7 @@
 
         .section-title:first-child { margin-top: 0; }
 
-        .content { padding: 30px; padding-bottom: 10px; position: relative; }
+        .content { padding: 30px; padding-bottom: 10px; }
 
         .section-card {
             background-color: var(--tarjeta-seccion);
@@ -217,103 +205,91 @@
         }
 
         /* ==================================================== */
-        /* EFECTOS CYBERPUNK - PANEL DE ADMINISTRACIÓN          */
+        /* DISEÑO EXCLUSIVO DEL PANEL DE ADMINISTRACIÓN SEPARADO*/
         /* ==================================================== */
-        
-        /* Estilo original de Input de contraseña (sin ser terminal) */
         .input-password {
             padding: 12px 15px; border-radius: 8px; border: 1px solid var(--texto-secundario);
-            background-color: #2b2b36; color: #f8f9fa; margin: 20px 0;
+            background-color: var(--tarjeta-fondo); color: var(--texto-oscuro); margin: 20px 0;
             width: 100%; max-width: 300px; font-size: 1rem; text-align: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: all 0.3s ease; outline: none;
-        }
-        .input-password:focus {
-            border-color: var(--rojo-principal);
-            box-shadow: 0 0 10px rgba(230, 57, 70, 0.3);
-        }
-        .input-password::placeholder { color: #888; }
-
-        /* Reloj Digital */
-        #admin-clock {
-            position: absolute; top: 20px; right: 20px; font-size: 1.2rem;
-            font-family: 'Courier New', Courier, monospace; color: var(--texto-oscuro);
-            background: rgba(0, 0, 0, 0.1); padding: 6px 12px; border-radius: 8px;
-            font-weight: bold; border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        @media (prefers-color-scheme: dark) { #admin-clock { background: rgba(255, 255, 255, 0.05); } }
-
-        /* Engranajes Animados */
-        .gear-container {
-            position: absolute; top: 20px; left: 20px; display: flex; gap: 5px; color: rgba(255,255,255,0.4);
-        }
-        .gear-spin-right { animation: spinRight 6s linear infinite; width: 30px; height: 30px; }
-        .gear-spin-left { animation: spinLeft 6s linear infinite; width: 20px; height: 20px; margin-top: 10px; }
-
-        /* Partículas Binarias Flotantes */
-        #particles-container {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none; z-index: 1; overflow: hidden;
-        }
-        .particle {
-            position: absolute; bottom: -20px; font-family: 'Courier New', monospace; font-weight: bold;
-            color: rgba(230, 57, 70, 0.3); font-size: 1.2rem; animation: floatUp linear infinite;
         }
 
-        /* Animaciones */
-        @keyframes floatUp {
-            0% { transform: translateY(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-110vh); opacity: 0; }
-        }
-        @keyframes neonPulse {
-            0% { box-shadow: 0 0 10px rgba(230,57,70,0.1), 0 15px 35px var(--sombra); }
-            100% { box-shadow: 0 0 20px rgba(230,57,70,0.4), 0 0 40px rgba(230,57,70,0.2), 0 15px 35px var(--sombra); }
-        }
-        @keyframes spinRight { 100% { transform: rotate(360deg); } }
-        @keyframes spinLeft { 100% { transform: rotate(-360deg); } }
-
-        /* Bloques de Tablero */
+        /* Bloque 1: Buzón de entrada vertical */
         .inbox-block-wrapper {
-            background-color: var(--bg-inbox); border-radius: 12px; padding: 20px;
-            margin-bottom: 35px; border: 1px solid rgba(0,0,0,0.1);
+            background-color: var(--bg-inbox);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(0,0,0,0.1);
         }
         .inbox-list-vertical {
-            display: flex; flex-direction: column; gap: 12px;
-            max-height: 320px; overflow-y: auto; margin-top: 15px; padding-right: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 320px;
+            overflow-y: auto;
+            margin-top: 15px;
+            padding-right: 5px;
         }
-        .board-three-columns { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; }
+
+        /* Bloque 2: Estructura del Cuadro / Tablero */
+        .board-three-columns {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
         .board-col {
-            flex: 1; min-width: 280px; border-radius: 12px; padding: 15px;
-            display: flex; flex-direction: column; gap: 12px; border-top: 5px solid; min-height: 350px;
+            flex: 1;
+            min-width: 280px;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-top: 5px solid;
+            min-height: 350px;
         }
         .col-importante { background-color: var(--bg-importante); border-top-color: #e63946; }
         .col-prioridad { background-color: var(--bg-prioridad); border-top-color: #fca311; }
         .col-poca { background-color: var(--bg-poca); border-top-color: #457b9d; }
-        .board-col h4 { text-align: center; font-size: 1rem; color: var(--texto-oscuro); text-transform: uppercase; }
-        .col-content-area { display: flex; flex-direction: column; gap: 10px; height: 100%; }
+
+        .board-col h4 {
+            text-align: center; font-size: 1rem; color: var(--texto-oscuro); text-transform: uppercase;
+        }
+        .col-content-area {
+            display: flex; flex-direction: column; gap: 10px; height: 100%;
+        }
 
         /* Tarjetas de Mensajes */
         .propuesta-item {
-            background-color: var(--tarjeta-fondo); padding: 12px; border-radius: 8px; font-size: 0.9rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 8px;
-            border: 1px solid rgba(0,0,0,0.08); position: relative;
+            background-color: var(--tarjeta-fondo);
+            padding: 12px; border-radius: 8px; font-size: 0.9rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex; flex-direction: column; gap: 8px;
+            border: 1px solid rgba(0,0,0,0.08);
+            position: relative;
         }
         .propuesta-date { font-size: 0.75rem; color: var(--texto-secundario); }
+
+        /* Botón de Clasificación Dinámico (+) */
         .action-bar-admin {
             display: flex; justify-content: flex-end; align-items: center; gap: 10px;
             border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 8px; margin-top: 4px;
         }
+
         .select-directo-organizar {
-            padding: 3px; font-size: 0.75rem; border-radius: 4px; background: var(--tarjeta-seccion);
-            color: var(--texto-oscuro); border: 1px solid var(--texto-secundario); outline: none; cursor: pointer;
+            padding: 3px; font-size: 0.75rem; border-radius: 4px;
+            background: var(--tarjeta-seccion); color: var(--texto-oscuro);
+            border: 1px solid var(--texto-secundario); outline: none; cursor: pointer;
         }
+
         .btn-delete-item {
-            background-color: #dc3545; color: white; border: none; padding: 4px 8px;
-            border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;
+            background-color: #dc3545; color: white; border: none;
+            padding: 4px 8px; border-radius: 4px; cursor: pointer;
+            font-size: 0.75rem; font-weight: bold;
         }
         .btn-delete-item:hover { background-color: #bd2130; }
+
         .hidden { display: none !important; }
 
         /* Footer */
@@ -332,8 +308,6 @@
 </head>
 <body>
 
-<div id="particles-container" class="hidden"></div>
-
 <div class="container" id="main-view">
     <div class="header">
         <h1>Lista Roja</h1>
@@ -342,7 +316,9 @@
     </div>
 
     <div class="content">
+
         <h2 class="section-title">Novedades</h2>
+
         <div class="section-card novedad-card">
             <h3>Elección de la Mascota Escolar 🐾 26-05-26</h3>
             <p class="text-summary">¡Llegó el momento de diseñar al personaje que nos representará!</p>
@@ -373,6 +349,7 @@
         </div>
 
         <h2 class="section-title">Cuenta Regresiva</h2>
+        
         <div class="timer-box" id="countdown-container">
             <h3 style="color: var(--rojo-principal); margin-bottom: 10px;">Próximo Evento</h3>
             <p style="font-size: 1.1rem; font-weight: bold; opacity: 0.8;" id="timer-message">
@@ -381,6 +358,7 @@
         </div>
 
         <h2 class="section-title">Promesas a Cumplir</h2>
+
         <div class="section-card">
             <h3>Jornadas de Cine</h3>
             <p class="text-summary">Creación de espacios de esparcimiento para ver películas y disfrutar juntos.</p>
@@ -438,11 +416,15 @@
         <h3>¡Síguenos y entérate de todo!</h3>
         <div class="social-buttons-container">
             <a href="https://www.tiktok.com/@listaroja26?_r=1&_t=ZS-96bOK0KU134" target="_blank" rel="noopener noreferrer" class="social-btn tiktok-btn">
-                <svg width="20" height="20" viewBox="0 0 448 512" fill="currentColor"><path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg>
+                <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                </svg>
                 TikTok
             </a>
             <a href="https://www.instagram.com/listaroja39?igsh=MW5naXVycXVtY2tzeA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram-btn">
-                <svg width="20" height="20" viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+                <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                </svg>
                 Instagram
             </a>
         </div>
@@ -451,32 +433,24 @@
 </div>
 
 <div class="container container-admin hidden" id="admin-view">
-    <div class="header" style="background: #1e1e24; position: relative;">
-        
-        <div class="gear-container">
-            <svg class="gear-spin-right" fill="currentColor" viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
-            <svg class="gear-spin-left" fill="currentColor" viewBox="0 0 24 24"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
-        </div>
-
-        <div id="admin-clock">00:00:00</div>
-        
-        <h1 style="color: #f8f9fa;">Panel de Gestión Interna</h1>
-        <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8; color: #b0b0bc;">Lista Roja - Servidor Seguro</p>
+    <div class="header" style="background: #2b2b36;">
+        <h1>Panel de Gestión Interna</h1>
+        <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">Lista Roja - Administración</p>
     </div>
 
-    <div class="content" style="background-color: #16161a;">
+    <div class="content">
         <div id="admin-login" style="text-align: center; padding: 40px 0;">
-            <h2 style="color: #f8f9fa;">Introduce la contraseña</h2>
-            <input type="password" id="pass-admin" class="input-password" placeholder="Ingresar código...">
+            <h2 style="color: var(--texto-oscuro);">Llave de Acceso</h2>
+            <input type="password" id="pass-admin" class="input-password" placeholder="Contraseña del Comité">
             <br>
             <button class="btn-admin" onclick="verificarPassword()">Ingresar al Sistema</button>
             <br><br>
-            <button class="btn-toggle" style="background: transparent; color: var(--rojo-principal); border: 1px solid var(--rojo-principal);" onclick="salirDelPanel()">Abortar / Regresar</button>
+            <button class="btn-toggle" style="background: transparent; color: var(--rojo-principal); border: 1px solid var(--rojo-principal);" onclick="salirDelPanel()">Regresar al Inicio</button>
         </div>
 
         <div id="admin-dashboard" class="hidden">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
-                <h2 style="color: #f8f9fa; font-size: 1.3rem;">🎛️ Centro de Moderación</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid var(--texto-secundario); padding-bottom: 10px;">
+                <h2 style="color: var(--texto-oscuro); font-size: 1.3rem;">🎛️ Centro de Moderación</h2>
                 <div>
                     <button class="btn-toggle" onclick="cerrarSesion()" style="background-color: #6c757d; margin-top:0;">Bloquear</button>
                     <button class="btn-toggle" onclick="salirDelPanel()" style="background-color: var(--rojo-principal); margin-top:0; margin-left:8px;">Salir</button>
@@ -485,26 +459,31 @@
 
             <div class="inbox-block-wrapper">
                 <h3 style="color: var(--texto-oscuro); font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
-                    📥 Intercepciones del Buzón 
+                    📥 Propuestas y Sugerencias Enviadas 
                     <span style="font-size: 0.8rem; background: var(--rojo-principal); color: white; padding: 2px 8px; border-radius: 10px;" id="badge-contador">0</span>
                 </h3>
-                <p style="font-size: 0.8rem; color: var(--texto-secundario); margin-top: 2px;">Mensajes anónimos recibidos esperando clasificación.</p>
-                <div id="contenedor-inbox-vertical" class="inbox-list-vertical"></div>
+                <p style="font-size: 0.8rem; color: var(--texto-secundario); margin-top: 2px;">Mensajes nuevos que esperan ser clasificados en el cuadro inferior.</p>
+                
+                <div id="contenedor-inbox-vertical" class="inbox-list-vertical">
+                    </div>
             </div>
 
-            <h3 style="color: #f8f9fa; font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">📊 Nodos de Prioridad</h3>
+            <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">📊 Cuadro de Clasificación de Ideas</h3>
+            <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 15px;">Usa el botón de asignar de arriba para acomodar las ideas estratégicamente en estas columnas.</p>
             
             <div class="board-three-columns">
                 <div class="board-col col-importante">
                     <h4>🚨 Importante</h4>
                     <div id="area-importante" class="col-content-area"></div>
                 </div>
+
                 <div class="board-col col-prioridad">
-                    <h4>⭐ Relevante</h4>
+                    <h4>⭐ Prioridad</h4>
                     <div id="area-prioridad" class="col-content-area"></div>
                 </div>
+
                 <div class="board-col col-poca">
-                    <h4>☕ Poco Relevante</h4>
+                    <h4>☕ Poca Prioridad</h4>
                     <div id="area-poca" class="col-content-area"></div>
                 </div>
             </div>
@@ -513,9 +492,7 @@
 </div>
 
 <script>
-    // ==========================================
-    // SISTEMA DE LECTURA (BOTONES MAIN)
-    // ==========================================
+    // Sistema básico de despliegue del menú de lectura
     const botonesToggle = document.querySelectorAll('.btn-toggle:not([onclick])');
     botonesToggle.forEach(boton => {
         boton.addEventListener('click', function() {
@@ -526,54 +503,11 @@
     });
 
     // ==========================================
-    // RELOJ DIGITAL Y PARTÍCULAS BINARIAS
-    // ==========================================
-    let relojInterval;
-
-    function iniciarReloj() {
-        const divReloj = document.getElementById('admin-clock');
-        if(relojInterval) clearInterval(relojInterval);
-        
-        relojInterval = setInterval(() => {
-            const ahora = new Date();
-            const hora = ahora.getHours().toString().padStart(2, '0');
-            const minutos = ahora.getMinutes().toString().padStart(2, '0');
-            const segundos = ahora.getSeconds().toString().padStart(2, '0');
-            divReloj.textContent = `${hora}:${minutos}:${segundos}`;
-        }, 1000);
-    }
-
-    function generarParticulas() {
-        const contenedor = document.getElementById('particles-container');
-        contenedor.innerHTML = ''; 
-        const cantidadParticulas = 40; 
-        
-        for (let i = 0; i < cantidadParticulas; i++) {
-            let particula = document.createElement('div');
-            particula.classList.add('particle');
-            
-            particula.textContent = Math.random() > 0.5 ? '1' : '0';
-            
-            particula.style.left = `${Math.random() * 100}vw`;
-            let duracion = Math.random() * 10 + 5; 
-            let retraso = Math.random() * 5;
-            
-            particula.style.animationDuration = `${duracion}s`;
-            particula.style.animationDelay = `${retraso}s`;
-            particula.style.fontSize = `${Math.random() * 1 + 0.8}rem`;
-
-            contenedor.appendChild(particula);
-        }
-    }
-
-    // ==========================================
     // SISTEMA DE AISLAMIENTO (5 CLICKS)
     // ==========================================
     const secretBadge = document.getElementById('secret-badge');
     const mainView = document.getElementById('main-view');
     const adminView = document.getElementById('admin-view');
-    const particlesView = document.getElementById('particles-container');
-    
     let clickCount = 0; let clickTimer;
 
     secretBadge.addEventListener('click', () => {
@@ -581,12 +515,6 @@
         if (clickCount >= 5) {
             mainView.classList.add('hidden');
             adminView.classList.remove('hidden');
-            particlesView.classList.remove('hidden');
-            
-            generarParticulas();
-            iniciarReloj();
-            document.body.style.background = "#050508";
-            
             clickCount = 0;
         }
         clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
@@ -595,10 +523,6 @@
     function salirDelPanel() {
         adminView.classList.add('hidden');
         mainView.classList.remove('hidden');
-        particlesView.classList.add('hidden');
-        document.body.style.background = "var(--fondo-gradiente)"; 
-        
-        if(relojInterval) clearInterval(relojInterval);
         cerrarSesion();
     }
 
@@ -620,7 +544,7 @@
         const nuevaPropuesta = {
             texto: propuestaTexto,
             fecha: new Date().toLocaleString('es-AR'),
-            estado: 'inbox' 
+            estado: 'inbox' // Por defecto cae al buzón separado
         };
 
         fetch(`${FIREBASE_URL}propuestas.json`, {
@@ -647,11 +571,12 @@
             document.getElementById('pass-admin').value = ""; 
             cargarPropuestasEnPanel();
         } else {
-            alert("Acceso Denegado: Código Incorrecto");
+            alert("Contraseña incorrecta.");
         }
     }
 
     function cargarPropuestasEnPanel() {
+        // Limpiamos la bandeja y las 3 columnas del cuadro
         const bandejaInbox = document.getElementById('contenedor-inbox-vertical');
         bandejaInbox.innerHTML = "";
         document.getElementById('area-importante').innerHTML = "";
@@ -662,7 +587,7 @@
         .then(res => res.json())
         .then(data => {
             if (!data) {
-                bandejaInbox.innerHTML = "<p style='font-size:0.85rem; color:var(--texto-secundario); text-align:center; padding:15px;'>Sin intercepciones recientes.</p>";
+                bandejaInbox.innerHTML = "<p style='font-size:0.85rem; color:var(--texto-secundario); text-align:center; padding:15px;'>Buzón vacío de manera absoluta.</p>";
                 document.getElementById('badge-contador').textContent = "0";
                 return;
             }
@@ -683,6 +608,7 @@
 
                 if (prop.estado === 'inbox') {
                     countInbox++;
+                    // Estructura especial para la BANDEJA DE ENTRADA con el botón (+) clasificador
                     item.innerHTML = `
                         <div>
                             <span class="propuesta-date">📅 ${prop.fecha}</span>
@@ -693,14 +619,15 @@
                             <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}', this.value)">
                                 <option value="inbox" selected>➕ Asignar cuadro...</option>
                                 <option value="importante">🚨 Importante</option>
-                                <option value="prioridad">⭐ Relevante</option>
-                                <option value="poca">☕ Poco Relevante</option>
+                                <option value="prioridad">⭐ Prioridad</option>
+                                <option value="poca">☕ Poca Prioridad</option>
                             </select>
                             <button class="btn-delete-item" onclick="eliminarMensaje('${prop.id}')">Borrar</button>
                         </div>
                     `;
                     bandejaInbox.appendChild(item);
                 } else {
+                    // Estructura limpia para las columnas del CUADRO organizador de abajo
                     item.innerHTML = `
                         <div>
                             <span class="propuesta-date">📅 ${prop.fecha}</span>
@@ -709,8 +636,8 @@
                         <div class="action-bar-admin">
                             <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}', this.value)">
                                 <option value="importante" ${prop.estado === 'importante' ? 'selected' : ''}>🚨 Importante</option>
-                                <option value="prioridad" ${prop.estado === 'prioridad' ? 'selected' : ''}>⭐ Relevante</option>
-                                <option value="poca" ${prop.estado === 'poca' ? 'selected' : ''}>☕ Poco Relevante</option>
+                                <option value="prioridad" ${prop.estado === 'prioridad' ? 'selected' : ''}>⭐ Prioridad</option>
+                                <option value="poca" ${prop.estado === 'poca' ? 'selected' : ''}>☕ Poca Prioridad</option>
                                 <option value="inbox">📥 Regresar al Buzón</option>
                             </select>
                             <button class="btn-delete-item" onclick="eliminarMensaje('${prop.id}')">✕</button>
@@ -742,7 +669,7 @@
     }
 
     function eliminarMensaje(idPropuesta) {
-        if (confirm("¿Eliminar este registro permanentemente de la base de datos?")) {
+        if (confirm("¿Eliminar este comentario permanentemente de la base de datos?")) {
             fetch(`${FIREBASE_URL}propuestas/${idPropuesta}.json`, { method: 'DELETE' })
             .then(res => {
                 if(res.ok) cargarPropuestasEnPanel();
