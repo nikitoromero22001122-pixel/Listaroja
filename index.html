@@ -327,7 +327,7 @@
                     A todos los alumnos de todos los cursos:<br><br>
                     Durante esta semana que entra, desde el martes hasta el viernes, vamos a realizar una actividad muy especial para elegir la mascota que nos representará.<br><br>
                     <strong>📌 Lo que tienen que hacer:</strong><br>
-                    Cada curso debe crear un solo dibujo en conjunto. Puede ser el diseño de un personaje, un animal, un símbolo o cualquier idea creativa que se les ocurra; no hay límites, ¡queremos ver toda su imaginación!<br><br>
+                    Cada curso debe crear un solo dibujo en conjunto. Puede ser el design de un personaje, un animal, un símbolo o cualquier idea creativa que se les ocurra; no hay límites, ¡queremos ver toda su imaginación!<br><br>
                     <strong>📌 El objetivo:</strong><br>
                     Todos los dibujos se reunirán y luego realizaremos una votación para elegir cuál es el mejor diseño. El dibujo ganador se convertirá oficialmente en la mascota de nuestra escuela.<br><br>
                     Esperamos la participación y el esfuerzo de todos, recuerden que ahora somos el Centro de Estudiantes y queremos que esta sea una decisión de todos. <span class="resaltado-texto">¡Manos a la obra!</span>
@@ -351,9 +351,9 @@
         <h2 class="section-title">Cuenta Regresiva</h2>
         
         <div class="timer-box" id="countdown-container">
-            <h3 style="color: var(--rojo-principal); margin-bottom: 10px;">Próximo Evento</h3>
+            <h3 style="color: var(--rojo-principal); margin-bottom: 10px;" id="countdown-title">entregar las mascotas de la actividad</h3>
             <p style="font-size: 1.1rem; font-weight: bold; opacity: 0.8;" id="timer-message">
-                No hay cuenta regresiva activa.
+                Cargando cuenta regresiva...
             </p>
         </div>
 
@@ -501,6 +501,46 @@
             this.textContent = tarjeta.classList.contains('expanded') ? 'Leer menos' : 'Leer más';
         });
     });
+
+    // ==========================================
+    // SISTEMA DE CUENTA REGRESIVA DINÁMICA
+    // ==========================================
+    function inicializarCuentaRegresiva() {
+        // Generar la fecha de mañana de forma automática
+        const manana = new Date();
+        manana.setDate(manana.getDate() + 1);
+        manana.setHours(14, 0, 0, 0); // Fijar a las 14:00 hs
+
+        const fechaDestino = manana.getTime();
+        const timerMessage = document.getElementById('timer-message');
+
+        const x = setInterval(function() {
+            const ahora = new Date().getTime();
+            const distancia = fechaDestino - ahora;
+
+            // Cálculos de tiempo para días, horas, minutos y segundos
+            const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
+
+            // Mostrar el resultado en el elemento con id="timer-message"
+            if (dias > 0) {
+                timerMessage.innerHTML = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+            } else {
+                timerMessage.innerHTML = `${horas}h ${minutos}m ${segundos}s`;
+            }
+
+            // Si la cuenta regresiva termina
+            if (distancia < 0) {
+                clearInterval(x);
+                timerMessage.innerHTML = "¡Tiempo cumplido! La actividad ha finalizado.";
+            }
+        }, 1000);
+    }
+
+    // Ejecutar al cargar la página
+    document.addEventListener("DOMContentLoaded", inicializarCuentaRegresiva);
 
     // ==========================================
     // SISTEMA DE AISLAMIENTO (5 CLICKS)
