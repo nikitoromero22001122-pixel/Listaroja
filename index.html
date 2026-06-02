@@ -215,49 +215,18 @@
         }
         .form-propuesta textarea:focus { outline: 2px solid var(--rojo-principal); }
 
-        /* Estilos mejorados para la cuenta regresiva */
-        .timer-box {
+        /* Estilos para mensaje sin cuenta regresiva */
+        .no-timer-box {
             background: linear-gradient(135deg, var(--tarjeta-seccion), var(--tarjeta-fondo));
             text-align: center;
             padding: 25px;
             border-radius: 12px;
-            border: 2px dashed var(--rojo-principal);
+            border: 2px dashed var(--texto-secundario);
             margin-bottom: 20px;
-            color: var(--texto-oscuro);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
-        }
-
-        .timer-display {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .time-block {
-            background-color: var(--tarjeta-fondo);
-            border: 2px solid var(--rojo-oscuro);
-            border-radius: 10px;
-            padding: 10px 15px;
-            min-width: 75px;
-            box-shadow: 0 4px 6px var(--sombra);
-        }
-
-        .time-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--rojo-principal);
-            display: block;
-            line-height: 1;
-            margin-bottom: 5px;
-        }
-
-        .time-label {
-            font-size: 0.75rem;
             color: var(--texto-secundario);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 1.1rem;
             font-weight: bold;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
         }
 
         /* Modal Compartir */
@@ -446,25 +415,8 @@
         </div>
 
         <h2 class="section-title">Cuenta Regresiva</h2>
-        <div class="timer-box" id="countdown-container">
-            <h3 style="color: var(--rojo-principal); margin-bottom: 5px; font-size: 1.2rem; text-transform: uppercase;">Entregar las mascotas de la actividad</h3>
-            
-            <div class="timer-display" id="timer-display">
-                <div class="time-block">
-                    <span class="time-value" id="hours-val">00</span>
-                    <span class="time-label">Horas</span>
-                </div>
-                <div class="time-block">
-                    <span class="time-value" id="mins-val">00</span>
-                    <span class="time-label">Min</span>
-                </div>
-                <div class="time-block">
-                    <span class="time-value" id="secs-val">00</span>
-                    <span class="time-label">Seg</span>
-                </div>
-            </div>
-
-            <p id="timer-message" style="display: none; font-size: 1.2rem; font-weight: bold; color: var(--rojo-principal); margin-top: 15px;"></p>
+        <div class="no-timer-box">
+            Ni ay cuenta regresiva activa
         </div>
 
         <h2 class="section-title">Control de Números</h2>
@@ -476,7 +428,7 @@
                     <p style="font-size: 0.95rem; margin-bottom: 10px; font-weight: 500;">Estos números son de una rifa que serán vendidos para comprar el espejo del baño de los varones.</p>
                     <p style="font-style: normal; font-size: 0.85rem; margin-bottom: 15px;">Los números marcados con una cruz (X) ya han sido entregados/vendidos.</p>
                     <div id="grid-publico" class="rifa-grid">
-                        </div>
+                    </div>
                 </div>
             </div>
             <button class="btn-toggle">Leer más</button>
@@ -495,7 +447,7 @@
                     Cada curso debe crear un solo dibujo en conjunto. Puede ser el diseño de un personaje, un animal, un símbolo o cualquier idea creativa que se les ocurra; no hay límites, ¡queremos ver toda su imaginación!<br><br>
                     <strong>📌 El objetivo:</strong><br>
                     Todos los dibujos se reunirán y luego realizaremos una votación para elegir cuál es el mejor diseño. El dibujo ganador se convertirá oficialmente en la mascota de nuestra escuela.<br><br>
-                    Esperamos la participación y el esfuerzo de todos, recuerden que ahora somos el Centro de Estudiantes y queremos que esta sea una decisión de todos. <span class="resaltado-texto">¡Manos a la obra!</span>
+                    Esperamos la participación and el esfuerzo de todos, recuerden que ahora somos el Centro de Estudiantes y queremos que esta sea una decisión de todos. <span class="resaltado-texto">¡Manos a la obra!</span>
                 </div>
             </div>
             <button class="btn-toggle">Leer más</button>
@@ -640,14 +592,13 @@
                 <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">🎟️ Tachar Números Vendidos</h3>
                 <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 15px;">Toca un número de la cuadrícula para tacharlo (X). Esto actualizará la vista de los alumnos automáticamente. Si te equivocas, vuelve a tocarlo para desmarcarlo.</p>
                 <div id="grid-admin" class="rifa-grid">
-                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // --- Lógica de los modales de Compartir ---
     function abrirModal() {
         document.getElementById('modal-compartir').classList.add('active');
     }
@@ -662,7 +613,6 @@
         }
     }
 
-    // --- Lógica del resto de la página ---
     const botonesToggle = document.querySelectorAll('.btn-toggle:not([onclick])');
     botonesToggle.forEach(boton => {
         boton.addEventListener('click', function() {
@@ -671,39 +621,6 @@
             this.textContent = tarjeta.classList.contains('expanded') ? 'Leer menos' : 'Leer más';
         });
     });
-
-    function inicializarCuentaRegresiva() {
-        const manana = new Date();
-        manana.setDate(manana.getDate() + 1);
-        manana.setHours(14, 0, 0, 0);
-
-        const fechaDestino = manana.getTime();
-        const displayBloques = document.getElementById('timer-display');
-        const timerMessage = document.getElementById('timer-message');
-
-        const x = setInterval(function() {
-            const ahora = new Date().getTime();
-            const distancia = fechaDestino - ahora;
-
-            if (distancia < 0) {
-                clearInterval(x);
-                displayBloques.style.display = 'none';
-                timerMessage.style.display = 'block';
-                timerMessage.innerHTML = "¡Tiempo cumplido! La actividad ha finalizado.";
-                return;
-            }
-
-            // Calculamos, pero omitimos los días porque fueron removidos del HTML
-            const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
-            const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
-
-            document.getElementById('hours-val').innerText = horas.toString().padStart(2, '0');
-            document.getElementById('mins-val').innerText = minutos.toString().padStart(2, '0');
-            document.getElementById('secs-val').innerText = segundos.toString().padStart(2, '0');
-
-        }, 1000);
-    }
 
     const secretBadge = document.getElementById('secret-badge');
     const mainView = document.getElementById('main-view');
@@ -876,9 +793,6 @@
         document.getElementById('admin-login').classList.remove('hidden');
     }
 
-    // ==================================================== 
-    // SISTEMA DE GENERACIÓN Y CONTROL DE LA GRILLA  
-    // ==================================================== 
     const TOTAL_NUMEROS = 200;
 
     function generarGrillas() {
@@ -956,10 +870,8 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-        inicializarCuentaRegresiva();
         generarGrillas(); 
     });
-
 </script>
 </body>
 </html>
