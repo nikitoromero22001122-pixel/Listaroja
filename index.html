@@ -120,6 +120,27 @@
             user-select: none;
         }
 
+        .btn-share {
+            background-color: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            padding: 8px 20px;
+            margin-top: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: background 0.3s, color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-share:hover {
+            background-color: #ffffff;
+            color: var(--rojo-oscuro);
+        }
+
         /* Títulos */
         .section-title {
             text-align: center;
@@ -239,70 +260,72 @@
             font-weight: bold;
         }
 
-        /* ==================================================== */
-        /* DISEÑO EXCLUSIVO DEL PANEL DE ADMINISTRACIÓN SEPARADO*/
-        /* ==================================================== */
+        /* Modal Compartir */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); display: none; justify-content: center;
+            align-items: center; z-index: 1000; padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease-out; }
+        
+        .modal-content-share {
+            background: var(--tarjeta-fondo); border-radius: 15px; padding: 30px;
+            max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto;
+            position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: left; color: var(--texto-oscuro);
+        }
+        
+        .modal-close {
+            position: absolute; top: 15px; right: 15px; background: none;
+            border: none; font-size: 1.5rem; cursor: pointer; color: var(--texto-secundario);
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: var(--rojo-principal); }
+        
+        .qr-image {
+            width: 180px; height: 180px; display: block; margin: 0 auto 20px auto;
+            border-radius: 12px; border: 4px solid var(--rojo-principal);
+            box-shadow: 0 5px 15px var(--sombra);
+        }
+
+        .modal-content-share h2 { color: var(--rojo-principal); margin-bottom: 15px; font-size: 1.4rem; text-align: center; }
+        .modal-content-share h3 { color: var(--rojo-oscuro); margin-top: 20px; margin-bottom: 10px; font-size: 1.2rem; border-bottom: 1px solid var(--tarjeta-seccion); padding-bottom: 5px; }
+        .modal-content-share h4 { color: var(--texto-oscuro); margin-top: 15px; font-size: 1.05rem; display: flex; align-items: center; gap: 5px; }
+        .modal-content-share p { font-size: 0.95rem; line-height: 1.5; color: var(--texto-secundario); margin-bottom: 10px; text-align: justify; }
+
+        /* Panel Admin y demás */
         .input-password {
             padding: 12px 15px; border-radius: 8px; border: 1px solid var(--texto-secundario);
             background-color: var(--tarjeta-fondo); color: var(--texto-oscuro); margin: 20px 0;
             width: 100%; max-width: 300px; font-size: 1rem; text-align: center;
         }
 
-        /* Bloque 1: Buzón de entrada vertical */
         .inbox-block-wrapper {
-            background-color: var(--bg-inbox);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 35px;
-            border: 1px solid rgba(0,0,0,0.1);
+            background-color: var(--bg-inbox); border-radius: 12px; padding: 20px;
+            margin-bottom: 35px; border: 1px solid rgba(0,0,0,0.1);
         }
         .inbox-list-vertical {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: 320px;
-            overflow-y: auto;
-            margin-top: 15px;
-            padding-right: 5px;
+            display: flex; flex-direction: column; gap: 12px; max-height: 320px;
+            overflow-y: auto; margin-top: 15px; padding-right: 5px;
         }
 
-        /* Bloque 2: Estructura del Cuadro / Tablero */
-        .board-three-columns {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-        }
+        .board-three-columns { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; }
         .board-col {
-            flex: 1;
-            min-width: 280px;
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            border-top: 5px solid;
-            min-height: 350px;
+            flex: 1; min-width: 280px; border-radius: 12px; padding: 15px; display: flex;
+            flex-direction: column; gap: 12px; border-top: 5px solid; min-height: 350px;
         }
         .col-importante { background-color: var(--bg-importante); border-top-color: #e63946; }
         .col-prioridad { background-color: var(--bg-prioridad); border-top-color: #fca311; }
         .col-poca { background-color: var(--bg-poca); border-top-color: #457b9d; }
 
-        .board-col h4 {
-            text-align: center; font-size: 1rem; color: var(--texto-oscuro); text-transform: uppercase;
-        }
-        .col-content-area {
-            display: flex; flex-direction: column; gap: 10px; height: 100%;
-        }
+        .board-col h4 { text-align: center; font-size: 1rem; color: var(--texto-oscuro); text-transform: uppercase; }
+        .col-content-area { display: flex; flex-direction: column; gap: 10px; height: 100%; }
 
-        /* Tarjetas de Mensajes */
         .propuesta-item {
-            background-color: var(--tarjeta-fondo);
-            padding: 12px; border-radius: 8px; font-size: 0.9rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex; flex-direction: column; gap: 8px;
-            border: 1px solid rgba(0,0,0,0.08);
-            position: relative;
+            background-color: var(--tarjeta-fondo); padding: 12px; border-radius: 8px; font-size: 0.9rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 8px;
+            border: 1px solid rgba(0,0,0,0.08); position: relative;
         }
         .propuesta-date { font-size: 0.75rem; color: var(--texto-secundario); }
 
@@ -312,68 +335,39 @@
         }
 
         .select-directo-organizar {
-            padding: 3px; font-size: 0.75rem; border-radius: 4px;
-            background: var(--tarjeta-seccion); color: var(--texto-oscuro);
-            border: 1px solid var(--texto-secundario); outline: none; cursor: pointer;
+            padding: 3px; font-size: 0.75rem; border-radius: 4px; background: var(--tarjeta-seccion);
+            color: var(--texto-oscuro); border: 1px solid var(--texto-secundario); outline: none; cursor: pointer;
         }
 
         .btn-delete-item {
-            background-color: #dc3545; color: white; border: none;
-            padding: 4px 8px; border-radius: 4px; cursor: pointer;
-            font-size: 0.75rem; font-weight: bold;
+            background-color: #dc3545; color: white; border: none; padding: 4px 8px;
+            border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;
         }
         .btn-delete-item:hover { background-color: #bd2130; }
 
         .hidden { display: none !important; }
 
-        /* ==================================================== */
-        /* ESTILOS DE LA GRILLA DE NÚMEROS DE RIFA       */
-        /* ==================================================== */
+        /* Grilla Rifa */
         .rifa-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-            gap: 8px;
-            margin-top: 15px;
-            max-height: 350px;
-            overflow-y: auto;
-            padding: 5px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            gap: 8px; margin-top: 15px; max-height: 350px; overflow-y: auto; padding: 5px;
         }
         .rifa-item {
-            background-color: var(--tarjeta-fondo);
-            border: 2px solid var(--texto-secundario);
-            border-radius: 6px;
-            text-align: center;
-            padding: 8px 0;
-            font-weight: bold;
-            font-size: 0.85rem;
-            color: var(--texto-oscuro);
-            transition: all 0.2s ease;
-            position: relative;
-            user-select: none;
+            background-color: var(--tarjeta-fondo); border: 2px solid var(--texto-secundario);
+            border-radius: 6px; text-align: center; padding: 8px 0; font-weight: bold;
+            font-size: 0.85rem; color: var(--texto-oscuro); transition: all 0.2s ease;
+            position: relative; user-select: none;
         }
         .rifa-item.vendido {
-            background-color: var(--rojo-oscuro);
-            color: white;
-            border-color: var(--rojo-oscuro);
-            opacity: 0.8;
+            background-color: var(--rojo-oscuro); color: white; border-color: var(--rojo-oscuro); opacity: 0.8;
         }
         .rifa-item.vendido::after {
-            content: "X";
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.6rem;
-            color: rgba(255, 255, 255, 0.9);
+            content: "X"; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); font-size: 1.6rem; color: rgba(255, 255, 255, 0.9);
             pointer-events: none;
         }
-        .rifa-item-admin {
-            cursor: pointer;
-        }
-        .rifa-item-admin:hover {
-            transform: scale(1.1);
-            border-color: var(--rojo-principal);
-            z-index: 2;
-        }
+        .rifa-item-admin { cursor: pointer; }
+        .rifa-item-admin:hover { transform: scale(1.1); border-color: var(--rojo-principal); z-index: 2; }
 
         /* Footer */
         .social-footer { background-color: var(--tarjeta-seccion); text-align: center; padding: 25px 20px; border-top: 2px solid var(--rojo-principal); }
@@ -391,11 +385,54 @@
 </head>
 <body>
 
+<div class="modal-overlay" id="modal-compartir" onclick="cerrarModalFuera(event)">
+    <div class="modal-content-share">
+        <button class="modal-close" onclick="cerrarModal()">✖</button>
+        
+        <img src="qr.jpg" alt="QR Lista Roja" class="qr-image">
+        
+        <h2>Bienvenidos a la Página Oficial de la Lista Roja</h2>
+        <p>Esta página fue creada para mantener informados a todos los estudiantes sobre las actividades, proyectos y novedades del Centro de Estudiantes.</p>
+        
+        <h3>¿Qué encontrarás aquí?</h3>
+        
+        <h4>📢 Novedades</h4>
+        <p>En esta sección se publicarán anuncios importantes, actividades escolares, eventos, campañas y cualquier información que sea relevante para toda la comunidad educativa.</p>
+        
+        <h4>⏳ Cuenta Regresiva</h4>
+        <p>Aquí podrás ver el tiempo que falta para la próxima actividad o fecha importante organizada por el Centro de Estudiantes.</p>
+        
+        <h4>✅ Promesas a Cumplir</h4>
+        <p>En este espacio se muestran los compromisos asumidos por la Lista Roja, para que todos los estudiantes puedan conocer las propuestas y seguir el avance de cada una de ellas.</p>
+        
+        <h4>📬 Buzón Anónimo</h4>
+        <p>Esta es una de las herramientas más importantes de la página. Cualquier estudiante puede enviar sugerencias, propuestas, ideas o comentarios de forma completamente anónima. El objetivo es que todas las voces sean escuchadas y que cada alumno pueda participar en la mejora de nuestra escuela.</p>
+        
+        <h4>📱 Redes Sociales</h4>
+        <p>Al final de la página encontrarás enlaces a nuestras redes sociales oficiales. Allí compartiremos noticias, avances de proyectos, recordatorios y contenido relacionado con las actividades estudiantiles.</p>
+        
+        <h3>Nuestro Objetivo</h3>
+        <p>Queremos construir un Centro de Estudiantes participativo, transparente y cercano a todos los alumnos. Esta página es una herramienta para mantener una comunicación constante con ustedes y para que cada estudiante pueda formar parte de las decisiones e iniciativas que mejoren nuestra institución.</p>
+        
+        <p style="font-weight: bold; text-align: center; margin-top: 25px; color: var(--rojo-principal);">Gracias por acompañarnos y por seguir construyendo una escuela mejor entre todos.</p>
+        <p style="text-align: center; font-style: italic; font-weight: bold;">Lista Roja – Centro de Estudiantes</p>
+    </div>
+</div>
+
 <div class="container" id="main-view">
     <div class="header">
         <h1>Lista Roja</h1>
         <div class="lista-roja-badge" id="secret-badge">¡Gracias por su apoyo!</div>
         <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.9;">Centro de Estudiantes</p>
+        
+        <div>
+            <button class="btn-share" onclick="abrirModal()">
+                <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                </svg>
+                Compartir Página
+            </button>
+        </div>
     </div>
 
     <div class="content">
@@ -413,10 +450,6 @@
             <h3 style="color: var(--rojo-principal); margin-bottom: 5px; font-size: 1.2rem; text-transform: uppercase;">Entregar las mascotas de la actividad</h3>
             
             <div class="timer-display" id="timer-display">
-                <div class="time-block" id="block-days">
-                    <span class="time-value" id="days-val">00</span>
-                    <span class="time-label">Días</span>
-                </div>
                 <div class="time-block">
                     <span class="time-value" id="hours-val">00</span>
                     <span class="time-label">Horas</span>
@@ -609,12 +642,27 @@
                 <div id="grid-admin" class="rifa-grid">
                     </div>
             </div>
-
         </div>
     </div>
 </div>
 
 <script>
+    // --- Lógica de los modales de Compartir ---
+    function abrirModal() {
+        document.getElementById('modal-compartir').classList.add('active');
+    }
+
+    function cerrarModal() {
+        document.getElementById('modal-compartir').classList.remove('active');
+    }
+
+    function cerrarModalFuera(event) {
+        if (event.target.id === 'modal-compartir') {
+            cerrarModal();
+        }
+    }
+
+    // --- Lógica del resto de la página ---
     const botonesToggle = document.querySelectorAll('.btn-toggle:not([onclick])');
     botonesToggle.forEach(boton => {
         boton.addEventListener('click', function() {
@@ -645,21 +693,14 @@
                 return;
             }
 
-            const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+            // Calculamos, pero omitimos los días porque fueron removidos del HTML
             const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
             const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
 
-            document.getElementById('days-val').innerText = dias.toString().padStart(2, '0');
             document.getElementById('hours-val').innerText = horas.toString().padStart(2, '0');
             document.getElementById('mins-val').innerText = minutos.toString().padStart(2, '0');
             document.getElementById('secs-val').innerText = segundos.toString().padStart(2, '0');
-
-            if (dias === 0) {
-                document.getElementById('block-days').style.display = 'none';
-            } else {
-                document.getElementById('block-days').style.display = 'block';
-            }
 
         }, 1000);
     }
