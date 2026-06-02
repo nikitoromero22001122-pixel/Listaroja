@@ -327,7 +327,7 @@
         .hidden { display: none !important; }
 
         /* ==================================================== */
-        /* NUEVO: ESTILOS DE LA GRILLA DE NÚMEROS DE RIFA       */
+        /* ESTILOS DE LA GRILLA DE NÚMEROS DE RIFA       */
         /* ==================================================== */
         .rifa-grid {
             display: grid;
@@ -437,7 +437,8 @@
         <h2 class="section-title">Control de Números</h2>
         <div class="section-card">
             <h3>Disponibilidad de Números</h3>
-            <p class="text-summary" style="font-style: normal; font-size: 0.9rem;">Los números marcados con una cruz (X) ya han sido entregados/vendidos.</p>
+            <p style="font-size: 0.95rem; margin-bottom: 10px; font-weight: 500;">Estos números son de una rifa que serán vendidos para comprar el espejo del baño de los varones.</p>
+            <p class="text-summary" style="font-style: normal; font-size: 0.85rem; margin-bottom: 15px;">Los números marcados con una cruz (X) ya han sido entregados/vendidos.</p>
             <div id="grid-publico" class="rifa-grid">
                 </div>
         </div>
@@ -829,7 +830,7 @@
     }
 
     // ==================================================== 
-    // NUEVO: SISTEMA DE GENERACIÓN Y CONTROL DE LA GRILLA  
+    // SISTEMA DE GENERACIÓN Y CONTROL DE LA GRILLA  
     // ==================================================== 
     const TOTAL_NUMEROS = 200;
 
@@ -841,17 +842,14 @@
         if(gridAdmin) gridAdmin.innerHTML = '';
 
         for (let i = 1; i <= TOTAL_NUMEROS; i++) {
-            // Formatea el número para que tenga ceros a la izquierda (01, 02... 100)
             const numStr = i.toString().padStart(2, '0');
             
-            // Crea el ítem para la vista PÚBLICA
             const itemPub = document.createElement('div');
             itemPub.className = 'rifa-item';
             itemPub.id = `pub-num-${i}`;
             itemPub.textContent = numStr;
             gridPublico.appendChild(itemPub);
 
-            // Crea el ítem para la vista de ADMIN
             if (gridAdmin) {
                 const itemAdm = document.createElement('div');
                 itemAdm.className = 'rifa-item rifa-item-admin';
@@ -862,7 +860,6 @@
             }
         }
         
-        // Una vez generados, llamamos a Firebase para ver cuáles ya están vendidos
         cargarNumerosVendidos();
     }
 
@@ -893,7 +890,6 @@
         const wasVendido = itemAdm.classList.contains('vendido');
         const newState = !wasVendido;
 
-        // Actualizamos visualmente al instante (Optimistic UI) para que se sienta rápido
         if (newState) {
             itemAdm.classList.add('vendido');
             document.getElementById(`pub-num-${num}`).classList.add('vendido');
@@ -902,22 +898,19 @@
             document.getElementById(`pub-num-${num}`).classList.remove('vendido');
         }
 
-        // Subimos el cambio a la base de datos de Firebase (creará el nodo /numeros/num_X automáticamente)
         fetch(`${FIREBASE_URL}numeros/num_${num}.json`, {
             method: 'PUT',
             body: JSON.stringify(newState),
             headers: { 'Content-Type': 'application/json' }
         }).catch(err => {
             console.log("Error al guardar número en Firebase:", err);
-            // Si hay error de conexión, revertimos el color consultando de nuevo
             cargarNumerosVendidos();
         });
     }
 
-    // Unificamos las cargas iniciales aquí
     document.addEventListener("DOMContentLoaded", () => {
         inicializarCuentaRegresiva();
-        generarGrillas(); // Genera la grilla de 200 números
+        generarGrillas(); 
     });
 
 </script>
