@@ -318,28 +318,6 @@
 
         .hidden { display: none !important; }
 
-        /* Grilla Rifa */
-        .rifa-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-            gap: 8px; margin-top: 15px; max-height: 350px; overflow-y: auto; padding: 5px;
-        }
-        .rifa-item {
-            background-color: var(--tarjeta-fondo); border: 2px solid var(--texto-secundario);
-            border-radius: 6px; text-align: center; padding: 8px 0; font-weight: bold;
-            font-size: 0.85rem; color: var(--texto-oscuro); transition: all 0.2s ease;
-            position: relative; user-select: none;
-        }
-        .rifa-item.vendido {
-            background-color: var(--rojo-oscuro); color: white; border-color: var(--rojo-oscuro); opacity: 0.8;
-        }
-        .rifa-item.vendido::after {
-            content: "X"; position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); font-size: 1.6rem; color: rgba(255, 255, 255, 0.9);
-            pointer-events: none;
-        }
-        .rifa-item-admin { cursor: pointer; }
-        .rifa-item-admin:hover { transform: scale(1.1); border-color: var(--rojo-principal); z-index: 2; }
-
         /* Footer */
         .social-footer { background-color: var(--tarjeta-seccion); text-align: center; padding: 25px 20px; border-top: 2px solid var(--rojo-principal); }
         .social-buttons-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 15px; }
@@ -419,21 +397,6 @@
         <h2 class="section-title">Cuenta Regresiva</h2>
         <div class="no-timer-box">
             No ay cuenta regresiva activa
-        </div>
-
-        <h2 class="section-title">Control de Números</h2>
-        <div class="section-card">
-            <h3>Disponibilidad de Números</h3>
-            <p class="text-summary">Estado de la rifa para comprar el espejo del baño de los varones.</p>
-            <div class="expandable-wrapper">
-                <div class="text-full">
-                    <p style="font-size: 0.95rem; margin-bottom: 10px; font-weight: 500;">Estos números son de una rifa que serán vendidos para comprar el espejo del baño de los varones.</p>
-                    <p style="font-style: normal; font-size: 0.85rem; margin-bottom: 15px;">Los números marcados con una cruz (X) ya han sido entregados/vendidos.</p>
-                    <div id="grid-publico" class="rifa-grid">
-                    </div>
-                </div>
-            </div>
-            <button class="btn-toggle">Leer más</button>
         </div>
 
         <h2 class="section-title">Novedades</h2>
@@ -584,13 +547,6 @@
                 <div class="board-col col-poca">
                     <h4>☕ Poca Prioridad</h4>
                     <div id="area-poca" class="col-content-area"></div>
-                </div>
-            </div>
-
-            <div style="margin-top: 35px; border-top: 2px dashed rgba(0,0,0,0.15); padding-top: 20px;">
-                <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">🎟️ Tachar Números Vendidos</h3>
-                <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 15px;">Toca un número de la cuadrícula para tacharlo (X). Esto actualizará la vista de los alumnos automáticamente. Si te equivocas, vuelve a tocarlo para desmarcarlo.</p>
-                <div id="grid-admin" class="rifa-grid">
                 </div>
             </div>
         </div>
@@ -791,86 +747,6 @@
         document.getElementById('admin-dashboard').classList.add('hidden');
         document.getElementById('admin-login').classList.remove('hidden');
     }
-
-    const TOTAL_NUMEROS = 200;
-
-    function generarGrillas() {
-        const gridPublico = document.getElementById('grid-publico');
-        const gridAdmin = document.getElementById('grid-admin');
-        
-        gridPublico.innerHTML = '';
-        if(gridAdmin) gridAdmin.innerHTML = '';
-
-        for (let i = 1; i <= TOTAL_NUMEROS; i++) {
-            const numStr = i.toString().padStart(2, '0');
-            
-            const itemPub = document.createElement('div');
-            itemPub.className = 'rifa-item';
-            itemPub.id = `pub-num-${i}`;
-            itemPub.textContent = numStr;
-            gridPublico.appendChild(itemPub);
-
-            if (gridAdmin) {
-                const itemAdm = document.createElement('div');
-                itemAdm.className = 'rifa-item rifa-item-admin';
-                itemAdm.id = `adm-num-${i}`;
-                itemAdm.textContent = numStr;
-                itemAdm.onclick = () => toggleNumero(i);
-                gridAdmin.appendChild(itemAdm);
-            }
-        }
-        
-        cargarNumerosVendidos();
-    }
-
-    function cargarNumerosVendidos() {
-        fetch(`${FIREBASE_URL}numeros.json`)
-        .then(res => res.json())
-        .then(data => {
-            if (!data) return;
-            for (let i = 1; i <= TOTAL_NUMEROS; i++) {
-                const itemPub = document.getElementById(`pub-num-${i}`);
-                const itemAdm = document.getElementById(`adm-num-${i}`);
-                const isVendido = data[`num_${i}`];
-
-                if (isVendido) {
-                    if(itemPub) itemPub.classList.add('vendido');
-                    if(itemAdm) itemAdm.classList.add('vendido');
-                } else {
-                    if(itemPub) itemPub.classList.remove('vendido');
-                    if(itemAdm) itemAdm.classList.remove('vendido');
-                }
-            }
-        })
-        .catch(err => console.log("Error al cargar la grilla desde Firebase: ", err));
-    }
-
-    function toggleNumero(num) {
-        const itemAdm = document.getElementById(`adm-num-${num}`);
-        const wasVendido = itemAdm.classList.contains('vendido');
-        const newState = !wasVendido;
-
-        if (newState) {
-            itemAdm.classList.add('vendido');
-            document.getElementById(`pub-num-${num}`).classList.add('vendido');
-        } else {
-            itemAdm.classList.remove('vendido');
-            document.getElementById(`pub-num-${num}`).classList.remove('vendido');
-        }
-
-        fetch(`${FIREBASE_URL}numeros/num_${num}.json`, {
-            method: 'PUT',
-            body: JSON.stringify(newState),
-            headers: { 'Content-Type': 'application/json' }
-        }).catch(err => {
-            console.log("Error al guardar número en Firebase:", err);
-            cargarNumerosVendidos();
-        });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        generarGrillas(); 
-    });
 </script>
 </body>
 </html>
