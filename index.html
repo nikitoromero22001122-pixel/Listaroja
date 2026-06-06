@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centro de Estudiantes - EM El Naranjo</title>
+    <title>Centro de Estudiantes - E.M.E.N El Naranjo</title>
     <style>
-        /* Variables base para Modo Claro (Basado en el logo EMEN) */
+        /* Variables base para Modo Claro (NUEVA PALETA ROJA INSTITUCIONAL) */
         :root {
-            /* Colores extraídos del logo */
-            --color-principal: #00629B; /* Azul del bloque E */
-            --color-oscuro: #004B79;    /* Azul oscurecido */
-            --color-acento: #E87722;    /* Naranja del bloque E / "El Naranjo" */
+            /* Colores extraídos y adaptados del logo EMEN (bloque N) */
+            --color-principal: #D22730; /* Rojo institucional principal */
+            --color-oscuro: #A01E26;    /* Rojo oscurecido para degradados */
+            --color-acento: #E87722;    /* Naranja (se mantiene como acento de "El Naranjo") */
             --color-verde: #008240;     /* Verde del bloque M */
-            --color-rojo: #E03C31;      /* Rojo del bloque N */
             
             --blanco: #ffffff;
             --gris-claro: #f8f9fa;
             --texto-oscuro: #2b2d42;
-            --fondo-gradiente: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            
+            /* Fondo degradado en tonos de rojo muy suave para modo claro */
+            --fondo-gradiente: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            
             --tarjeta-fondo: var(--blanco);
             --tarjeta-seccion: var(--gris-claro);
             --texto-secundario: #555555;
-            --sombra: rgba(0, 0, 0, 0.15);
+            --sombra: rgba(160, 30, 38, 0.15); /* Sombra con tinte rojo */
+            
             --tiktok-bg: #000000;
             --tiktok-text: #ffffff;
             --instagram-bg: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
@@ -35,30 +38,33 @@
             --bg-poca: #d1ecf1;
         }
 
-        /* Variables para Modo Oscuro */
+        /* Variables para Modo Oscuro (PALETA ROJA ADAPTADA) */
         @media (prefers-color-scheme: dark) {
             :root {
                 --blanco: #1e1e24;
                 --gris-claro: #2b2b36;
                 --texto-oscuro: #f8f9fa;
-                --fondo-gradiente: linear-gradient(135deg, #0f141e 0%, #1a2234 100%);
-                --tarjeta-fondo: #161b22;
-                --tarjeta-seccion: #21262d;
+                
+                /* Fondo degradado oscuro con tinte rojizo */
+                --fondo-gradiente: linear-gradient(135deg, #1a0505 0%, #2d0a0a 100%);
+                
+                --tarjeta-fondo: #1c1313; /* Fondo de tarjeta muy oscuro con tinte rojo */
+                --tarjeta-seccion: #2d1f1f;
                 --texto-secundario: #b0b0bc;
                 --sombra: rgba(0, 0, 0, 0.5);
                 
-                --color-principal: #3498db; /* Azul más vibrante para contraste oscuro */
-                --color-oscuro: #2980b9;
-                --color-acento: #f39c12; /* Naranja más brillante */
+                /* Tonos rojos más brillantes para contraste en oscuro */
+                --color-principal: #e74c3c; 
+                --color-oscuro: #c0392b;
+                --color-acento: #f39c12;
                 --color-verde: #2ecc71;
-                --color-rojo: #e74c3c;
 
                 --tiktok-bg: #ffffff;
                 --tiktok-text: #000000;
                 --credits-text: #a0a0b0;
                 
                 /* Colores Tablero Oscuro */
-                --bg-inbox: #252a32;
+                --bg-inbox: #2a2222;
                 --bg-importante: #4a1c22;
                 --bg-prioridad: #4a3c1c;
                 --bg-poca: #1c3a4a;
@@ -199,8 +205,6 @@
         .novedad-card h3 { color: var(--color-acento); }
         .verde-card { border-left-color: var(--color-verde); }
         .verde-card h3 { color: var(--color-verde); }
-        .rojo-card { border-left-color: var(--color-rojo); }
-        .rojo-card h3 { color: var(--color-rojo); }
         
         .suspendida { border-left-color: #dc3545; }
         .suspendida h3 { color: #dc3545; }
@@ -279,7 +283,7 @@
             border: none; font-size: 1.5rem; cursor: pointer; color: var(--texto-secundario);
             transition: color 0.2s;
         }
-        .modal-close:hover { color: var(--color-rojo); }
+        .modal-close:hover { color: var(--color-principal); }
         
         .qr-image {
             width: 180px; height: 180px; display: block; margin: 0 auto 20px auto;
@@ -313,7 +317,7 @@
             flex: 1; min-width: 280px; border-radius: 12px; padding: 15px; display: flex;
             flex-direction: column; gap: 12px; border-top: 5px solid; min-height: 350px;
         }
-        .col-importante { background-color: var(--bg-importante); border-top-color: var(--color-rojo); }
+        .col-importante { background-color: var(--bg-importante); border-top-color: var(--color-principal); }
         .col-prioridad { background-color: var(--bg-prioridad); border-top-color: var(--color-acento); }
         .col-poca { background-color: var(--bg-poca); border-top-color: var(--color-principal); }
 
@@ -338,7 +342,7 @@
         }
 
         .btn-delete-item {
-            background-color: var(--color-rojo); color: white; border: none; padding: 4px 8px;
+            background-color: var(--color-principal); color: white; border: none; padding: 4px 8px;
             border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;
         }
         .btn-delete-item:hover { background-color: #bd2130; }
@@ -368,7 +372,7 @@
         <img src="qr.jpg" alt="QR Centro de Estudiantes" class="qr-image">
         
         <h2>Bienvenidos a la Página Oficial del Centro de Estudiantes</h2>
-        <p>Esta página fue creada para mantener informados a todos los estudiantes sobre las actividades, proyectos y novedades de la Escuela Media El Naranjo.</p>
+        <p>Esta página fue creada para mantener informados a todos los estudiantes sobre las actividades, proyectos y novedades de la Escuela Media E.M.E.N El Naranjo.</p>
         
         <h3>¿Qué encontrarás aquí?</h3>
         
@@ -391,16 +395,16 @@
         <p>Queremos construir un Centro de Estudiantes participativo, transparente y cercano a todos los alumnos. Esta página es una herramienta para mantener una comunicación constante con ustedes y para que cada estudiante pueda formar parte de las decisiones.</p>
         
         <p style="font-weight: bold; text-align: center; margin-top: 25px; color: var(--color-principal);">Gracias por acompañarnos y por seguir construyendo una escuela mejor entre todos.</p>
-        <p style="text-align: center; font-style: italic; font-weight: bold;">Centro de Estudiantes - EM El Naranjo</p>
+        <p style="text-align: center; font-style: italic; font-weight: bold;">Centro de Estudiantes - E.M.E.N El Naranjo</p>
     </div>
 </div>
 
 <div class="container" id="main-view">
     <div class="header">
-        <img src="logo.jpeg" alt="Logo Escuela Media El Naranjo" class="logo-escuela">
+        <img src="IMG-20260605-WA0019.jpg" alt="Logo Escuela Media E.M.E.N El Naranjo" class="logo-escuela">
         
         <h1>Centro de Estudiantes</h1>
-        <div class="ce-badge" id="secret-badge">EM El Naranjo</div>
+        <div class="ce-badge" id="secret-badge">E.M.E.N El Naranjo</div>
         <p style="margin-top: 15px; font-size: 0.95rem; opacity: 0.9;">Gestión Oficial</p>
         
         <div>
@@ -455,7 +459,7 @@
             <button class="btn-toggle">Leer más</button>
         </div>
 
-        <div class="section-card rojo-card">
+        <div class="section-card">
             <h3>Apoyo Escolar</h3>
             <p class="text-summary">Un grupo de ayuda mutua para que nadie se quede con dudas en las materias.</p>
             <div class="expandable-wrapper">
@@ -498,7 +502,7 @@
                 </svg>
                 TikTok
             </a>
-            <a href="https://www.instagram.com/listaroja39?igsh=MW5naXVycXVtY2tzeA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram-btn">
+            <a href="https://www.instagram.com/centro_de_estudianteemen?igsh=Y3YwZ21lY3R3dGF3" target="_blank" rel="noopener noreferrer" class="social-btn instagram-btn">
                 <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
                 </svg>
@@ -530,7 +534,7 @@
                 <h2 style="color: var(--texto-oscuro); font-size: 1.3rem;">🎛️ Centro de Moderación</h2>
                 <div>
                     <button class="btn-toggle" onclick="cerrarSesion()" style="background-color: #6c757d; margin-top:0;">Bloquear</button>
-                    <button class="btn-toggle" onclick="salirDelPanel()" style="background-color: var(--color-rojo); margin-top:0; margin-left:8px;">Salir</button>
+                    <button class="btn-toggle" onclick="salirDelPanel()" style="background-color: var(--color-principal); margin-top:0; margin-left:8px;">Salir</button>
                 </div>
             </div>
 
@@ -569,6 +573,8 @@
 </div>
 
 <script>
+    // SCRIPT DE INTERACCIÓN (SE MANTIENE IGUAL)
+    
     function abrirModal() {
         document.getElementById('modal-compartir').classList.add('active');
     }
@@ -613,7 +619,9 @@
         cerrarSesion();
     }
 
+    // Configuración Firebase (Reemplazar URL si cambia)
     const FIREBASE_URL = "https://lista-roja-5ab69-default-rtdb.firebaseio.com/"; 
+    // Contraseña actualizada conceptualmente para el Centro
     const PASSWORD_CORRECTA = "roja2026"; 
 
     function enviarPropuesta() {
