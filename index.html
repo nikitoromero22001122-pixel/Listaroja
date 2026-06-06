@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discurso y Novedades Lista Roja - Centro de Estudiantes</title>
+    <title>Centro de Estudiantes - EM El Naranjo</title>
     <style>
-        /* Variables base para Modo Claro */
+        /* Variables base para Modo Claro (Basado en el logo EMEN) */
         :root {
-            --rojo-principal: #e63946;
-            --rojo-oscuro: #b7094c;
+            /* Colores extraídos del logo */
+            --color-principal: #00629B; /* Azul del bloque E */
+            --color-oscuro: #004B79;    /* Azul oscurecido */
+            --color-acento: #E87722;    /* Naranja del bloque E / "El Naranjo" */
+            --color-verde: #008240;     /* Verde del bloque M */
+            --color-rojo: #E03C31;      /* Rojo del bloque N */
+            
             --blanco: #ffffff;
             --gris-claro: #f8f9fa;
             --texto-oscuro: #2b2d42;
-            --fondo-gradiente: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --fondo-gradiente: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
             --tarjeta-fondo: var(--blanco);
             --tarjeta-seccion: var(--gris-claro);
             --texto-secundario: #555555;
@@ -36,21 +41,24 @@
                 --blanco: #1e1e24;
                 --gris-claro: #2b2b36;
                 --texto-oscuro: #f8f9fa;
-                --fondo-gradiente: linear-gradient(135deg, #0f0f12 0%, #1a1a24 100%);
-                --tarjeta-fondo: #16161a;
-                --tarjeta-seccion: #22222b;
+                --fondo-gradiente: linear-gradient(135deg, #0f141e 0%, #1a2234 100%);
+                --tarjeta-fondo: #161b22;
+                --tarjeta-seccion: #21262d;
                 --texto-secundario: #b0b0bc;
                 --sombra: rgba(0, 0, 0, 0.5);
-                --rojo-principal: #ff4d5a;
-                --rojo-oscuro: #d91e5c;
+                
+                --color-principal: #3498db; /* Azul más vibrante para contraste oscuro */
+                --color-oscuro: #2980b9;
+                --color-acento: #f39c12; /* Naranja más brillante */
+                --color-verde: #2ecc71;
+                --color-rojo: #e74c3c;
+
                 --tiktok-bg: #ffffff;
                 --tiktok-text: #000000;
-                --instagram-bg: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-                --instagram-text: #ffffff;
                 --credits-text: #a0a0b0;
                 
                 /* Colores Tablero Oscuro */
-                --bg-inbox: #25252f;
+                --bg-inbox: #252a32;
                 --bg-importante: #4a1c22;
                 --bg-prioridad: #4a3c1c;
                 --bg-poca: #1c3a4a;
@@ -93,44 +101,43 @@
 
         /* Encabezado */
         .header {
-            background: linear-gradient(135deg, var(--rojo-principal), var(--rojo-oscuro));
+            background: linear-gradient(135deg, var(--color-principal), var(--color-oscuro));
             color: #ffffff;
-            padding: 40px 30px;
+            padding: 35px 30px;
             text-align: center;
             position: relative;
         }
 
-        /* Estilos del Logo */
-        .logo-header {
-            width: 140px;
-            height: 140px;
-            object-fit: cover;
+        /* Estilos para el Logo */
+        .logo-escuela {
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
-            margin: 0 auto 15px auto;
-            display: block;
+            object-fit: cover;
             border: 4px solid #ffffff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-bottom: 15px;
             background-color: #ffffff;
         }
 
         .header h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .lista-roja-badge {
-            background-color: #ffffff;
-            color: #b7094c;
+        .ce-badge {
+            background-color: var(--color-acento);
+            color: #ffffff;
             padding: 5px 15px;
             border-radius: 50px;
             font-weight: bold;
             display: inline-block;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            animation: pulse 2s infinite;
             cursor: pointer;
             user-select: none;
+            letter-spacing: 0.5px;
         }
 
         .btn-share {
@@ -151,18 +158,18 @@
 
         .btn-share:hover {
             background-color: #ffffff;
-            color: var(--rojo-oscuro);
+            color: var(--color-oscuro);
         }
 
         /* Títulos */
         .section-title {
             text-align: center;
-            color: var(--rojo-oscuro);
+            color: var(--color-oscuro);
             margin: 40px 0 20px 0;
             font-size: 1.5rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-bottom: 2px solid var(--rojo-principal);
+            border-bottom: 2px solid var(--color-principal);
             padding-bottom: 10px;
         }
 
@@ -172,7 +179,7 @@
 
         .section-card {
             background-color: var(--tarjeta-seccion);
-            border-left: 5px solid var(--rojo-principal);
+            border-left: 5px solid var(--color-principal);
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
@@ -185,11 +192,18 @@
             box-shadow: 0 8px 15px var(--sombra);
         }
 
-        .section-card h3 { color: var(--rojo-principal); margin-bottom: 10px; font-size: 1.2rem; }
-        .novedad-card { border-left-color: #fca311; }
-        .novedad-card h3 { color: #fca311; }
-        .novedad-card.suspendida { border-left-color: #dc3545; }
-        .novedad-card.suspendida h3 { color: #dc3545; }
+        .section-card h3 { color: var(--color-principal); margin-bottom: 10px; font-size: 1.2rem; }
+        
+        /* Variaciones de colores basadas en el logo para diferentes tarjetas */
+        .novedad-card { border-left-color: var(--color-acento); }
+        .novedad-card h3 { color: var(--color-acento); }
+        .verde-card { border-left-color: var(--color-verde); }
+        .verde-card h3 { color: var(--color-verde); }
+        .rojo-card { border-left-color: var(--color-rojo); }
+        .rojo-card h3 { color: var(--color-rojo); }
+        
+        .suspendida { border-left-color: #dc3545; }
+        .suspendida h3 { color: #dc3545; }
 
         .text-summary { font-style: italic; color: var(--texto-secundario); }
 
@@ -206,7 +220,7 @@
 
         /* Botones */
         .btn-toggle, .btn-submit, .btn-admin {
-            background-color: var(--rojo-principal);
+            background-color: var(--color-principal);
             color: #ffffff;
             border: none;
             padding: 8px 16px;
@@ -219,7 +233,7 @@
         }
 
         .btn-toggle:hover, .btn-submit:hover, .btn-admin:hover {
-            background-color: var(--rojo-oscuro);
+            background-color: var(--color-oscuro);
             transform: scale(1.05);
         }
 
@@ -228,7 +242,7 @@
             border: 1px solid var(--texto-secundario); background-color: var(--tarjeta-fondo);
             color: var(--texto-oscuro); font-family: inherit; resize: none; margin-top: 10px;
         }
-        .form-propuesta textarea:focus { outline: 2px solid var(--rojo-principal); }
+        .form-propuesta textarea:focus { outline: 2px solid var(--color-principal); }
 
         /* Estilos para mensaje sin cuenta regresiva */
         .no-timer-box {
@@ -265,16 +279,16 @@
             border: none; font-size: 1.5rem; cursor: pointer; color: var(--texto-secundario);
             transition: color 0.2s;
         }
-        .modal-close:hover { color: var(--rojo-principal); }
+        .modal-close:hover { color: var(--color-rojo); }
         
         .qr-image {
             width: 180px; height: 180px; display: block; margin: 0 auto 20px auto;
-            border-radius: 12px; border: 4px solid var(--rojo-principal);
+            border-radius: 12px; border: 4px solid var(--color-principal);
             box-shadow: 0 5px 15px var(--sombra);
         }
 
-        .modal-content-share h2 { color: var(--rojo-principal); margin-bottom: 15px; font-size: 1.4rem; text-align: center; }
-        .modal-content-share h3 { color: var(--rojo-oscuro); margin-top: 20px; margin-bottom: 10px; font-size: 1.2rem; border-bottom: 1px solid var(--tarjeta-seccion); padding-bottom: 5px; }
+        .modal-content-share h2 { color: var(--color-principal); margin-bottom: 15px; font-size: 1.4rem; text-align: center; }
+        .modal-content-share h3 { color: var(--color-oscuro); margin-top: 20px; margin-bottom: 10px; font-size: 1.2rem; border-bottom: 1px solid var(--tarjeta-seccion); padding-bottom: 5px; }
         .modal-content-share h4 { color: var(--texto-oscuro); margin-top: 15px; font-size: 1.05rem; display: flex; align-items: center; gap: 5px; }
         .modal-content-share p { font-size: 0.95rem; line-height: 1.5; color: var(--texto-secundario); margin-bottom: 10px; text-align: justify; }
 
@@ -299,9 +313,9 @@
             flex: 1; min-width: 280px; border-radius: 12px; padding: 15px; display: flex;
             flex-direction: column; gap: 12px; border-top: 5px solid; min-height: 350px;
         }
-        .col-importante { background-color: var(--bg-importante); border-top-color: #e63946; }
-        .col-prioridad { background-color: var(--bg-prioridad); border-top-color: #fca311; }
-        .col-poca { background-color: var(--bg-poca); border-top-color: #457b9d; }
+        .col-importante { background-color: var(--bg-importante); border-top-color: var(--color-rojo); }
+        .col-prioridad { background-color: var(--bg-prioridad); border-top-color: var(--color-acento); }
+        .col-poca { background-color: var(--bg-poca); border-top-color: var(--color-principal); }
 
         .board-col h4 { text-align: center; font-size: 1rem; color: var(--texto-oscuro); text-transform: uppercase; }
         .col-content-area { display: flex; flex-direction: column; gap: 10px; height: 100%; }
@@ -324,7 +338,7 @@
         }
 
         .btn-delete-item {
-            background-color: #dc3545; color: white; border: none; padding: 4px 8px;
+            background-color: var(--color-rojo); color: white; border: none; padding: 4px 8px;
             border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;
         }
         .btn-delete-item:hover { background-color: #bd2130; }
@@ -332,17 +346,17 @@
         .hidden { display: none !important; }
 
         /* Footer */
-        .social-footer { background-color: var(--tarjeta-seccion); text-align: center; padding: 25px 20px; border-top: 2px solid var(--rojo-principal); }
+        .social-footer { background-color: var(--tarjeta-seccion); text-align: center; padding: 25px 20px; border-top: 2px solid var(--color-principal); }
         .social-buttons-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 15px; }
         .social-btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; padding: 12px 24px; border-radius: 50px; font-weight: bold; color: #fff; gap: 10px; transition: transform 0.3s; }
         .social-btn:hover { transform: scale(1.05); }
         .tiktok-btn { background-color: var(--tiktok-bg); color: var(--tiktok-text); }
         .instagram-btn { background: var(--instagram-bg); color: var(--instagram-text); }
-        .resaltado-texto { color: var(--rojo-principal); font-weight: bold; }
+        .resaltado-texto { color: var(--color-principal); font-weight: bold; }
         .credits { margin-top: 20px; font-size: 0.8rem; color: var(--credits-text); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -351,10 +365,10 @@
     <div class="modal-content-share">
         <button class="modal-close" onclick="cerrarModal()">✖</button>
         
-        <img src="qr.jpg" alt="QR Lista Roja" class="qr-image">
+        <img src="qr.jpg" alt="QR Centro de Estudiantes" class="qr-image">
         
-        <h2>Bienvenidos a la Página Oficial de la Lista Roja</h2>
-        <p>Esta página fue creada para mantener informados a todos los estudiantes sobre las actividades, proyectos y novedades del Centro de Estudiantes.</p>
+        <h2>Bienvenidos a la Página Oficial del Centro de Estudiantes</h2>
+        <p>Esta página fue creada para mantener informados a todos los estudiantes sobre las actividades, proyectos y novedades de la Escuela Media El Naranjo.</p>
         
         <h3>¿Qué encontrarás aquí?</h3>
         
@@ -362,33 +376,32 @@
         <p>En esta sección se publicarán anuncios importantes, actividades escolares, eventos, campañas y cualquier información que sea relevante para toda la comunidad educativa.</p>
         
         <h4>⏳ Cuenta Regresiva</h4>
-        <p>Aquí podrás ver el tiempo que falta para la próxima actividad o fecha importante organizada por el Centro de Estudiantes.</p>
+        <p>Aquí podrás ver el tiempo que falta para la próxima actividad o fecha importante organizada por el Centro.</p>
         
         <h4>✅ Promesas a Cumplir</h4>
-        <p>En este espacio se muestran los compromisos asumidos por la Lista Roja, para que todos los estudiantes puedan conocer las propuestas y seguir el avance de cada una de ellas.</p>
+        <p>En este espacio se muestran los compromisos asumidos, para que todos los estudiantes puedan conocer las propuestas y seguir el avance de cada una de ellas.</p>
         
         <h4>📬 Buzón Anónimo</h4>
-        <p>Esta es una de las herramientas más importantes de la página. Cualquier estudiante puede enviar sugerencias, propuestas, ideas o comentarios de forma completamente anónima. El objetivo es que todas las voces sean escuchadas y que cada alumno pueda participar en la mejora de nuestra escuela.</p>
+        <p>Esta es una de las herramientas más importantes de la página. Cualquier estudiante puede enviar sugerencias, propuestas, ideas o comentarios de forma completamente anónima. El objetivo es que todas las voces sean escuchadas.</p>
         
         <h4>📱 Redes Sociales</h4>
-        <p>Al final de la página encontrarás enlaces a nuestras redes sociales oficiales. Allí compartiremos noticias, avances de proyectos, recordatorios y contenido relacionado con las actividades estudiantiles.</p>
+        <p>Al final de la página encontrarás enlaces a nuestras redes sociales oficiales. Allí compartiremos noticias, avances de proyectos, recordatorios y más.</p>
         
         <h3>Nuestro Objetivo</h3>
-        <p>Queremos construir un Centro de Estudiantes participativo, transparente y cercano a todos los alumnos. Esta página es una herramienta para mantener una comunicación constante con ustedes y para que cada estudiante pueda formar parte de las decisiones e iniciativas que mejoren nuestra institución.</p>
+        <p>Queremos construir un Centro de Estudiantes participativo, transparente y cercano a todos los alumnos. Esta página es una herramienta para mantener una comunicación constante con ustedes y para que cada estudiante pueda formar parte de las decisiones.</p>
         
-        <p style="font-weight: bold; text-align: center; margin-top: 25px; color: var(--rojo-principal);">Gracias por acompañarnos y por seguir construyendo una escuela mejor entre todos.</p>
-        <p style="text-align: center; font-style: italic; font-weight: bold;">Lista Roja – Centro de Estudiantes</p>
+        <p style="font-weight: bold; text-align: center; margin-top: 25px; color: var(--color-principal);">Gracias por acompañarnos y por seguir construyendo una escuela mejor entre todos.</p>
+        <p style="text-align: center; font-style: italic; font-weight: bold;">Centro de Estudiantes - EM El Naranjo</p>
     </div>
 </div>
 
 <div class="container" id="main-view">
     <div class="header">
-        <!-- Logo Agregado Aquí -->
-        <img src="1000253266.jpg" alt="Logo Centro de Estudiantes Lista Roja" class="logo-header">
+        <img src="logo.jpeg" alt="Logo Escuela Media El Naranjo" class="logo-escuela">
         
-        <h1>Lista Roja</h1>
-        <div class="lista-roja-badge" id="secret-badge">¡Gracias por su apoyo!</div>
-        <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.9;">Centro de Estudiantes</p>
+        <h1>Centro de Estudiantes</h1>
+        <div class="ce-badge" id="secret-badge">EM El Naranjo</div>
+        <p style="margin-top: 15px; font-size: 0.95rem; opacity: 0.9;">Gestión Oficial</p>
         
         <div>
             <button class="btn-share" onclick="abrirModal()">
@@ -412,40 +425,26 @@
 
         <h2 class="section-title">Cuenta Regresiva</h2>
         <div class="no-timer-box">
-            No ay cuenta regresiva activa
+            No hay cuenta regresiva activa
         </div>
 
         <h2 class="section-title">Novedades</h2>
-
-        <div class="section-card novelty-card suspendida">
-            <h3>Elección de la Mascota Escolar 🐾 [SUSPENDIDA]</h3>
-            <p class="text-summary" style="color: #dc3545; font-weight: bold;">Actividad cancelada temporalmente.</p>
-            <div class="expandable-wrapper">
-                <div class="text-full">
-                    A toda la comunidad estudiantil:<br><br>
-                    Les informamos que la actividad planificada para la elección del diseño de nuestra mascota escolar ha sido suspendida de manera oficial.<br><br>
-                    <strong>Motivo:</strong> Falta de participación de los cursos en la actividad propuesta.<br><br>
-                    Desde el Centro de Estudiantes lamentamos tomar esta decisión. Los invitamos a seguir sumándose a las futuras iniciativas para que podamos construir un espacio más activo e integrado entre todos.
-                </div>
-            </div>
-            <button class="btn-toggle">Leer más</button>
-        </div>
 
         <div class="section-card novedad-card">
             <h3>Agradecimiento 22-05-26</h3>
             <p class="text-summary">Un mensaje especial tras la jornada electoral.</p>
             <div class="expandable-wrapper">
                 <div class="text-full">
-                    En nombre de la <span class="resaltado-texto">Lista Roja</span>, agradecerles a cada uno de los alumnos que dieron su voto.<br><br>
-                    Todas las propuestas y más serán cumplidas en la institución escolar.
+                    En nombre del <span class="resaltado-texto">Centro de Estudiantes</span>, queremos agradecerles a cada uno de los alumnos que dieron su voto de confianza.<br><br>
+                    Todas las propuestas y más serán cumplidas en la institución escolar durante nuestra gestión.
                 </div>
             </div>
             <button class="btn-toggle">Leer más</button>
         </div>
 
-        <h2 class="section-title">Promesas a Cumplir</h2>
+        <h2 class="section-title">Promesas y Proyectos</h2>
 
-        <div class="section-card">
+        <div class="section-card verde-card">
             <h3>Jornadas de Cine</h3>
             <p class="text-summary">Creación de espacios de esparcimiento para ver películas y disfrutar juntos.</p>
             <div class="expandable-wrapper">
@@ -456,7 +455,7 @@
             <button class="btn-toggle">Leer más</button>
         </div>
 
-        <div class="section-card">
+        <div class="section-card rojo-card">
             <h3>Apoyo Escolar</h3>
             <p class="text-summary">Un grupo de ayuda mutua para que nadie se quede con dudas en las materias.</p>
             <div class="expandable-wrapper">
@@ -478,7 +477,7 @@
             <button class="btn-toggle">Leer más</button>
         </div>
 
-        <div class="section-card">
+        <div class="section-card novedad-card">
             <h3>Cambio de Uniforme</h3>
             <p class="text-summary">Debate abierto para buscar opciones de uniformes más cómodas y prácticas.</p>
             <div class="expandable-wrapper">
@@ -511,19 +510,19 @@
 </div>
 
 <div class="container container-admin hidden" id="admin-view">
-    <div class="header" style="background: #2b2b36;">
-        <h1>Panel de Gestión Interna</h1>
-        <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">Lista Roja - Administración</p>
+    <div class="header" style="background: #2b2b36; padding: 25px 30px;">
+        <h1 style="font-size: 1.5rem;">Panel de Gestión Interna</h1>
+        <p style="margin-top: 5px; font-size: 0.9rem; opacity: 0.8;">Centro de Estudiantes - Administración</p>
     </div>
 
     <div class="content">
         <div id="admin-login" style="text-align: center; padding: 40px 0;">
             <h2 style="color: var(--texto-oscuro);">Llave de Acceso</h2>
-            <input type="password" id="pass-admin" class="input-password" placeholder="Contraseña del Comité">
+            <input type="password" id="pass-admin" class="input-password" placeholder="Contraseña del Centro">
             <br>
             <button class="btn-admin" onclick="verificarPassword()">Ingresar al Sistema</button>
             <br><br>
-            <button class="btn-toggle" style="background: transparent; color: var(--rojo-principal); border: 1px solid var(--rojo-principal);" onclick="salirDelPanel()">Regresar al Inicio</button>
+            <button class="btn-toggle" style="background: transparent; color: var(--color-principal); border: 1px solid var(--color-principal);" onclick="salirDelPanel()">Regresar al Inicio</button>
         </div>
 
         <div id="admin-dashboard" class="hidden">
@@ -531,14 +530,14 @@
                 <h2 style="color: var(--texto-oscuro); font-size: 1.3rem;">🎛️ Centro de Moderación</h2>
                 <div>
                     <button class="btn-toggle" onclick="cerrarSesion()" style="background-color: #6c757d; margin-top:0;">Bloquear</button>
-                    <button class="btn-toggle" onclick="salirDelPanel()" style="background-color: var(--rojo-principal); margin-top:0; margin-left:8px;">Salir</button>
+                    <button class="btn-toggle" onclick="salirDelPanel()" style="background-color: var(--color-rojo); margin-top:0; margin-left:8px;">Salir</button>
                 </div>
             </div>
 
             <div class="inbox-block-wrapper">
                 <h3 style="color: var(--texto-oscuro); font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
                     📥 Propuestas y Sugerencias Enviadas 
-                    <span style="font-size: 0.8rem; background: var(--rojo-principal); color: white; padding: 2px 8px; border-radius: 10px;" id="badge-contador">0</span>
+                    <span style="font-size: 0.8rem; background: var(--color-principal); color: white; padding: 2px 8px; border-radius: 10px;" id="badge-contador">0</span>
                 </h3>
                 <p style="font-size: 0.8rem; color: var(--texto-secundario); margin-top: 2px;">Mensajes nuevos que esperan ser clasificados en el cuadro inferior.</p>
                 
@@ -547,7 +546,7 @@
             </div>
 
             <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">📊 Cuadro de Clasificación de Ideas</h3>
-            <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 15px;">Usa el botón de asignar de arriba para acomodar las ideas estratégicamente en estas columnas.</p>
+            <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 15px;">Usa el menú desplegable en cada mensaje para organizarlo aquí.</p>
             
             <div class="board-three-columns">
                 <div class="board-col col-importante">
