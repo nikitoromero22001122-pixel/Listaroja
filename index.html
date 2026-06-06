@@ -1,184 +1,181 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="auto">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Centro de Estudiantes - E.M.E.N El Naranjo</title>
     <style>
-        /* Variables base para Modo Claro (NUEVA PALETA ROJA INSTITUCIONAL) */
-        :root {
-            /* Colores extraídos y adaptados del logo EMEN (bloque N) */
-            --color-principal: #D22730; /* Rojo institucional principal */
-            --color-oscuro: #A01E26;    /* Rojo oscurecido para degradados */
-            --color-acento: #E87722;    /* Naranja (se mantiene como acento de "El Naranjo") */
-            --color-verde: #008240;     /* Verde del bloque M */
-            
+        /* ── MODO CLARO (default) ── */
+        :root,
+        [data-theme="light"] {
+            --color-principal: #D22730;
+            --color-oscuro: #A01E26;
+            --color-acento: #E87722;
+            --color-verde: #008240;
             --blanco: #ffffff;
             --gris-claro: #f8f9fa;
             --texto-oscuro: #2b2d42;
-            
-            /* Fondo degradado en tonos de rojo muy suave para modo claro */
             --fondo-gradiente: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
-            
-            --tarjeta-fondo: var(--blanco);
-            --tarjeta-seccion: var(--gris-claro);
+            --tarjeta-fondo: #ffffff;
+            --tarjeta-seccion: #f8f9fa;
             --texto-secundario: #555555;
-            --sombra: rgba(160, 30, 38, 0.15); /* Sombra con tinte rojo */
-            
+            --sombra: rgba(160, 30, 38, 0.15);
             --tiktok-bg: #000000;
             --tiktok-text: #ffffff;
             --instagram-bg: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             --instagram-text: #ffffff;
             --credits-text: #777777;
-            
-            /* Colores Tablero */
             --bg-inbox: #edf2f7;
             --bg-importante: #ffe3e3;
             --bg-prioridad: #fff3cd;
             --bg-poca: #d1ecf1;
+            --theme-btn-bg: rgba(255,255,255,0.2);
+            --theme-btn-border: rgba(255,255,255,0.5);
         }
 
-        /* Variables para Modo Oscuro (PALETA ROJA ADAPTADA) */
+        /* ── MODO OSCURO (manual) ── */
+        [data-theme="dark"] {
+            --blanco: #1e1e24;
+            --gris-claro: #2b2b36;
+            --texto-oscuro: #f8f9fa;
+            --fondo-gradiente: linear-gradient(135deg, #1a0505 0%, #2d0a0a 100%);
+            --tarjeta-fondo: #1c1313;
+            --tarjeta-seccion: #2d1f1f;
+            --texto-secundario: #b0b0bc;
+            --sombra: rgba(0, 0, 0, 0.5);
+            --color-principal: #e74c3c;
+            --color-oscuro: #c0392b;
+            --color-acento: #f39c12;
+            --color-verde: #2ecc71;
+            --tiktok-bg: #ffffff;
+            --tiktok-text: #000000;
+            --credits-text: #a0a0b0;
+            --bg-inbox: #2a2222;
+            --bg-importante: #4a1c22;
+            --bg-prioridad: #4a3c1c;
+            --bg-poca: #1c3a4a;
+            --theme-btn-bg: rgba(0,0,0,0.25);
+            --theme-btn-border: rgba(255,255,255,0.3);
+        }
+
+        /* ── MODO OSCURO (preferencia del sistema, solo si es "auto") ── */
         @media (prefers-color-scheme: dark) {
-            :root {
+            [data-theme="auto"] {
                 --blanco: #1e1e24;
                 --gris-claro: #2b2b36;
                 --texto-oscuro: #f8f9fa;
-                
-                /* Fondo degradado oscuro con tinte rojizo */
                 --fondo-gradiente: linear-gradient(135deg, #1a0505 0%, #2d0a0a 100%);
-                
-                --tarjeta-fondo: #1c1313; /* Fondo de tarjeta muy oscuro con tinte rojo */
+                --tarjeta-fondo: #1c1313;
                 --tarjeta-seccion: #2d1f1f;
                 --texto-secundario: #b0b0bc;
                 --sombra: rgba(0, 0, 0, 0.5);
-                
-                /* Tonos rojos más brillantes para contraste en oscuro */
-                --color-principal: #e74c3c; 
+                --color-principal: #e74c3c;
                 --color-oscuro: #c0392b;
                 --color-acento: #f39c12;
                 --color-verde: #2ecc71;
-
                 --tiktok-bg: #ffffff;
                 --tiktok-text: #000000;
                 --credits-text: #a0a0b0;
-                
-                /* Colores Tablero Oscuro */
                 --bg-inbox: #2a2222;
                 --bg-importante: #4a1c22;
                 --bg-prioridad: #4a3c1c;
                 --bg-poca: #1c3a4a;
+                --theme-btn-bg: rgba(0,0,0,0.25);
+                --theme-btn-border: rgba(255,255,255,0.3);
             }
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         body {
             background: var(--fondo-gradiente);
             color: var(--texto-oscuro);
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 20px;
-            transition: background 0.3s ease, color 0.3s ease;
+            display: flex; justify-content: center; align-items: flex-start;
+            min-height: 100vh; padding: 20px;
+            transition: background 0.4s ease, color 0.4s ease;
         }
 
         .container {
-            width: 100%;
-            max-width: 650px;
+            width: 100%; max-width: 650px;
             background-color: var(--tarjeta-fondo);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px var(--sombra);
-            overflow: hidden;
-            animation: fadeIn 0.8s ease-out;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 20px; box-shadow: 0 15px 35px var(--sombra);
+            overflow: hidden; animation: fadeIn 0.8s ease-out;
+            transition: background-color 0.4s ease, box-shadow 0.4s ease;
             margin-top: 20px;
         }
 
-        .container-admin {
-            max-width: 1100px;
-        }
+        .container-admin { max-width: 1100px; }
 
-        /* Encabezado */
+        /* ── ENCABEZADO ── */
         .header {
             background: linear-gradient(135deg, var(--color-principal), var(--color-oscuro));
+            color: #ffffff; padding: 35px 30px; text-align: center; position: relative;
+        }
+
+        /* ── BOTÓN TEMA ── */
+        .btn-theme-toggle {
+            position: absolute; top: 15px; right: 15px;
+            background: var(--theme-btn-bg);
+            border: 1.5px solid var(--theme-btn-border);
             color: #ffffff;
-            padding: 35px 30px;
-            text-align: center;
-            position: relative;
+            width: 42px; height: 42px; border-radius: 50%;
+            cursor: pointer; font-size: 1.15rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s, transform 0.35s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .btn-theme-toggle:hover {
+            background: rgba(255,255,255,0.35);
+            transform: scale(1.12) rotate(18deg);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
         }
 
-        /* Estilos para el Logo */
+        /* Por defecto (modo claro): mostramos luna */
+        .btn-theme-toggle .icon-sun  { display: none; }
+        .btn-theme-toggle .icon-moon { display: block; }
+
+        /* En modo oscuro: mostramos sol */
+        [data-theme="dark"] .btn-theme-toggle .icon-sun  { display: block; }
+        [data-theme="dark"] .btn-theme-toggle .icon-moon { display: none; }
+
+        /* En auto + sistema oscuro: mostramos sol */
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] .btn-theme-toggle .icon-sun  { display: block; }
+            [data-theme="auto"] .btn-theme-toggle .icon-moon { display: none; }
+        }
+
         .logo-escuela {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #ffffff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            margin-bottom: 15px;
-            background-color: #ffffff;
+            width: 110px; height: 110px; border-radius: 50%; object-fit: cover;
+            border: 4px solid #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-bottom: 15px; background-color: #ffffff;
         }
 
-        .header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .header h1 { font-size: 1.8rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
 
         .ce-badge {
-            background-color: var(--color-acento);
-            color: #ffffff;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-weight: bold;
-            display: inline-block;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            cursor: pointer;
-            user-select: none;
-            letter-spacing: 0.5px;
+            background-color: var(--color-acento); color: #ffffff;
+            padding: 5px 15px; border-radius: 50px; font-weight: bold;
+            display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            cursor: pointer; user-select: none; letter-spacing: 0.5px;
         }
 
         .btn-share {
-            background-color: transparent;
-            color: #ffffff;
-            border: 2px solid #ffffff;
-            padding: 8px 20px;
-            margin-top: 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.9rem;
-            transition: background 0.3s, color 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            background-color: transparent; color: #ffffff;
+            border: 2px solid #ffffff; padding: 8px 20px; margin-top: 20px;
+            border-radius: 50px; cursor: pointer; font-weight: bold;
+            font-size: 0.9rem; transition: background 0.3s, color 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
         }
+        .btn-share:hover { background-color: #ffffff; color: var(--color-oscuro); }
 
-        .btn-share:hover {
-            background-color: #ffffff;
-            color: var(--color-oscuro);
-        }
-
-        /* Títulos */
         .section-title {
-            text-align: center;
-            color: var(--color-oscuro);
-            margin: 40px 0 20px 0;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 2px solid var(--color-principal);
-            padding-bottom: 10px;
+            text-align: center; color: var(--color-oscuro);
+            margin: 40px 0 20px 0; font-size: 1.5rem;
+            text-transform: uppercase; letter-spacing: 1px;
+            border-bottom: 2px solid var(--color-principal); padding-bottom: 10px;
         }
-
         .section-title:first-child { margin-top: 0; }
 
         .content { padding: 30px; padding-bottom: 10px; }
@@ -186,60 +183,33 @@
         .section-card {
             background-color: var(--tarjeta-seccion);
             border-left: 5px solid var(--color-principal);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 8px; padding: 20px; margin-bottom: 20px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-
-        .section-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px var(--sombra);
-        }
-
+        .section-card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px var(--sombra); }
         .section-card h3 { color: var(--color-principal); margin-bottom: 10px; font-size: 1.2rem; }
-        
-        /* Variaciones de colores basadas en el logo para diferentes tarjetas */
         .novedad-card { border-left-color: var(--color-acento); }
         .novedad-card h3 { color: var(--color-acento); }
         .verde-card { border-left-color: var(--color-verde); }
         .verde-card h3 { color: var(--color-verde); }
-        
         .suspendida { border-left-color: #dc3545; }
         .suspendida h3 { color: #dc3545; }
 
         .text-summary { font-style: italic; color: var(--texto-secundario); }
 
-        .expandable-wrapper {
-            display: grid;
-            grid-template-rows: 0fr;
-            transition: grid-template-rows 0.5s ease-out;
-        }
-
+        .expandable-wrapper { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.5s ease-out; }
         .text-full { overflow: hidden; line-height: 1.6; font-size: 0.95rem; text-align: justify; }
         .section-card.expanded .expandable-wrapper { grid-template-rows: 1fr; }
         .section-card.expanded .text-full { padding-top: 15px; }
         .section-card.expanded .text-summary { display: none; }
 
-        /* Botones */
         .btn-toggle, .btn-submit, .btn-admin {
-            background-color: var(--color-principal);
-            color: #ffffff;
-            border: none;
-            padding: 8px 16px;
-            margin-top: 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.85rem;
-            transition: background 0.3s, transform 0.2s;
+            background-color: var(--color-principal); color: #ffffff; border: none;
+            padding: 8px 16px; margin-top: 15px; border-radius: 20px; cursor: pointer;
+            font-weight: bold; font-size: 0.85rem; transition: background 0.3s, transform 0.2s;
         }
-
-        .btn-toggle:hover, .btn-submit:hover, .btn-admin:hover {
-            background-color: var(--color-oscuro);
-            transform: scale(1.05);
-        }
+        .btn-toggle:hover, .btn-submit:hover, .btn-admin:hover { background-color: var(--color-oscuro); transform: scale(1.05); }
 
         .form-propuesta textarea {
             width: 100%; height: 100px; padding: 12px; border-radius: 8px;
@@ -248,119 +218,267 @@
         }
         .form-propuesta textarea:focus { outline: 2px solid var(--color-principal); }
 
-        /* Estilos para mensaje sin cuenta regresiva */
         .no-timer-box {
             background: linear-gradient(135deg, var(--tarjeta-seccion), var(--tarjeta-fondo));
-            text-align: center;
-            padding: 25px;
-            border-radius: 12px;
-            border: 2px dashed var(--texto-secundario);
-            margin-bottom: 20px;
-            color: var(--texto-secundario);
-            font-size: 1.1rem;
-            font-weight: bold;
+            text-align: center; padding: 25px; border-radius: 12px;
+            border: 2px dashed var(--texto-secundario); margin-bottom: 20px;
+            color: var(--texto-secundario); font-size: 1.1rem; font-weight: bold;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
         }
 
-        /* Modal Compartir */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7); display: none; justify-content: center;
-            align-items: center; z-index: 1000; padding: 20px;
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.7); display: none; justify-content: center;
+            align-items: center; z-index: 1000; padding: 20px; backdrop-filter: blur(5px);
         }
         .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease-out; }
-        
         .modal-content-share {
             background: var(--tarjeta-fondo); border-radius: 15px; padding: 30px;
             max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto;
             position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             text-align: left; color: var(--texto-oscuro);
         }
-        
-        .modal-close {
-            position: absolute; top: 15px; right: 15px; background: none;
-            border: none; font-size: 1.5rem; cursor: pointer; color: var(--texto-secundario);
-            transition: color 0.2s;
-        }
+        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--texto-secundario); transition: color 0.2s; }
         .modal-close:hover { color: var(--color-principal); }
-        
-        .qr-image {
-            width: 180px; height: 180px; display: block; margin: 0 auto 20px auto;
-            border-radius: 12px; border: 4px solid var(--color-principal);
-            box-shadow: 0 5px 15px var(--sombra);
-        }
-
+        .qr-image { width: 180px; height: 180px; display: block; margin: 0 auto 20px auto; border-radius: 12px; border: 4px solid var(--color-principal); box-shadow: 0 5px 15px var(--sombra); }
         .modal-content-share h2 { color: var(--color-principal); margin-bottom: 15px; font-size: 1.4rem; text-align: center; }
         .modal-content-share h3 { color: var(--color-oscuro); margin-top: 20px; margin-bottom: 10px; font-size: 1.2rem; border-bottom: 1px solid var(--tarjeta-seccion); padding-bottom: 5px; }
         .modal-content-share h4 { color: var(--texto-oscuro); margin-top: 15px; font-size: 1.05rem; display: flex; align-items: center; gap: 5px; }
         .modal-content-share p { font-size: 0.95rem; line-height: 1.5; color: var(--texto-secundario); margin-bottom: 10px; text-align: justify; }
 
-        /* Panel Admin y demás */
         .input-password {
             padding: 12px 15px; border-radius: 8px; border: 1px solid var(--texto-secundario);
             background-color: var(--tarjeta-fondo); color: var(--texto-oscuro); margin: 20px 0;
             width: 100%; max-width: 300px; font-size: 1rem; text-align: center;
         }
 
-        .inbox-block-wrapper {
-            background-color: var(--bg-inbox); border-radius: 12px; padding: 20px;
-            margin-bottom: 35px; border: 1px solid rgba(0,0,0,0.1);
-        }
-        .inbox-list-vertical {
-            display: flex; flex-direction: column; gap: 12px; max-height: 320px;
-            overflow-y: auto; margin-top: 15px; padding-right: 5px;
-        }
+        .inbox-block-wrapper { background-color: var(--bg-inbox); border-radius: 12px; padding: 20px; margin-bottom: 35px; border: 1px solid rgba(0,0,0,0.1); }
+        .inbox-list-vertical { display: flex; flex-direction: column; gap: 12px; max-height: 320px; overflow-y: auto; margin-top: 15px; padding-right: 5px; }
 
         .board-three-columns { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; }
-        .board-col {
-            flex: 1; min-width: 280px; border-radius: 12px; padding: 15px; display: flex;
-            flex-direction: column; gap: 12px; border-top: 5px solid; min-height: 350px;
-        }
+        .board-col { flex: 1; min-width: 280px; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 12px; border-top: 5px solid; min-height: 350px; }
         .col-importante { background-color: var(--bg-importante); border-top-color: var(--color-principal); }
-        .col-prioridad { background-color: var(--bg-prioridad); border-top-color: var(--color-acento); }
-        .col-poca { background-color: var(--bg-poca); border-top-color: var(--color-principal); }
-
-        .board-col h4 { text-align: center; font-size: 1rem; color: var(--texto-oscuro); text-transform: uppercase; }
+        .col-prioridad  { background-color: var(--bg-prioridad);  border-top-color: var(--color-acento); }
+        .col-poca       { background-color: var(--bg-poca);       border-top-color: var(--color-principal); }
+        .board-col h4   { text-align: center; font-size: 1rem; color: var(--texto-oscuro); text-transform: uppercase; }
         .col-content-area { display: flex; flex-direction: column; gap: 10px; height: 100%; }
 
-        .propuesta-item {
-            background-color: var(--tarjeta-fondo); padding: 12px; border-radius: 8px; font-size: 0.9rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 8px;
-            border: 1px solid rgba(0,0,0,0.08); position: relative;
-        }
+        .propuesta-item { background-color: var(--tarjeta-fondo); padding: 12px; border-radius: 8px; font-size: 0.9rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 8px; border: 1px solid rgba(0,0,0,0.08); position: relative; }
         .propuesta-date { font-size: 0.75rem; color: var(--texto-secundario); }
-
-        .action-bar-admin {
-            display: flex; justify-content: flex-end; align-items: center; gap: 10px;
-            border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 8px; margin-top: 4px;
-        }
-
-        .select-directo-organizar {
-            padding: 3px; font-size: 0.75rem; border-radius: 4px; background: var(--tarjeta-seccion);
-            color: var(--texto-oscuro); border: 1px solid var(--texto-secundario); outline: none; cursor: pointer;
-        }
-
-        .btn-delete-item {
-            background-color: var(--color-principal); color: white; border: none; padding: 4px 8px;
-            border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;
-        }
+        .action-bar-admin { display: flex; justify-content: flex-end; align-items: center; gap: 10px; border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 8px; margin-top: 4px; }
+        .select-directo-organizar { padding: 3px; font-size: 0.75rem; border-radius: 4px; background: var(--tarjeta-seccion); color: var(--texto-oscuro); border: 1px solid var(--texto-secundario); outline: none; cursor: pointer; }
+        .btn-delete-item { background-color: var(--color-principal); color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; }
         .btn-delete-item:hover { background-color: #bd2130; }
 
         .hidden { display: none !important; }
 
-        /* Footer */
         .social-footer { background-color: var(--tarjeta-seccion); text-align: center; padding: 25px 20px; border-top: 2px solid var(--color-principal); }
         .social-buttons-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 15px; }
         .social-btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; padding: 12px 24px; border-radius: 50px; font-weight: bold; color: #fff; gap: 10px; transition: transform 0.3s; }
         .social-btn:hover { transform: scale(1.05); }
-        .tiktok-btn { background-color: var(--tiktok-bg); color: var(--tiktok-text); }
+        .tiktok-btn    { background-color: var(--tiktok-bg); color: var(--tiktok-text); }
         .instagram-btn { background: var(--instagram-bg); color: var(--instagram-text); }
         .resaltado-texto { color: var(--color-principal); font-weight: bold; }
         .credits { margin-top: 20px; font-size: 0.8rem; color: var(--credits-text); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+
+        /* ── MENÚ 3 PUNTOS ── */
+        .btn-menu-tres {
+            position: absolute; top: 15px; left: 15px;
+            background: var(--theme-btn-bg);
+            border: 1.5px solid var(--theme-btn-border);
+            color: #ffffff;
+            width: 42px; height: 42px; border-radius: 50%;
+            cursor: pointer; font-size: 1.3rem; font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s, transform 0.25s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            letter-spacing: 0; line-height: 1; z-index: 10;
+            user-select: none;
+        }
+        .btn-menu-tres:hover {
+            background: rgba(255,255,255,0.35);
+            transform: scale(1.1);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+        }
+
+        /* ── DROPDOWN DEL MENÚ ── */
+        .menu-dropdown {
+            position: absolute; top: 68px; left: 15px;
+            background: var(--tarjeta-fondo);
+            border-radius: 12px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.28);
+            min-width: 190px; z-index: 200;
+            overflow: hidden;
+            animation: slideDown 0.22s ease-out;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .menu-dropdown.hidden { display: none; }
+
+        .menu-dropdown-header {
+            background: linear-gradient(135deg, var(--color-principal), var(--color-oscuro));
+            color: #fff; padding: 10px 16px;
+            font-size: 0.8rem; font-weight: bold;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .menu-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 13px 16px; cursor: pointer;
+            color: var(--texto-oscuro); font-size: 0.95rem; font-weight: 500;
+            transition: background 0.2s;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item:hover { background: var(--tarjeta-seccion); }
+        .menu-item .menu-icon { font-size: 1.15rem; }
+
+        /* ── MODAL HORARIOS ── */
+        .modal-horarios-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75); display: none;
+            justify-content: center; align-items: flex-start;
+            z-index: 1000; padding: 20px;
+            backdrop-filter: blur(6px); overflow-y: auto;
+        }
+        .modal-horarios-overlay.active { display: flex; animation: fadeIn 0.25s ease-out; }
+
+        .modal-horarios-content {
+            background: var(--tarjeta-fondo); border-radius: 18px;
+            width: 100%; max-width: 700px; margin: auto;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+            overflow: hidden; position: relative;
+        }
+
+        .modal-horarios-header {
+            background: linear-gradient(135deg, var(--color-principal), var(--color-oscuro));
+            color: #fff; padding: 20px 25px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .modal-horarios-header h2 { font-size: 1.25rem; letter-spacing: 0.5px; }
+        .modal-horarios-header .modal-close {
+            position: static; color: #fff; font-size: 1.4rem;
+        }
+        .modal-horarios-header .modal-close:hover { color: rgba(255,255,255,0.7); }
+
+        .modal-horarios-body { padding: 22px; }
+
+        /* Selector de curso */
+        .cursos-label {
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--texto-secundario); margin-bottom: 10px; font-weight: bold;
+        }
+        .cursos-lista {
+            display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px;
+        }
+        .btn-curso {
+            background: var(--tarjeta-seccion);
+            color: var(--texto-oscuro);
+            border: 2px solid transparent;
+            padding: 8px 20px; border-radius: 50px;
+            cursor: pointer; font-weight: bold; font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .btn-curso:hover { border-color: var(--color-principal); color: var(--color-principal); }
+        .btn-curso.activo {
+            background: var(--color-principal); color: #fff;
+            border-color: var(--color-principal);
+            box-shadow: 0 4px 12px rgba(210,39,48,0.35);
+        }
+
+        /* ── TABLA DE HORARIO ── */
+        .horario-wrapper {
+            overflow-x: auto; border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            animation: slideInLeft 0.3s ease-out;
+        }
+        .horario-wrapper.hidden { display: none; }
+
+        .tabla-horario {
+            border-collapse: collapse; width: 100%; min-width: 520px;
+            font-size: 0.78rem; font-weight: 600;
+        }
+
+        /* Fila de encabezado principal */
+        .tabla-horario .th-titulo {
+            background: #4a6e2a; color: #fff;
+            padding: 9px 10px; text-align: center;
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        /* Encabezados de días */
+        .th-lunes    { background: #a8d932; color: #1a2e00; }
+        .th-martes   { background: #f5a623; color: #3a1e00; }
+        .th-miercoles{ background: #f5e623; color: #2a2000; }
+        .th-jueves   { background: #b8e030; color: #1a2e00; }
+        .th-viernes  { background: #f5c018; color: #3a2200; }
+
+        .tabla-horario th {
+            padding: 8px 6px; text-align: center;
+            text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.3px;
+        }
+
+        /* Celda de hora */
+        .td-hora {
+            background: #f5f5b0; color: #2a2a00;
+            text-align: center; padding: 7px 8px;
+            font-weight: 700; white-space: nowrap; font-size: 0.72rem;
+        }
+        [data-theme="dark"] .td-hora { background: #3a3a10; color: #e8e860; }
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] .td-hora { background: #3a3a10; color: #e8e860; }
+        }
+
+        /* Celda normal */
+        .td-clase {
+            background: #ffffff; color: #1a1a1a;
+            text-align: center; padding: 7px 5px;
+            border: 1px solid #d8e8c0;
+        }
+        [data-theme="dark"] .td-clase { background: #1e2a14; color: #d4e8b0; border-color: #2a3a1a; }
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] .td-clase { background: #1e2a14; color: #d4e8b0; border-color: #2a3a1a; }
+        }
+
+        /* Fila de recreo */
+        .td-recreo {
+            background: #c8e8a0; color: #1a3a00;
+            text-align: center; padding: 7px 5px;
+            font-style: italic; border: 1px solid #a8cc80;
+        }
+        [data-theme="dark"] .td-recreo { background: #1a3a08; color: #90cc50; border-color: #2a5010; }
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] .td-recreo { background: #1a3a08; color: #90cc50; border-color: #2a5010; }
+        }
+
+        /* Celda libre */
+        .td-libre {
+            background: #fffacc; color: #3a3000;
+            text-align: center; padding: 7px 5px;
+            border: 1px solid #e8d870;
+        }
+        [data-theme="dark"] .td-libre { background: #2a2808; color: #d8c840; border-color: #4a4010; }
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] .td-libre { background: #2a2808; color: #d8c840; border-color: #4a4010; }
+        }
+
+        /* Celda salida */
+        .td-salida {
+            background: #ffe0e0; color: #5a0000;
+            text-align: center; padding: 7px 5px;
+            font-weight: 700; border: 1px solid #f0b0b0;
+        }
+        [data-theme="dark"] .td-salida { background: #3a0808; color: #f08080; border-color: #5a1010; }
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] .td-salida { background: #3a0808; color: #f08080; border-color: #5a1010; }
+        }
+
+        .tabla-horario tr:hover td { filter: brightness(0.94); }
     </style>
 </head>
 <body>
@@ -368,45 +486,165 @@
 <div class="modal-overlay" id="modal-compartir" onclick="cerrarModalFuera(event)">
     <div class="modal-content-share">
         <button class="modal-close" onclick="cerrarModal()">✖</button>
-        
         <img src="qr.jpg" alt="QR Centro de Estudiantes" class="qr-image">
-        
         <h2>Bienvenidos a la Página Oficial del Centro de Estudiantes</h2>
         <p>Esta página fue creada para mantener informados a todos los estudiantes sobre las actividades, proyectos y novedades de la Escuela Media E.M.E.N El Naranjo.</p>
-        
         <h3>¿Qué encontrarás aquí?</h3>
-        
         <h4>📢 Novedades</h4>
         <p>En esta sección se publicarán anuncios importantes, actividades escolares, eventos, campañas y cualquier información que sea relevante para toda la comunidad educativa.</p>
-        
         <h4>⏳ Cuenta Regresiva</h4>
         <p>Aquí podrás ver el tiempo que falta para la próxima actividad o fecha importante organizada por el Centro.</p>
-        
         <h4>✅ Promesas a Cumplir</h4>
         <p>En este espacio se muestran los compromisos asumidos, para que todos los estudiantes puedan conocer las propuestas y seguir el avance de cada una de ellas.</p>
-        
         <h4>📬 Buzón Anónimo</h4>
         <p>Esta es una de las herramientas más importantes de la página. Cualquier estudiante puede enviar sugerencias, propuestas, ideas o comentarios de forma completamente anónima. El objetivo es que todas las voces sean escuchadas.</p>
-        
         <h4>📱 Redes Sociales</h4>
         <p>Al final de la página encontrarás enlaces a nuestras redes sociales oficiales. Allí compartiremos noticias, avances de proyectos, recordatorios y más.</p>
-        
         <h3>Nuestro Objetivo</h3>
         <p>Queremos construir un Centro de Estudiantes participativo, transparente y cercano a todos los alumnos. Esta página es una herramienta para mantener una comunicación constante con ustedes y para que cada estudiante pueda formar parte de las decisiones.</p>
-        
         <p style="font-weight: bold; text-align: center; margin-top: 25px; color: var(--color-principal);">Gracias por acompañarnos y por seguir construyendo una escuela mejor entre todos.</p>
         <p style="text-align: center; font-style: italic; font-weight: bold;">Centro de Estudiantes - E.M.E.N El Naranjo</p>
     </div>
 </div>
 
+<!-- ★ MODAL HORARIOS ★ -->
+<div class="modal-horarios-overlay" id="modal-horarios" onclick="cerrarHorariosFuera(event)">
+    <div class="modal-horarios-content">
+        <div class="modal-horarios-header">
+            <h2>📅 Horarios</h2>
+            <button class="modal-close" onclick="cerrarHorarios()">✖</button>
+        </div>
+        <div class="modal-horarios-body">
+            <p class="cursos-label">Seleccioná tu curso:</p>
+            <div class="cursos-lista">
+                <button class="btn-curso" onclick="mostrarHorario('3ero')">3° Año</button>
+            </div>
+
+            <!-- HORARIO 3ERO -->
+            <div class="horario-wrapper hidden" id="horario-3ero">
+                <table class="tabla-horario">
+                    <thead>
+                        <tr>
+                            <th class="th-titulo">HORARIO de 3ero</th>
+                            <th class="th-lunes">LUNES</th>
+                            <th class="th-martes">MARTES</th>
+                            <th class="th-miercoles">MIÉRCOLES</th>
+                            <th class="th-jueves">JUEVES</th>
+                            <th class="th-viernes">VIERNES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="td-hora">12:30 p.m.</td>
+                            <td class="td-clase">INGLÉS</td>
+                            <td class="td-clase">GEOGRAFÍA</td>
+                            <td class="td-clase">TECNOLOGÍA</td>
+                            <td class="td-clase">LENGUA</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">1:10 p.m.</td>
+                            <td class="td-clase">INGLÉS</td>
+                            <td class="td-clase">GEOGRAFÍA</td>
+                            <td class="td-clase">TECNOLOGÍA</td>
+                            <td class="td-clase">LENGUA</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">1:50 p.m.</td>
+                            <td class="td-clase">INGLÉS</td>
+                            <td class="td-clase">GEOGRAFÍA</td>
+                            <td class="td-clase">TECNOLOGÍA</td>
+                            <td class="td-clase">LENGUA</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">2:30 p.m.</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">2:40 p.m.</td>
+                            <td class="td-clase">QUÍMICA</td>
+                            <td class="td-clase">BIOLOGÍA</td>
+                            <td class="td-clase">PLÁSTICA</td>
+                            <td class="td-clase">LENGUA</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">3:20 p.m.</td>
+                            <td class="td-clase">QUÍMICA</td>
+                            <td class="td-clase">BIOLOGÍA</td>
+                            <td class="td-clase">PLÁSTICA</td>
+                            <td class="td-clase">LENGUA</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">4:00 p.m.</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">4:10 p.m.</td>
+                            <td class="td-clase">QUÍMICA</td>
+                            <td class="td-clase">MATEMÁTICAS</td>
+                            <td class="td-clase">CIUDADANÍA</td>
+                            <td class="td-clase">MATEMÁTICAS</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">4:50 p.m.</td>
+                            <td class="td-libre">LIBRE</td>
+                            <td class="td-clase">MATEMÁTICAS</td>
+                            <td class="td-clase">PLÁSTICA</td>
+                            <td class="td-clase">MATEMÁTICAS</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">5:30 p.m.</td>
+                            <td class="td-libre">LIBRE</td>
+                            <td class="td-salida">SALIDA</td>
+                            <td class="td-salida">SALIDA</td>
+                            <td class="td-salida">SALIDA</td>
+                            <td class="td-salida">SALIDA</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container" id="main-view">
     <div class="header">
+
+        <!-- ★ MENÚ 3 PUNTOS ★ -->
+        <button class="btn-menu-tres" id="btn-menu-tres" onclick="toggleMenu(event)" title="Menú" aria-label="Menú">⋮</button>
+
+        <div class="menu-dropdown hidden" id="menu-dropdown">
+            <div class="menu-dropdown-header">Menú</div>
+            <div class="menu-item" onclick="abrirHorarios()">
+                <span class="menu-icon">📅</span>
+                <span>Horarios</span>
+            </div>
+        </div>
+
+        <!-- ★ BOTÓN DE TEMA CLARO / OSCURO ★ -->
+        <button class="btn-theme-toggle" onclick="toggleTema()" title="Cambiar modo claro/oscuro" aria-label="Cambiar tema">
+            <span class="icon-moon">🌙</span>
+            <span class="icon-sun">☀️</span>
+        </button>
+
         <img src="IMG-20260605-WA0019.jpg" alt="Logo Escuela Media E.M.E.N El Naranjo" class="logo-escuela">
-        
         <h1>Centro de Estudiantes</h1>
         <div class="ce-badge" id="secret-badge">E.M.E.N El Naranjo</div>
         <p style="margin-top: 15px; font-size: 0.95rem; opacity: 0.9;">Gestión Oficial</p>
-        
         <div>
             <button class="btn-share" onclick="abrirModal()">
                 <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
@@ -418,7 +656,6 @@
     </div>
 
     <div class="content">
-
         <h2 class="section-title">Buzón Anónimo</h2>
         <div class="section-card form-propuesta">
             <h3>¡Envía tu Propuesta!</h3>
@@ -428,9 +665,7 @@
         </div>
 
         <h2 class="section-title">Cuenta Regresiva</h2>
-        <div class="no-timer-box">
-            No hay cuenta regresiva activa
-        </div>
+        <div class="no-timer-box">No hay cuenta regresiva activa</div>
 
         <h2 class="section-title">Novedades</h2>
 
@@ -464,9 +699,7 @@
             <h3>Jornadas de Cine</h3>
             <p class="text-summary">Creación de espacios de esparcimiento para ver películas y disfrutar juntos.</p>
             <div class="expandable-wrapper">
-                <div class="text-full">
-                    Primero, queremos organizar jornadas de cine: espacios de esparcimiento, donde podamos compartir un buen momento, ver películas y disfrutar juntos, unidos como grupo.
-                </div>
+                <div class="text-full">Primero, queremos organizar jornadas de cine: espacios de esparcimiento, donde podamos compartir un buen momento, ver películas y disfrutar juntos, unidos como grupo.</div>
             </div>
             <button class="btn-toggle">Leer más</button>
         </div>
@@ -475,9 +708,7 @@
             <h3>Apoyo Escolar</h3>
             <p class="text-summary">Un grupo de ayuda mutua para que nadie se quede con dudas en las materias.</p>
             <div class="expandable-wrapper">
-                <div class="text-full">
-                    También crearemos un grupo de apoyo escolar: para que quien tenga dificultades en alguna materia pueda recibir ayuda, y para que entre todos nos podamos apoyar y aprender mejor, sin que nadie se quede solo con dudas.
-                </div>
+                <div class="text-full">También crearemos un grupo de apoyo escolar: para que quien tenga dificultades en alguna materia pueda recibir ayuda, y para que entre todos nos podamos apoyar y aprender mejor, sin que nadie se quede solo con dudas.</div>
             </div>
             <button class="btn-toggle">Leer más</button>
         </div>
@@ -486,9 +717,7 @@
             <h3>Mejoras en los Baños y Espejos</h3>
             <p class="text-summary">Compromiso de higiene y colocación de un espejo en el baño de varones.</p>
             <div class="expandable-wrapper">
-                <div class="text-full">
-                    Sabemos que los baños son un lugar que todos usamos todos los días, por eso nuestro compromiso es trabajar para que tanto los de mujeres como los de varones estén en mucho mejor estado, más limpios y en mejores condiciones. Y sabemos que hay algo que muchos compañeros pedían: vamos a gestionar para colocar un espejo en el baño de varones, porque sabemos que es una necesidad que tienen ustedes.
-                </div>
+                <div class="text-full">Sabemos que los baños son un lugar que todos usamos todos los días, por eso nuestro compromiso es trabajar para que tanto los de mujeres como los de varones estén en mucho mejor estado, más limpios y en mejores condiciones. Y sabemos que hay algo que muchos compañeros pedían: vamos a gestionar para colocar un espejo en el baño de varones, porque sabemos que es una necesidad que tienen ustedes.</div>
             </div>
             <button class="btn-toggle">Leer más</button>
         </div>
@@ -497,9 +726,7 @@
             <h3>Cambio de Uniforme</h3>
             <p class="text-summary">Debate abierto para buscar opciones de uniformes más cómodas y prácticas.</p>
             <div class="expandable-wrapper">
-                <div class="text-full">
-                    Además, tenemos una propuesta muy importante: vamos a buscar el cambio de uniforme. Queremos escuchar sus opiniones, pensar entre todos en opciones que sean más cómodas, prácticas y que nos representen mejor, porque sabemos que el uniforme es algo que usamos todos los días y que queremos que sea de agrado para toda la comunidad.
-                </div>
+                <div class="text-full">Además, tenemos una propuesta muy importante: vamos a buscar el cambio de uniforme. Queremos escuchar sus opiniones, pensar entre todos en opciones que sean más cómodas, prácticas y que nos representen mejor, porque sabemos que el uniforme es algo que usamos todos los días y que queremos que sea de agrado para toda la comunidad.</div>
             </div>
             <button class="btn-toggle">Leer más</button>
         </div>
@@ -552,29 +779,25 @@
 
             <div class="inbox-block-wrapper">
                 <h3 style="color: var(--texto-oscuro); font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
-                    📥 Propuestas y Sugerencias Enviadas 
+                    📥 Propuestas y Sugerencias Enviadas
                     <span style="font-size: 0.8rem; background: var(--color-principal); color: white; padding: 2px 8px; border-radius: 10px;" id="badge-contador">0</span>
                 </h3>
                 <p style="font-size: 0.8rem; color: var(--texto-secundario); margin-top: 2px;">Mensajes nuevos que esperan ser clasificados en el cuadro inferior.</p>
-                
-                <div id="contenedor-inbox-vertical" class="inbox-list-vertical">
-                </div>
+                <div id="contenedor-inbox-vertical" class="inbox-list-vertical"></div>
             </div>
 
             <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">📊 Cuadro de Clasificación de Ideas</h3>
             <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 15px;">Usa el menú desplegable en cada mensaje para organizarlo aquí.</p>
-            
+
             <div class="board-three-columns">
                 <div class="board-col col-importante">
                     <h4>🚨 Importante</h4>
                     <div id="area-importante" class="col-content-area"></div>
                 </div>
-
                 <div class="board-col col-prioridad">
                     <h4>⭐ Prioridad</h4>
                     <div id="area-prioridad" class="col-content-area"></div>
                 </div>
-
                 <div class="board-col col-poca">
                     <h4>☕ Poca Prioridad</h4>
                     <div id="area-poca" class="col-content-area"></div>
@@ -585,20 +808,78 @@
 </div>
 
 <script>
-    function abrirModal() {
-        document.getElementById('modal-compartir').classList.add('active');
+    // ── MENÚ 3 PUNTOS ────────────────────────────────────────────────────────
+    const menuDropdown = document.getElementById('menu-dropdown');
+
+    function toggleMenu(e) {
+        e.stopPropagation();
+        menuDropdown.classList.toggle('hidden');
     }
 
-    function cerrarModal() {
-        document.getElementById('modal-compartir').classList.remove('active');
-    }
-
-    function cerrarModalFuera(event) {
-        if (event.target.id === 'modal-compartir') {
-            cerrarModal();
+    // Cerrar el dropdown al hacer click fuera
+    document.addEventListener('click', function(e) {
+        if (!menuDropdown.classList.contains('hidden') &&
+            !e.target.closest('#btn-menu-tres') &&
+            !e.target.closest('#menu-dropdown')) {
+            menuDropdown.classList.add('hidden');
         }
+    });
+
+    // ── HORARIOS ─────────────────────────────────────────────────────────────
+    function abrirHorarios() {
+        menuDropdown.classList.add('hidden');
+        document.getElementById('modal-horarios').classList.add('active');
     }
 
+    function cerrarHorarios() {
+        document.getElementById('modal-horarios').classList.remove('active');
+        // Resetear selección
+        document.querySelectorAll('.btn-curso').forEach(b => b.classList.remove('activo'));
+        document.querySelectorAll('.horario-wrapper').forEach(h => h.classList.add('hidden'));
+    }
+
+    function cerrarHorariosFuera(event) {
+        if (event.target.id === 'modal-horarios') cerrarHorarios();
+    }
+
+    function mostrarHorario(curso) {
+        // Marcar botón activo
+        document.querySelectorAll('.btn-curso').forEach(b => b.classList.remove('activo'));
+        event.target.classList.add('activo');
+        // Ocultar todos y mostrar el seleccionado
+        document.querySelectorAll('.horario-wrapper').forEach(h => h.classList.add('hidden'));
+        const target = document.getElementById(`horario-${curso}`);
+        if (target) { target.classList.remove('hidden'); }
+    }
+
+    // ── TEMA CLARO / OSCURO ──────────────────────────────────────────────────
+    const html = document.documentElement;
+
+    // Restaurar preferencia guardada al cargar
+    (function() {
+        const saved = localStorage.getItem('tema-ce');
+        if (saved === 'dark' || saved === 'light') {
+            html.setAttribute('data-theme', saved);
+        }
+        // Si no hay preferencia guardada se queda en "auto" (el del HTML)
+    })();
+
+    function toggleTema() {
+        const actual = html.getAttribute('data-theme');
+        const sistemaOscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // Determinar si la pantalla está actualmente oscura
+        const estaOscuro = actual === 'dark' || (actual === 'auto' && sistemaOscuro);
+        const nuevo = estaOscuro ? 'light' : 'dark';
+        html.setAttribute('data-theme', nuevo);
+        localStorage.setItem('tema-ce', nuevo);
+    }
+
+    // ── MODAL ────────────────────────────────────────────────────────────────
+    function abrirModal() { document.getElementById('modal-compartir').classList.add('active'); }
+    function cerrarModal() { document.getElementById('modal-compartir').classList.remove('active'); }
+    function cerrarModalFuera(event) { if (event.target.id === 'modal-compartir') cerrarModal(); }
+
+    // ── TARJETAS EXPANDIBLES ─────────────────────────────────────────────────
     const botonesToggle = document.querySelectorAll('.btn-toggle:not([onclick])');
     botonesToggle.forEach(boton => {
         boton.addEventListener('click', function() {
@@ -608,10 +889,11 @@
         });
     });
 
+    // ── ACCESO ADMIN (5 clicks en badge) ────────────────────────────────────
     const secretBadge = document.getElementById('secret-badge');
     const mainView = document.getElementById('main-view');
     const adminView = document.getElementById('admin-view');
-    let clickCount = 0; let clickTimer;
+    let clickCount = 0, clickTimer;
 
     secretBadge.addEventListener('click', () => {
         clickCount++; clearTimeout(clickTimer);
@@ -629,148 +911,102 @@
         cerrarSesion();
     }
 
-    const FIREBASE_URL = "https://lista-roja-5ab69-default-rtdb.firebaseio.com/"; 
-    const PASSWORD_CORRECTA = "roja2026"; 
+    // ── FIREBASE ─────────────────────────────────────────────────────────────
+    const FIREBASE_URL = "https://lista-roja-5ab69-default-rtdb.firebaseio.com/";
+    const PASSWORD_CORRECTA = "roja2026";
 
     function enviarPropuesta() {
         const txtArea = document.getElementById('input-propuesta');
         const propuestaTexto = txtArea.value.trim();
-
-        if (propuestaTexto === "") {
-            alert("Por favor, escribe algo antes de enviar.");
-            return;
-        }
-
-        const nuevaPropuesta = {
-            texto: propuestaTexto,
-            fecha: new Date().toLocaleString('es-AR'),
-            estado: 'inbox' 
-        };
+        if (propuestaTexto === "") { alert("Por favor, escribe algo antes de enviar."); return; }
 
         fetch(`${FIREBASE_URL}propuestas.json`, {
             method: 'POST',
-            body: JSON.stringify(nuevaPropuesta),
+            body: JSON.stringify({ texto: propuestaTexto, fecha: new Date().toLocaleString('es-AR'), estado: 'inbox' }),
             headers: { 'Content-Type': 'application/json' }
         })
         .then(res => {
-            if(res.ok) {
-                alert("¡Tu propuesta ha sido enviada a la nube de forma anónima!");
-                txtArea.value = "";
-            } else {
-                alert("Error de conexión al servidor.");
-            }
+            if (res.ok) { alert("¡Tu propuesta ha sido enviada a la nube de forma anónima!"); txtArea.value = ""; }
+            else alert("Error de conexión al servidor.");
         })
         .catch(err => alert("Error de red: " + err));
     }
 
     function verificarPassword() {
-        const inputPass = document.getElementById('pass-admin').value;
-        if (inputPass === PASSWORD_CORRECTA) {
+        if (document.getElementById('pass-admin').value === PASSWORD_CORRECTA) {
             document.getElementById('admin-login').classList.add('hidden');
             document.getElementById('admin-dashboard').classList.remove('hidden');
-            document.getElementById('pass-admin').value = ""; 
+            document.getElementById('pass-admin').value = "";
             cargarPropuestasEnPanel();
-        } else {
-            alert("Contraseña incorrecta.");
-        }
+        } else { alert("Contraseña incorrecta."); }
     }
 
     function cargarPropuestasEnPanel() {
         const bandejaInbox = document.getElementById('contenedor-inbox-vertical');
         bandejaInbox.innerHTML = "";
-        document.getElementById('area-importante').innerHTML = "";
-        document.getElementById('area-prioridad').innerHTML = "";
-        document.getElementById('area-poca').innerHTML = "";
+        ['importante','prioridad','poca'].forEach(a => document.getElementById(`area-${a}`).innerHTML = "");
 
         fetch(`${FIREBASE_URL}propuestas.json`)
         .then(res => res.json())
         .then(data => {
             if (!data) {
-                bandejaInbox.innerHTML = "<p style='font-size:0.85rem; color:var(--texto-secundario); text-align:center; padding:15px;'>Buzón vacío de manera absoluta.</p>";
+                bandejaInbox.innerHTML = "<p style='font-size:0.85rem;color:var(--texto-secundario);text-align:center;padding:15px;'>Buzón vacío de manera absoluta.</p>";
                 document.getElementById('badge-contador').textContent = "0";
                 return;
             }
-
-            const lista = Object.keys(data).map(key => {
-                return {
-                    id: key,
-                    texto: data[key].texto,
-                    fecha: data[key].fecha,
-                    estado: data[key].estado || 'inbox'
-                }
-            });
-            
+            const lista = Object.keys(data).map(key => ({ id: key, ...data[key], estado: data[key].estado || 'inbox' }));
             let countInbox = 0;
             lista.reverse().forEach(prop => {
                 const item = document.createElement('div');
                 item.className = 'propuesta-item';
-
                 if (prop.estado === 'inbox') {
                     countInbox++;
                     item.innerHTML = `
-                        <div>
-                            <span class="propuesta-date">📅 ${prop.fecha}</span>
-                            <p style="margin-top: 4px; font-weight: 500;">${prop.texto}</p>
-                        </div>
+                        <div><span class="propuesta-date">📅 ${prop.fecha}</span><p style="margin-top:4px;font-weight:500;">${prop.texto}</p></div>
                         <div class="action-bar-admin">
-                            <label style="font-size:0.75rem; color:var(--texto-secundario);">Mover a:</label>
-                            <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}', this.value)">
+                            <label style="font-size:0.75rem;color:var(--texto-secundario);">Mover a:</label>
+                            <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}',this.value)">
                                 <option value="inbox" selected>➕ Asignar cuadro...</option>
                                 <option value="importante">🚨 Importante</option>
                                 <option value="prioridad">⭐ Prioridad</option>
                                 <option value="poca">☕ Poca Prioridad</option>
                             </select>
                             <button class="btn-delete-item" onclick="eliminarMensaje('${prop.id}')">Borrar</button>
-                        </div>
-                    `;
+                        </div>`;
                     bandejaInbox.appendChild(item);
                 } else {
                     item.innerHTML = `
-                        <div>
-                            <span class="propuesta-date">📅 ${prop.fecha}</span>
-                            <p style="margin-top: 4px;">${prop.texto}</p>
-                        </div>
+                        <div><span class="propuesta-date">📅 ${prop.fecha}</span><p style="margin-top:4px;">${prop.texto}</p></div>
                         <div class="action-bar-admin">
-                            <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}', this.value)">
-                                <option value="importante" ${prop.estado === 'importante' ? 'selected' : ''}>🚨 Importante</option>
-                                <option value="prioridad" ${prop.estado === 'prioridad' ? 'selected' : ''}>⭐ Prioridad</option>
-                                <option value="poca" ${prop.estado === 'poca' ? 'selected' : ''}>☕ Poca Prioridad</option>
+                            <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}',this.value)">
+                                <option value="importante" ${prop.estado==='importante'?'selected':''}>🚨 Importante</option>
+                                <option value="prioridad"  ${prop.estado==='prioridad' ?'selected':''}>⭐ Prioridad</option>
+                                <option value="poca"       ${prop.estado==='poca'      ?'selected':''}>☕ Poca Prioridad</option>
                                 <option value="inbox">📥 Regresar al Buzón</option>
                             </select>
                             <button class="btn-delete-item" onclick="eliminarMensaje('${prop.id}')">✕</button>
-                        </div>
-                    `;
-                    
-                    const areaDestino = document.getElementById(`area-${prop.estado}`);
-                    if (areaDestino) areaDestino.appendChild(item);
+                        </div>`;
+                    const dest = document.getElementById(`area-${prop.estado}`);
+                    if (dest) dest.appendChild(item);
                 }
             });
-
             document.getElementById('badge-contador').textContent = countInbox;
-            if (countInbox === 0) {
-                bandejaInbox.innerHTML = "<p style='font-size:0.85rem; color:var(--texto-secundario); text-align:center; padding:15px;'>🎉 ¡Todo clasificado en el cuadro!</p>";
-            }
+            if (countInbox === 0) bandejaInbox.innerHTML = "<p style='font-size:0.85rem;color:var(--texto-secundario);text-align:center;padding:15px;'>🎉 ¡Todo clasificado en el cuadro!</p>";
         })
-        .catch(err => console.log("Error al sincronizar base de datos: ", err));
+        .catch(err => console.log("Error al sincronizar base de datos:", err));
     }
 
-    function moverAEstado(idPropuesta, nuevoEstado) {
-        fetch(`${FIREBASE_URL}propuestas/${idPropuesta}.json`, {
-            method: 'PATCH',
-            body: JSON.stringify({ estado: nuevoEstado }),
+    function moverAEstado(id, estado) {
+        fetch(`${FIREBASE_URL}propuestas/${id}.json`, {
+            method: 'PATCH', body: JSON.stringify({ estado }),
             headers: { 'Content-Type': 'application/json' }
-        })
-        .then(res => {
-            if(res.ok) cargarPropuestasEnPanel();
-        });
+        }).then(res => { if (res.ok) cargarPropuestasEnPanel(); });
     }
 
-    function eliminarMensaje(idPropuesta) {
+    function eliminarMensaje(id) {
         if (confirm("¿Eliminar este comentario permanentemente de la base de datos?")) {
-            fetch(`${FIREBASE_URL}propuestas/${idPropuesta}.json`, { method: 'DELETE' })
-            .then(res => {
-                if(res.ok) cargarPropuestasEnPanel();
-            });
+            fetch(`${FIREBASE_URL}propuestas/${id}.json`, { method: 'DELETE' })
+            .then(res => { if (res.ok) cargarPropuestasEnPanel(); });
         }
     }
 
