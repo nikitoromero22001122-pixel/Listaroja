@@ -3,31 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centro de Estudiantes - Novedades y Propuestas</title>
+    <title>Centro de Estudiantes - E.M.E.N El Naranjo</title>
     <style>
         /* Variables base para Modo Claro */
         :root {
-            --rojo-principal: #e63946;
-            --rojo-oscuro: #b7094c;
+            --color-principal: #D22730; 
+            --color-oscuro: #A01E26;    
+            --color-acento: #E87722;    
+            --color-verde: #008240;     
+            
             --blanco: #ffffff;
             --gris-claro: #f8f9fa;
             --texto-oscuro: #2b2d42;
-            --fondo-gradiente: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            
+            --fondo-gradiente: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            
             --tarjeta-fondo: var(--blanco);
             --tarjeta-seccion: var(--gris-claro);
             --texto-secundario: #555555;
-            --sombra: rgba(0, 0, 0, 0.15);
+            --sombra: rgba(160, 30, 38, 0.15); 
+            
             --tiktok-bg: #000000;
             --tiktok-text: #ffffff;
             --instagram-bg: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             --instagram-text: #ffffff;
             --credits-text: #777777;
             
-            /* Colores Tablero */
             --bg-inbox: #edf2f7;
             --bg-importante: #ffe3e3;
             --bg-prioridad: #fff3cd;
             --bg-poca: #d1ecf1;
+
+            /* Colores de la tabla de horarios */
+            --tabla-header-amarillo: #fdf5bb;
+            --tabla-header-verde: #c5e0b4;
+            --tabla-header-naranja: #f8cbad;
+            --tabla-celda-bg: #ffffff;
+            --tabla-borde: #000000;
+            --tabla-recreo-bg: #f2f2f2;
         }
 
         /* Variables para Modo Oscuro */
@@ -36,24 +49,30 @@
                 --blanco: #1e1e24;
                 --gris-claro: #2b2b36;
                 --texto-oscuro: #f8f9fa;
-                --fondo-gradiente: linear-gradient(135deg, #0f0f12 0%, #1a1a24 100%);
-                --tarjeta-fondo: #16161a;
-                --tarjeta-seccion: #22222b;
+                
+                --fondo-gradiente: linear-gradient(135deg, #1a0505 0%, #2d0a0a 100%);
+                
+                --tarjeta-fondo: #1c1313; 
+                --tarjeta-seccion: #2d1f1f;
                 --texto-secundario: #b0b0bc;
                 --sombra: rgba(0, 0, 0, 0.5);
-                --rojo-principal: #ff4d5a;
-                --rojo-oscuro: #d91e5c;
+                
+                --color-principal: #e74c3c; 
+                --color-oscuro: #c0392b;
+                --color-acento: #f39c12;
+                --color-verde: #2ecc71;
+
                 --tiktok-bg: #ffffff;
                 --tiktok-text: #000000;
-                --instagram-bg: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-                --instagram-text: #ffffff;
                 --credits-text: #a0a0b0;
                 
-                /* Colores Tablero Oscuro */
-                --bg-inbox: #25252f;
-                --bg-importante: #4a1c22;
-                --bg-prioridad: #4a3c1c;
-                --bg-poca: #1c3a4a;
+                /* Colores de tabla adaptados para modo oscuro pero manteniendo el diseño */
+                --tabla-header-amarillo: #b5aa6e;
+                --tabla-header-verde: #768a69;
+                --tabla-header-naranja: #9e7d67;
+                --tabla-celda-bg: #2b2b36;
+                --tabla-borde: #555555;
+                --tabla-recreo-bg: #1e1e24;
             }
         }
 
@@ -85,380 +104,313 @@
             animation: fadeIn 0.8s ease-out;
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
             margin-top: 20px;
-        }
-
-        .container-admin {
-            max-width: 1100px;
-        }
-
-        /* Encabezado */
-        .header {
-            background: linear-gradient(135deg, var(--rojo-principal), var(--rojo-oscuro));
-            color: #ffffff;
-            padding: 40px 30px;
-            text-align: center;
             position: relative;
         }
 
-        .header h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        /* Estilos del Menú Lateral */
+        .btn-menu {
+            position: absolute; top: 20px; left: 20px; background: transparent; border: none;
+            color: #ffffff; cursor: pointer; z-index: 10; transition: transform 0.2s; padding: 5px;
         }
+        .btn-menu:hover { transform: scale(1.1); }
 
-        .ce-badge {
-            background-color: #ffffff;
-            color: #b7094c;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-weight: bold;
-            display: inline-block;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            animation: pulse 2s infinite;
-            cursor: pointer;
-            user-select: none;
+        .sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); z-index: 1000; display: none; opacity: 0;
+            transition: opacity 0.3s ease; backdrop-filter: blur(3px);
         }
+        .sidebar-overlay.active { display: block; opacity: 1; }
 
-        /* Títulos */
-        .section-title {
-            text-align: center;
-            color: var(--rojo-oscuro);
-            margin: 40px 0 20px 0;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 2px solid var(--rojo-principal);
-            padding-bottom: 10px;
+        .sidebar {
+            position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
+            background-color: var(--tarjeta-fondo); z-index: 1001;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.3); transition: left 0.3s ease;
+            display: flex; flex-direction: column; overflow-y: auto;
         }
+        .sidebar.active { left: 0; }
 
+        .sidebar-header {
+            background: linear-gradient(135deg, var(--color-principal), var(--color-oscuro));
+            color: white; padding: 25px 20px; display: flex;
+            justify-content: space-between; align-items: center;
+        }
+        .sidebar-header h2 { font-size: 1.2rem; }
+        .btn-cerrar-menu { background: transparent; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+        .menu-lista { list-style: none; padding: 15px 0; }
+        .menu-item {
+            padding: 15px 25px; border-bottom: 1px solid var(--tarjeta-seccion);
+            color: var(--texto-oscuro); font-weight: bold; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center; transition: background 0.2s;
+        }
+        .menu-item:hover { background-color: var(--tarjeta-seccion); color: var(--color-principal); }
+        
+        .submenu { list-style: none; display: none; background-color: var(--tarjeta-seccion); }
+        .submenu.active { display: block; animation: fadeIn 0.3s ease; }
+        .submenu li {
+            padding: 12px 25px 12px 40px; color: var(--texto-secundario); cursor: pointer;
+            border-bottom: 1px solid rgba(0,0,0,0.05); transition: color 0.2s;
+        }
+        .submenu li:hover { color: var(--color-principal); font-weight: bold; }
+
+        /* Encabezado */
+        .header { background: linear-gradient(135deg, var(--color-principal), var(--color-oscuro)); color: #ffffff; padding: 35px 30px; text-align: center; position: relative; }
+        .logo-escuela { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.3); margin-bottom: 15px; background-color: #ffffff; }
+        .header h1 { font-size: 1.8rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .ce-badge { background-color: var(--color-acento); color: #ffffff; padding: 5px 15px; border-radius: 50px; font-weight: bold; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; user-select: none; }
+        .btn-share { background-color: transparent; color: #ffffff; border: 2px solid #ffffff; padding: 8px 20px; margin-top: 20px; border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: background 0.3s, color 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-share:hover { background-color: #ffffff; color: var(--color-oscuro); }
+
+        /* Contenido General */
+        .section-title { text-align: center; color: var(--color-oscuro); margin: 40px 0 20px 0; font-size: 1.5rem; text-transform: uppercase; border-bottom: 2px solid var(--color-principal); padding-bottom: 10px; }
         .section-title:first-child { margin-top: 0; }
-
         .content { padding: 30px; padding-bottom: 10px; }
-
-        .section-card {
-            background-color: var(--tarjeta-seccion);
-            border-left: 5px solid var(--rojo-principal);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .section-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px var(--sombra);
-        }
-
-        .section-card h3 { color: var(--rojo-principal); margin-bottom: 10px; font-size: 1.2rem; }
-        .novedad-card { border-left-color: #fca311; }
-        .novedad-card h3 { color: #fca311; }
+        
+        .section-card { background-color: var(--tarjeta-seccion); border-left: 5px solid var(--color-principal); border-radius: 8px; padding: 20px; margin-bottom: 20px; transition: transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .section-card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px var(--sombra); }
+        .section-card h3 { color: var(--color-principal); margin-bottom: 10px; font-size: 1.2rem; }
+        .novedad-card { border-left-color: var(--color-acento); }
+        .novedad-card h3 { color: var(--color-acento); }
+        .verde-card { border-left-color: var(--color-verde); }
+        .verde-card h3 { color: var(--color-verde); }
 
         .text-summary { font-style: italic; color: var(--texto-secundario); }
-
-        .expandable-wrapper {
-            display: grid;
-            grid-template-rows: 0fr;
-            transition: grid-template-rows 0.5s ease-out;
-        }
-
+        .expandable-wrapper { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.5s ease-out; }
         .text-full { overflow: hidden; line-height: 1.6; font-size: 0.95rem; text-align: justify; }
         .section-card.expanded .expandable-wrapper { grid-template-rows: 1fr; }
         .section-card.expanded .text-full { padding-top: 15px; }
         .section-card.expanded .text-summary { display: none; }
 
-        /* Botones */
-        .btn-toggle, .btn-submit, .btn-admin {
-            background-color: var(--rojo-principal);
-            color: #ffffff;
-            border: none;
-            padding: 8px 16px;
-            margin-top: 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.85rem;
-            transition: background 0.3s, transform 0.2s;
-        }
+        .btn-toggle, .btn-submit { background-color: var(--color-principal); color: #ffffff; border: none; padding: 8px 16px; margin-top: 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: background 0.3s, transform 0.2s; }
+        .btn-toggle:hover, .btn-submit:hover { background-color: var(--color-oscuro); transform: scale(1.05); }
 
-        .btn-toggle:hover, .btn-submit:hover, .btn-admin:hover {
-            background-color: var(--rojo-oscuro);
-            transform: scale(1.05);
-        }
+        .form-propuesta textarea { width: 100%; height: 100px; padding: 12px; border-radius: 8px; border: 1px solid var(--texto-secundario); background-color: var(--tarjeta-fondo); color: var(--texto-oscuro); resize: none; margin-top: 10px; }
+        .form-propuesta textarea:focus { outline: 2px solid var(--color-principal); }
 
-        .form-propuesta textarea {
-            width: 100%; height: 100px; padding: 12px; border-radius: 8px;
-            border: 1px solid var(--texto-secundario); background-color: var(--tarjeta-fondo);
-            color: var(--texto-oscuro); font-family: inherit; resize: none; margin-top: 10px;
-        }
-        .form-propuesta textarea:focus { outline: 2px solid var(--rojo-principal); }
+        .no-timer-box { background: linear-gradient(135deg, var(--tarjeta-seccion), var(--tarjeta-fondo)); text-align: center; padding: 25px; border-radius: 12px; border: 2px dashed var(--texto-secundario); margin-bottom: 20px; color: var(--texto-secundario); font-size: 1.1rem; font-weight: bold; }
 
-        /* Estilos de la cuenta regresiva */
-        .timer-box {
-            background: linear-gradient(135deg, var(--tarjeta-seccion), var(--tarjeta-fondo));
-            text-align: center;
-            padding: 25px;
-            border-radius: 12px;
-            border: 2px dashed var(--rojo-principal);
-            margin-bottom: 20px;
-            color: var(--texto-oscuro);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
-        }
+        /* Modales */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; backdrop-filter: blur(5px); }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease-out; }
+        
+        .modal-content { background: var(--tarjeta-fondo); border-radius: 15px; padding: 30px; max-width: 500px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: var(--texto-oscuro); }
+        .modal-horario-content { max-width: 900px; padding: 20px; } /* Más ancho para la tabla */
+        
+        .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--texto-secundario); transition: color 0.2s; z-index: 10; }
+        .modal-close:hover { color: var(--color-principal); }
+        
+        .qr-image { width: 180px; height: 180px; display: block; margin: 0 auto 20px auto; border-radius: 12px; border: 4px solid var(--color-principal); box-shadow: 0 5px 15px var(--sombra); }
 
-        .timer-display {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .time-block {
-            background-color: var(--tarjeta-fondo);
-            border: 2px solid var(--rojo-oscuro);
-            border-radius: 10px;
-            padding: 10px 15px;
-            min-width: 75px;
-            box-shadow: 0 4px 6px var(--sombra);
-        }
-
-        .time-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--rojo-principal);
-            display: block;
-            line-height: 1;
-            margin-bottom: 5px;
-        }
-
-        .time-label {
-            font-size: 0.75rem;
-            color: var(--texto-secundario);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: bold;
-        }
-
-        /* ==================================================== */
-        /* DISEÑO EXCLUSIVO DEL PANEL DE ADMINISTRACIÓN SEPARADO*/
-        /* ==================================================== */
-        .input-password {
-            padding: 12px 15px; border-radius: 8px; border: 1px solid var(--texto-secundario);
-            background-color: var(--tarjeta-fondo); color: var(--texto-oscuro); margin: 20px 0;
-            width: 100%; max-width: 300px; font-size: 1rem; text-align: center;
-        }
-
-        /* Bloque 1: Buzón de entrada vertical */
-        .inbox-block-wrapper {
-            background-color: var(--bg-inbox);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 35px;
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-        .inbox-list-vertical {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: 320px;
-            overflow-y: auto;
-            margin-top: 15px;
-            padding-right: 5px;
-        }
-
-        /* Bloque 2: Estructura del Cuadro / Tablero */
-        .board-three-columns {
-            display: flex;
-            gap: 15px;
+        /* Estilos de la Tabla de Horarios */
+        .table-responsive {
+            width: 100%;
             overflow-x: auto;
-            padding-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .board-col {
-            flex: 1;
-            min-width: 280px;
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            border-top: 5px solid;
-            min-height: 350px;
-        }
-        .col-importante { background-color: var(--bg-importante); border-top-color: #e63946; }
-        .col-prioridad { background-color: var(--bg-prioridad); border-top-color: #fca311; }
-        .col-poca { background-color: var(--bg-poca); border-top-color: #457b9d; }
-
-        .board-col h4 {
-            text-align: center; font-size: 1rem; color: var(--texto-oscuro); text-transform: uppercase;
-        }
-        .col-content-area {
-            display: flex; flex-direction: column; gap: 10px; height: 100%;
+        
+        .tabla-horario {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: center;
+            min-width: 600px; /* Asegura que no se aplaste en móviles */
+            background-color: var(--tabla-celda-bg);
         }
 
-        /* Tarjetas de Mensajes */
-        .propuesta-item {
-            background-color: var(--tarjeta-fondo);
-            padding: 12px; border-radius: 8px; font-size: 0.9rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex; flex-direction: column; gap: 8px;
-            border: 1px solid rgba(0,0,0,0.08);
-            position: relative;
-        }
-        .propuesta-date { font-size: 0.75rem; color: var(--texto-secundario); }
-
-        /* Botón de Clasificación Dinámico (+) */
-        .action-bar-admin {
-            display: flex; justify-content: flex-end; align-items: center; gap: 10px;
-            border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 8px; margin-top: 4px;
+        .tabla-horario th, .tabla-horario td {
+            border: 1px solid var(--tabla-borde);
+            padding: 10px 5px;
+            text-transform: uppercase;
         }
 
-        .select-directo-organizar {
-            padding: 3px; font-size: 0.75rem; border-radius: 4px;
-            background: var(--tarjeta-seccion); color: var(--texto-oscuro);
-            border: 1px solid var(--texto-secundario); outline: none; cursor: pointer;
+        /* Colores de cabecera copiados de la imagen */
+        .th-horario { background-color: var(--tabla-header-amarillo); color: var(--texto-oscuro); font-weight: bold; }
+        .th-lunes { background-color: var(--tabla-header-verde); color: var(--texto-oscuro); font-weight: bold; }
+        .th-martes { background-color: var(--tabla-header-naranja); color: var(--texto-oscuro); font-weight: bold; }
+        .th-miercoles { background-color: var(--tabla-header-verde); color: var(--texto-oscuro); font-weight: bold; }
+        .th-jueves { background-color: var(--tabla-header-amarillo); color: var(--texto-oscuro); font-weight: bold; }
+        .th-viernes { background-color: var(--tabla-header-verde); color: var(--texto-oscuro); font-weight: bold; }
+
+        .td-hora {
+            background-color: var(--tabla-header-amarillo);
+            font-weight: bold;
+            color: var(--texto-oscuro);
+            text-transform: none !important; /* Para que quede como "12:30 p. m." */
         }
 
-        .btn-delete-item {
-            background-color: #dc3545; color: white; border: none;
-            padding: 4px 8px; border-radius: 4px; cursor: pointer;
-            font-size: 0.75rem; font-weight: bold;
+        .tr-recreo td {
+            background-color: var(--tabla-recreo-bg);
+            font-weight: bold;
         }
-        .btn-delete-item:hover { background-color: #bd2130; }
-
-        .hidden { display: none !important; }
 
         /* Footer */
-        .social-footer { background-color: var(--tarjeta-seccion); text-align: center; padding: 25px 20px; border-top: 2px solid var(--rojo-principal); }
+        .social-footer { background-color: var(--tarjeta-seccion); text-align: center; padding: 25px 20px; border-top: 2px solid var(--color-principal); }
         .social-buttons-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 15px; }
-        .social-btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; padding: 12px 24px; border-radius: 50px; font-weight: bold; color: #fff; gap: 10px; transition: transform 0.3s; }
+        .social-btn { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 50px; font-weight: bold; color: #fff; gap: 10px; text-decoration: none; transition: transform 0.3s; }
         .social-btn:hover { transform: scale(1.05); }
         .tiktok-btn { background-color: var(--tiktok-bg); color: var(--tiktok-text); }
         .instagram-btn { background: var(--instagram-bg); color: var(--instagram-text); }
-        .resaltado-texto { color: var(--rojo-principal); font-weight: bold; }
+        .resaltado-texto { color: var(--color-principal); font-weight: bold; }
         .credits { margin-top: 20px; font-size: 0.8rem; color: var(--credits-text); }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .hidden { display: none !important; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="cerrarMenu()"></div>
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h2>Menú de Navegación</h2>
+        <button class="btn-cerrar-menu" onclick="cerrarMenu()">✖</button>
+    </div>
+    <ul class="menu-lista">
+        <li>
+            <div class="menu-item" onclick="toggleSubmenu('submenu-horarios')">
+                <span>🕒 Horarios</span>
+                <span style="font-size: 0.8rem;">▼</span>
+            </div>
+            <ul class="submenu" id="submenu-horarios">
+                <li onclick="abrirModalHorario('3ero')">📌 3ero</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<div class="modal-overlay" id="modal-horario" onclick="cerrarModalFuera(event, 'modal-horario')">
+    <div class="modal-content modal-horario-content">
+        <button class="modal-close" onclick="cerrarModal('modal-horario')">✖</button>
+        <h2 style="color: var(--color-principal); margin-bottom: 20px; text-align: center;" id="horario-titulo">Horario</h2>
+        
+        <div class="table-responsive">
+            <table class="tabla-horario">
+                <thead>
+                    <tr>
+                        <th class="th-horario">HORARIO de 3ero</th>
+                        <th class="th-lunes">LUNES</th>
+                        <th class="th-martes">MARTES</th>
+                        <th class="th-miercoles">MIERCOLES</th>
+                        <th class="th-jueves">JUEVES</th>
+                        <th class="th-viernes">VIERNES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="td-hora">12:30 p. m.</td>
+                        <td>INGLES</td><td>GEOGRAFIA</td><td>TECNOLOGIA</td><td>LENGUA</td><td>HISTORIA</td>
+                    </tr>
+                    <tr>
+                        <td class="td-hora">1:10 p. m.</td>
+                        <td>INGLES</td><td>GEOGRAFIA</td><td>TECNOLOGIA</td><td>LENGUA</td><td>HISTORIA</td>
+                    </tr>
+                    <tr>
+                        <td class="td-hora">1:50 p. m.</td>
+                        <td>INGLES</td><td>GEOGRAFIA</td><td>TECNOLOGIA</td><td>LENGUA</td><td>HISTORIA</td>
+                    </tr>
+                    <tr class="tr-recreo">
+                        <td class="td-hora">2:30 p. m.</td>
+                        <td>RECREO</td><td>RECREO</td><td>RECREO</td><td>RECREO</td><td>RECREO</td>
+                    </tr>
+                    <tr>
+                        <td class="td-hora">2:40 p. m.</td>
+                        <td>QUIMICA</td><td>BIOLOGIA</td><td>PLASTICA</td><td>LENGUA</td><td>HISTORIA</td>
+                    </tr>
+                    <tr>
+                        <td class="td-hora">3:20 p. m.</td>
+                        <td>QUIMICA</td><td>BIOLOGIA</td><td>PLASTICA</td><td>LENGUA</td><td>HISTORIA</td>
+                    </tr>
+                    <tr class="tr-recreo">
+                        <td class="td-hora">4:00 p. m.</td>
+                        <td>RECREO</td><td>RECREO</td><td>RECREO</td><td>RECREO</td><td>RECREO</td>
+                    </tr>
+                    <tr>
+                        <td class="td-hora">4:10 p. m.</td>
+                        <td>QUIMICA</td><td>MATEMATICAS</td><td>CIUDADANIA</td><td>MATEMATICAS</td><td>HISTORIA</td>
+                    </tr>
+                    <tr>
+                        <td class="td-hora">4:50 p. m.</td>
+                        <td>LIBRE</td><td>MATEMATICAS</td><td>PLASTICA</td><td>MATEMATICAS</td><td>HISTORIA</td>
+                    </tr>
+                    <tr>
+                        <td class="td-hora">5:30 p. m.</td>
+                        <td>LIBRE</td><td>SALIDA</td><td>SALIDA</td><td>SALIDA</td><td>SALIDA</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p style="text-align: center; font-size: 0.8rem; color: var(--texto-secundario); margin-top: 15px;">* Desliza hacia los lados para ver todo el horario si estás en un celular.</p>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal-compartir" onclick="cerrarModalFuera(event, 'modal-compartir')">
+    <div class="modal-content">
+        <button class="modal-close" onclick="cerrarModal('modal-compartir')">✖</button>
+        <img src="qr.jpg" alt="QR Centro de Estudiantes" class="qr-image">
+        <h2 style="color: var(--color-principal); margin-bottom: 15px; text-align: center;">Bienvenidos a la Página Oficial</h2>
+        <p style="text-align: justify; color: var(--texto-secundario); line-height: 1.5;">Esta página fue creada para mantener informados a todos los estudiantes sobre las actividades, proyectos y novedades de la Escuela Media E.M.E.N El Naranjo.</p>
+    </div>
+</div>
+
 <div class="container" id="main-view">
     <div class="header">
+        <button class="btn-menu" onclick="abrirMenu()" title="Abrir Menú">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="5" r="1.5"></circle>
+                <circle cx="12" cy="12" r="1.5"></circle>
+                <circle cx="12" cy="19" r="1.5"></circle>
+            </svg>
+        </button>
+
+        <img src="IMG-20260605-WA0019.jpg" alt="Logo Escuela Media E.M.E.N El Naranjo" class="logo-escuela">
         <h1>Centro de Estudiantes</h1>
         <div class="ce-badge" id="secret-badge">E.M.E.N El Naranjo</div>
-        <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.9;">Gestión Oficial</p>
+        <p style="margin-top: 15px; font-size: 0.95rem; opacity: 0.9;">Gestión Oficial</p>
+        
+        <div>
+            <button class="btn-share" onclick="abrirModal('modal-compartir')">
+                <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                </svg>
+                Compartir Página
+            </button>
+        </div>
     </div>
 
     <div class="content">
-
         <h2 class="section-title">Buzón Anónimo</h2>
         <div class="section-card form-propuesta">
             <h3>¡Envía tu Propuesta!</h3>
-            <p class="text-summary" style="font-style: normal; font-size: 0.9rem;">Tu opinión nos importa. Escribe tu reclamo, qué te gustaría cambiar o añadir en la escuela de forma 100% anónima.</p>
+            <p class="text-summary" style="font-style: normal; font-size: 0.9rem;">Tu opinión nos importa. Escribe tu reclamo o sugerencia de forma 100% anónima.</p>
             <textarea id="input-propuesta" placeholder="Escribe tu propuesta o reclamo aquí..."></textarea>
             <button class="btn-submit" onclick="enviarPropuesta()">Enviar Propuesta</button>
         </div>
 
         <h2 class="section-title">Cuenta Regresiva</h2>
-        <div class="timer-box" id="countdown-container">
-            <h3 style="color: var(--rojo-principal); margin-bottom: 5px; font-size: 1.2rem; text-transform: uppercase;">Entregar las mascotas de la actividad</h3>
-            
-            <div class="timer-display" id="timer-display">
-                <div class="time-block" id="block-days">
-                    <span class="time-value" id="days-val">00</span>
-                    <span class="time-label">Días</span>
-                </div>
-                <div class="time-block">
-                    <span class="time-value" id="hours-val">00</span>
-                    <span class="time-label">Horas</span>
-                </div>
-                <div class="time-block">
-                    <span class="time-value" id="mins-val">00</span>
-                    <span class="time-label">Min</span>
-                </div>
-                <div class="time-block">
-                    <span class="time-value" id="secs-val">00</span>
-                    <span class="time-label">Seg</span>
-                </div>
-            </div>
-
-            <p id="timer-message" style="display: none; font-size: 1.2rem; font-weight: bold; color: var(--rojo-principal); margin-top: 15px;"></p>
-        </div>
+        <div class="no-timer-box">No hay cuenta regresiva activa</div>
 
         <h2 class="section-title">Novedades</h2>
-
         <div class="section-card novedad-card">
-            <h3>Elección de la Mascota Escolar 🐾 26-05-26</h3>
-            <p class="text-summary">¡Llegó el momento de diseñar al personaje que nos representará!</p>
+            <h3>¡Mundial en la Escuela! ⚽</h3>
+            <p class="text-summary">Transmisión en vivo del partido de la selección.</p>
             <div class="expandable-wrapper">
                 <div class="text-full">
-                    A todos los alumnos de todos los cursos:<br><br>
-                    Durante esta semana que entra, desde el martes hasta el viernes, vamos a realizar una actividad muy especial para elegir la mascota que nos representará.<br><br>
-                    <strong>📌 Lo que tienen que hacer:</strong><br>
-                    Cada curso debe crear un solo dibujo en conjunto. Puede ser el diseño de un personaje, un animal, un símbolo o cualquier idea creativa que se les ocurra; no hay límites, ¡queremos ver toda su imaginación!<br><br>
-                    <strong>📌 El objetivo:</strong><br>
-                    Todos los dibujos se reunirán y luego realizaremos una votación para elegir cuál es el mejor diseño. El dibujo ganador se convertirá oficialmente en la mascota de nuestra escuela.<br><br>
-                    Esperamos la participación y el esfuerzo de todos, recuerden que somos el Centro de Estudiantes y queremos que esta sea una decisión de todos. <span class="resaltado-texto">¡Manos a la obra!</span>
+                    Desde el <span class="resaltado-texto">Centro de Estudiantes</span> informamos que veremos en la institución el partido del día <span class="resaltado-texto">Lunes 22</span> en el cual la selección Argentina se enfrenta a Austria.<br><br>
+                    Ese día venderemos panchos y gaseosa. Más adelante informaremos más detalles. ¡No te lo pierdas!
                 </div>
             </div>
             <button class="btn-toggle">Leer más</button>
         </div>
 
-        <div class="section-card novedad-card">
-            <h3>Agradecimiento 22-05-26</h3>
-            <p class="text-summary">Un mensaje especial tras la jornada electoral.</p>
-            <div class="expandable-wrapper">
-                <div class="text-full">
-                    Desde el <span class="resaltado-texto">Centro de Estudiantes</span>, queremos agradecer a cada uno de los alumnos que nos dieron su voto de confianza.<br><br>
-                    Todas las propuestas y más serán cumplidas en la institución escolar.
-                </div>
-            </div>
-            <button class="btn-toggle">Leer más</button>
-        </div>
-
-        <h2 class="section-title">Proyectos en Marcha</h2>
-
-        <div class="section-card">
+        <h2 class="section-title">Promesas y Proyectos</h2>
+        <div class="section-card verde-card">
             <h3>Jornadas de Cine</h3>
             <p class="text-summary">Creación de espacios de esparcimiento para ver películas y disfrutar juntos.</p>
             <div class="expandable-wrapper">
-                <div class="text-full">
-                    Primero, queremos organizar jornadas de cine: espacios de esparcimiento, donde podamos compartir un buen momento, ver películas y disfrutar juntos, unidos como grupo.
-                </div>
-            </div>
-            <button class="btn-toggle">Leer más</button>
-        </div>
-
-        <div class="section-card">
-            <h3>Apoyo Escolar</h3>
-            <p class="text-summary">Un grupo de ayuda mutua para que nadie se quede con dudas en las materias.</p>
-            <div class="expandable-wrapper">
-                <div class="text-full">
-                    También crearemos un grupo de apoyo escolar: para que quien tenga dificultades en alguna materia pueda recibir ayuda, y para que entre todos nos podamos apoyar y aprender mejor, sin que nadie se quede solo con dudas.
-                </div>
-            </div>
-            <button class="btn-toggle">Leer más</button>
-        </div>
-
-        <div class="section-card">
-            <h3>Mejoras en los Baños y Espejos</h3>
-            <p class="text-summary">Compromiso de higiene y colocación de un espejo en el baño de varones.</p>
-            <div class="expandable-wrapper">
-                <div class="text-full">
-                    Sabemos que los baños son un lugar que todos usamos todos los días, por eso nuestro compromiso es trabajar para que tanto los de mujeres como los de varones estén en mucho mejor estado, más limpios y en mejores condiciones. Y sabemos que hay algo que muchos compañeros pedían: vamos a gestionar para colocar un espejo en el baño de varones, porque sabemos que es una necesidad que tienen ustedes.
-                </div>
-            </div>
-            <button class="btn-toggle">Leer más</button>
-        </div>
-
-        <div class="section-card">
-            <h3>Cambio de Uniforme</h3>
-            <p class="text-summary">Debate abierto para buscar opciones de uniformes más cómodas y prácticas.</p>
-            <div class="expandable-wrapper">
-                <div class="text-full">
-                    Además, tenemos una propuesta muy importante: vamos a buscar el cambio de uniforme. Queremos escuchar sus opiniones, pensar entre todos en opciones que sean más cómodas, prácticas y que nos representen mejor, porque sabemos que el uniforme es algo que usamos todos los días y que queremos que sea de agrado para toda la comunidad.
-                </div>
+                <div class="text-full">Primero, queremos organizar jornadas de cine: espacios de esparcimiento, donde podamos compartir un buen momento, ver películas y disfrutar juntos.</div>
             </div>
             <button class="btn-toggle">Leer más</button>
         </div>
@@ -467,84 +419,45 @@
     <div class="social-footer">
         <h3>¡Síguenos y entérate de todo!</h3>
         <div class="social-buttons-container">
-            <a href="https://www.tiktok.com/@listaroja26?_r=1&_t=ZS-96bOK0KU134" target="_blank" rel="noopener noreferrer" class="social-btn tiktok-btn">
-                <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-                </svg>
-                TikTok
-            </a>
-            <a href="https://www.instagram.com/listaroja39?igsh=MW5naXVycXVtY2tzeA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram-btn">
-                <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
-                </svg>
-                Instagram
-            </a>
+            <a href="https://www.tiktok.com/@centro.de.estudia184?_r=1&_t=ZS-96yHBRjVW7T" target="_blank" class="social-btn tiktok-btn">TikTok</a>
+            <a href="https://www.instagram.com/centro_de_estudianteemen?igsh=Y3YwZ21lY3R3dGF3" target="_blank" class="social-btn instagram-btn">Instagram</a>
         </div>
         <div class="credits">Hecho por Niko.z</div>
     </div>
 </div>
 
-<div class="container container-admin hidden" id="admin-view">
-    <div class="header" style="background: #2b2b36;">
-        <h1>Panel de Gestión Interna</h1>
-        <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">Centro de Estudiantes - Administración</p>
-    </div>
-
-    <div class="content">
-        <div id="admin-login" style="text-align: center; padding: 40px 0;">
-            <h2 style="color: var(--texto-oscuro);">Llave de Acceso</h2>
-            <input type="password" id="pass-admin" class="input-password" placeholder="Contraseña del Centro">
-            <br>
-            <button class="btn-admin" onclick="verificarPassword()">Ingresar al Sistema</button>
-            <br><br>
-            <button class="btn-toggle" style="background: transparent; color: var(--rojo-principal); border: 1px solid var(--rojo-principal);" onclick="salirDelPanel()">Regresar al Inicio</button>
-        </div>
-
-        <div id="admin-dashboard" class="hidden">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid var(--texto-secundario); padding-bottom: 10px;">
-                <h2 style="color: var(--texto-oscuro); font-size: 1.3rem;">🎛️ Centro de Moderación</h2>
-                <div>
-                    <button class="btn-toggle" onclick="cerrarSesion()" style="background-color: #6c757d; margin-top:0;">Bloquear</button>
-                    <button class="btn-toggle" onclick="salirDelPanel()" style="background-color: var(--rojo-principal); margin-top:0; margin-left:8px;">Salir</button>
-                </div>
-            </div>
-
-            <div class="inbox-block-wrapper">
-                <h3 style="color: var(--texto-oscuro); font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
-                    📥 Propuestas y Sugerencias Enviadas 
-                    <span style="font-size: 0.8rem; background: var(--rojo-principal); color: white; padding: 2px 8px; border-radius: 10px;" id="badge-contador">0</span>
-                </h3>
-                <p style="font-size: 0.8rem; color: var(--texto-secundario); margin-top: 2px;">Mensajes nuevos que esperan ser clasificados en el cuadro inferior.</p>
-                
-                <div id="contenedor-inbox-vertical" class="inbox-list-vertical">
-                    </div>
-            </div>
-
-            <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">📊 Cuadro de Clasificación de Ideas</h3>
-            <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 15px;">Usa el botón de asignar de arriba para acomodar las ideas estratégicamente en estas columnas.</p>
-            
-            <div class="board-three-columns">
-                <div class="board-col col-importante">
-                    <h4>🚨 Importante</h4>
-                    <div id="area-importante" class="col-content-area"></div>
-                </div>
-
-                <div class="board-col col-prioridad">
-                    <h4>⭐ Prioridad</h4>
-                    <div id="area-prioridad" class="col-content-area"></div>
-                </div>
-
-                <div class="board-col col-poca">
-                    <h4>☕ Poca Prioridad</h4>
-                    <div id="area-poca" class="col-content-area"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
-    // Sistema básico de despliegue del menú de lectura
+    // ----- LÓGICA DEL MENÚ LATERAL -----
+    function abrirMenu() {
+        document.getElementById('sidebar').classList.add('active');
+        document.getElementById('sidebar-overlay').classList.add('active');
+    }
+
+    function cerrarMenu() {
+        document.getElementById('sidebar').classList.remove('active');
+        document.getElementById('sidebar-overlay').classList.remove('active');
+    }
+
+    function toggleSubmenu(id) {
+        const submenu = document.getElementById(id);
+        submenu.classList.toggle('active');
+    }
+
+    // ----- LÓGICA DEL HORARIO -----
+    function abrirModalHorario(curso) {
+        cerrarMenu(); 
+        document.getElementById('horario-titulo').innerText = "Horario - " + curso;
+        abrirModal('modal-horario');
+    }
+
+    // ----- LÓGICA DE MODALES GENÉRICOS -----
+    function abrirModal(idModal) { document.getElementById(idModal).classList.add('active'); }
+    function cerrarModal(idModal) { document.getElementById(idModal).classList.remove('active'); }
+    function cerrarModalFuera(event, idModal) {
+        if (event.target.id === idModal) { cerrarModal(idModal); }
+    }
+
+    // ----- LÓGICA DE TARJETAS EXPANDIBLES -----
     const botonesToggle = document.querySelectorAll('.btn-toggle:not([onclick])');
     botonesToggle.forEach(boton => {
         boton.addEventListener('click', function() {
@@ -554,235 +467,15 @@
         });
     });
 
-    // ==========================================
-    // SISTEMA DE CUENTA REGRESIVA DINÁMICA MEJORADA
-    // ==========================================
-    function inicializarCuentaRegresiva() {
-        // Generar la fecha de mañana de forma automática
-        const manana = new Date();
-        manana.setDate(manana.getDate() + 1);
-        manana.setHours(14, 0, 0, 0); // Fijar a las 14:00 hs
-
-        const fechaDestino = manana.getTime();
-        const displayBloques = document.getElementById('timer-display');
-        const timerMessage = document.getElementById('timer-message');
-
-        const x = setInterval(function() {
-            const ahora = new Date().getTime();
-            const distancia = fechaDestino - ahora;
-
-            // Si la cuenta regresiva termina
-            if (distancia < 0) {
-                clearInterval(x);
-                displayBloques.style.display = 'none';
-                timerMessage.style.display = 'block';
-                timerMessage.innerHTML = "¡Tiempo cumplido! La actividad ha finalizado.";
-                return;
-            }
-
-            // Cálculos de tiempo para días, horas, minutos y segundos
-            const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
-            const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
-
-            // Actualizar los bloques en la UI
-            document.getElementById('days-val').innerText = dias.toString().padStart(2, '0');
-            document.getElementById('hours-val').innerText = horas.toString().padStart(2, '0');
-            document.getElementById('mins-val').innerText = minutos.toString().padStart(2, '0');
-            document.getElementById('secs-val').innerText = segundos.toString().padStart(2, '0');
-
-            // Ocultar el bloque de días si es 0
-            if (dias === 0) {
-                document.getElementById('block-days').style.display = 'none';
-            } else {
-                document.getElementById('block-days').style.display = 'block';
-            }
-
-        }, 1000);
-    }
-
-    // Ejecutar al cargar la página
-    document.addEventListener("DOMContentLoaded", inicializarCuentaRegresiva);
-
-    // ==========================================
-    // SISTEMA DE AISLAMIENTO (5 CLICKS)
-    // ==========================================
-    const secretBadge = document.getElementById('secret-badge');
-    const mainView = document.getElementById('main-view');
-    const adminView = document.getElementById('admin-view');
-    let clickCount = 0; let clickTimer;
-
-    secretBadge.addEventListener('click', () => {
-        clickCount++; clearTimeout(clickTimer);
-        if (clickCount >= 5) {
-            mainView.classList.add('hidden');
-            adminView.classList.remove('hidden');
-            clickCount = 0;
-        }
-        clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
-    });
-
-    function salirDelPanel() {
-        adminView.classList.add('hidden');
-        mainView.classList.remove('hidden');
-        cerrarSesion();
-    }
-
-    // ==========================================
-    // CONEXIÓN DIRECTA CON FIREBASE RTDB
-    // ==========================================
-    const FIREBASE_URL = "https://lista-roja-5ab69-default-rtdb.firebaseio.com/"; 
-    const PASSWORD_CORRECTA = "roja2026"; 
-
+    // ----- LÓGICA DEL BUZÓN (Placeholder) -----
     function enviarPropuesta() {
-        const txtArea = document.getElementById('input-propuesta');
-        const propuestaTexto = txtArea.value.trim();
-
-        if (propuestaTexto === "") {
-            alert("Por favor, escribe algo antes de enviar.");
-            return;
-        }
-
-        const nuevaPropuesta = {
-            texto: propuestaTexto,
-            fecha: new Date().toLocaleString('es-AR'),
-            estado: 'inbox' // Por defecto cae al buzón separado
-        };
-
-        fetch(`${FIREBASE_URL}propuestas.json`, {
-            method: 'POST',
-            body: JSON.stringify(nuevaPropuesta),
-            headers: { 'Content-Type': 'application/json' }
-        })
-        .then(res => {
-            if(res.ok) {
-                alert("¡Tu propuesta ha sido enviada a la nube de forma anónima!");
-                txtArea.value = "";
-            } else {
-                alert("Error de conexión al servidor.");
-            }
-        })
-        .catch(err => alert("Error de red: " + err));
-    }
-
-    function verificarPassword() {
-        const inputPass = document.getElementById('pass-admin').value;
-        if (inputPass === PASSWORD_CORRECTA) {
-            document.getElementById('admin-login').classList.add('hidden');
-            document.getElementById('admin-dashboard').classList.remove('hidden');
-            document.getElementById('pass-admin').value = ""; 
-            cargarPropuestasEnPanel();
+        const txt = document.getElementById('input-propuesta').value.trim();
+        if (txt) {
+            alert("¡Tu propuesta ha sido enviada de forma anónima!");
+            document.getElementById('input-propuesta').value = "";
         } else {
-            alert("Contraseña incorrecta.");
+            alert("Por favor, escribe algo antes de enviar.");
         }
-    }
-
-    function cargarPropuestasEnPanel() {
-        // Limpiamos la bandeja y las 3 columnas del cuadro
-        const bandejaInbox = document.getElementById('contenedor-inbox-vertical');
-        bandejaInbox.innerHTML = "";
-        document.getElementById('area-importante').innerHTML = "";
-        document.getElementById('area-prioridad').innerHTML = "";
-        document.getElementById('area-poca').innerHTML = "";
-
-        fetch(`${FIREBASE_URL}propuestas.json`)
-        .then(res => res.json())
-        .then(data => {
-            if (!data) {
-                bandejaInbox.innerHTML = "<p style='font-size:0.85rem; color:var(--texto-secundario); text-align:center; padding:15px;'>Buzón vacío de manera absoluta.</p>";
-                document.getElementById('badge-contador').textContent = "0";
-                return;
-            }
-
-            const lista = Object.keys(data).map(key => {
-                return {
-                    id: key,
-                    texto: data[key].texto,
-                    fecha: data[key].fecha,
-                    estado: data[key].estado || 'inbox'
-                }
-            });
-            
-            let countInbox = 0;
-            lista.reverse().forEach(prop => {
-                const item = document.createElement('div');
-                item.className = 'propuesta-item';
-
-                if (prop.estado === 'inbox') {
-                    countInbox++;
-                    // Estructura especial para la BANDEJA DE ENTRADA con el botón (+) clasificador
-                    item.innerHTML = `
-                        <div>
-                            <span class="propuesta-date">📅 ${prop.fecha}</span>
-                            <p style="margin-top: 4px; font-weight: 500;">${prop.texto}</p>
-                        </div>
-                        <div class="action-bar-admin">
-                            <label style="font-size:0.75rem; color:var(--texto-secundario);">Mover a:</label>
-                            <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}', this.value)">
-                                <option value="inbox" selected>➕ Asignar cuadro...</option>
-                                <option value="importante">🚨 Importante</option>
-                                <option value="prioridad">⭐ Prioridad</option>
-                                <option value="poca">☕ Poca Prioridad</option>
-                            </select>
-                            <button class="btn-delete-item" onclick="eliminarMensaje('${prop.id}')">Borrar</button>
-                        </div>
-                    `;
-                    bandejaInbox.appendChild(item);
-                } else {
-                    // Estructura limpia para las columnas del CUADRO organizador de abajo
-                    item.innerHTML = `
-                        <div>
-                            <span class="propuesta-date">📅 ${prop.fecha}</span>
-                            <p style="margin-top: 4px;">${prop.texto}</p>
-                        </div>
-                        <div class="action-bar-admin">
-                            <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}', this.value)">
-                                <option value="importante" ${prop.estado === 'importante' ? 'selected' : ''}>🚨 Importante</option>
-                                <option value="prioridad" ${prop.estado === 'prioridad' ? 'selected' : ''}>⭐ Prioridad</option>
-                                <option value="poca" ${prop.estado === 'poca' ? 'selected' : ''}>☕ Poca Prioridad</option>
-                                <option value="inbox">📥 Regresar al Buzón</option>
-                            </select>
-                            <button class="btn-delete-item" onclick="eliminarMensaje('${prop.id}')">✕</button>
-                        </div>
-                    `;
-                    
-                    const areaDestino = document.getElementById(`area-${prop.estado}`);
-                    if (areaDestino) areaDestino.appendChild(item);
-                }
-            });
-
-            document.getElementById('badge-contador').textContent = countInbox;
-            if (countInbox === 0) {
-                bandejaInbox.innerHTML = "<p style='font-size:0.85rem; color:var(--texto-secundario); text-align:center; padding:15px;'>🎉 ¡Todo clasificado en el cuadro!</p>";
-            }
-        })
-        .catch(err => console.log("Error al sincronizar base de datos: ", err));
-    }
-
-    function moverAEstado(idPropuesta, nuevoEstado) {
-        fetch(`${FIREBASE_URL}propuestas/${idPropuesta}.json`, {
-            method: 'PATCH',
-            body: JSON.stringify({ estado: nuevoEstado }),
-            headers: { 'Content-Type': 'application/json' }
-        })
-        .then(res => {
-            if(res.ok) cargarPropuestasEnPanel();
-        });
-    }
-
-    function eliminarMensaje(idPropuesta) {
-        if (confirm("¿Eliminar este comentario permanentemente de la base de datos?")) {
-            fetch(`${FIREBASE_URL}propuestas/${idPropuesta}.json`, { method: 'DELETE' })
-            .then(res => {
-                if(res.ok) cargarPropuestasEnPanel();
-            });
-        }
-    }
-
-    function cerrarSesion() {
-        document.getElementById('admin-dashboard').classList.add('hidden');
-        document.getElementById('admin-login').classList.remove('hidden');
     }
 </script>
 </body>
