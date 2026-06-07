@@ -507,7 +507,6 @@
     </div>
 </div>
 
-<!-- ★ MODAL HORARIOS ★ -->
 <div class="modal-horarios-overlay" id="modal-horarios" onclick="cerrarHorariosFuera(event)">
     <div class="modal-horarios-content">
         <div class="modal-horarios-header">
@@ -520,7 +519,6 @@
                 <button class="btn-curso" onclick="mostrarHorario('3ero')">3° Año</button>
             </div>
 
-            <!-- HORARIO 3ERO -->
             <div class="horario-wrapper hidden" id="horario-3ero">
                 <table class="tabla-horario">
                     <thead>
@@ -624,7 +622,6 @@
 <div class="container" id="main-view">
     <div class="header">
 
-        <!-- ★ MENÚ 3 PUNTOS ★ -->
         <button class="btn-menu-tres" id="btn-menu-tres" onclick="toggleMenu(event)" title="Menú" aria-label="Menú">⋮</button>
 
         <div class="menu-dropdown hidden" id="menu-dropdown">
@@ -635,7 +632,6 @@
             </div>
         </div>
 
-        <!-- ★ BOTÓN DE TEMA CLARO / OSCURO ★ -->
         <button class="btn-theme-toggle" onclick="toggleTema()" title="Cambiar modo claro/oscuro" aria-label="Cambiar tema">
             <span class="icon-moon">🌙</span>
             <span class="icon-sun">☀️</span>
@@ -669,7 +665,6 @@
 
         <h2 class="section-title">Novedades</h2>
 
-        <!-- NOVEDAD 1: RIFA (Primera) -->
         <div class="section-card novedad-card">
             <h3>Rifa Solidaria - Baño de Varones 🎟️</h3>
             <p class="text-summary">Participá de la rifa para comprar el espejo del baño.</p>
@@ -683,7 +678,6 @@
             <button class="btn-toggle">Leer más</button>
         </div>
 
-        <!-- NOVEDAD 2: MUNDIAL (Segunda) -->
         <div class="section-card novedad-card">
             <h3>¡Mundial en la Escuela! ⚽</h3>
             <p class="text-summary">Transmisión en vivo del partido de la selección.</p>
@@ -696,7 +690,6 @@
             <button class="btn-toggle">Leer más</button>
         </div>
 
-        <!-- NOVEDAD 3: MASCOTA (Tercera) -->
         <div class="section-card novedad-card">
             <h3>¡Elección de la Mascota de la Escuela! 🐾</h3>
             <p class="text-summary">Cada curso diseñará un dibujo para elegir a nuestra mascota oficial.</p>
@@ -715,7 +708,6 @@
             <button class="btn-toggle">Leer más</button>
         </div>
 
-        <!-- NOVEDAD 4: AGRADECIMIENTOS (Cuarta) -->
         <div class="section-card novedad-card">
             <h3>Agradecimiento 22-05-26</h3>
             <p class="text-summary">Un mensaje especial tras la jornada electoral.</p>
@@ -837,6 +829,38 @@
                     <h4>☕ Poca Prioridad</h4>
                     <div id="area-poca" class="col-content-area"></div>
                 </div>
+            </div>
+
+            <hr style="margin: 35px 0; border: 0; border-top: 1px dashed var(--texto-secundario); opacity: 0.5;">
+
+            <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 15px; font-weight: bold;">📈 Estadísticas Básicas</h3>
+            <div style="display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 150px; background: var(--bg-poca); padding: 20px; border-radius: 12px; text-align: center; border-left: 4px solid var(--color-principal);">
+                    <h4 style="font-size: 0.9rem; color: var(--texto-secundario); text-transform: uppercase;">Visitas Hoy</h4>
+                    <p style="font-size: 1.8rem; font-weight: bold; color: var(--color-oscuro); margin-top: 5px;">42</p>
+                </div>
+                <div style="flex: 1; min-width: 150px; background: var(--bg-prioridad); padding: 20px; border-radius: 12px; text-align: center; border-left: 4px solid var(--color-acento);">
+                    <h4 style="font-size: 0.9rem; color: var(--texto-secundario); text-transform: uppercase;">Propuestas Totales</h4>
+                    <p style="font-size: 1.8rem; font-weight: bold; color: var(--color-acento); margin-top: 5px;" id="stat-propuestas">0</p>
+                </div>
+            </div>
+
+            <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 15px; font-weight: bold;">⚡ Gestor de Anuncios Flash</h3>
+            <div class="inbox-block-wrapper" style="margin-bottom: 30px;">
+                <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 10px;">Escribe un aviso rápido (se verá pronto en la página principal).</p>
+                <input type="text" id="input-anuncio-flash" placeholder="Ej: ¡Mañana reunión de delegados a las 10:00!" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--texto-secundario); background: var(--tarjeta-fondo); color: var(--texto-oscuro); margin-bottom: 10px;">
+                <button class="btn-submit" onclick="publicarAnuncioFlash()">Publicar Anuncio</button>
+            </div>
+
+            <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 15px; font-weight: bold;">📊 Crear Encuesta Rápida</h3>
+            <div class="inbox-block-wrapper" style="margin-bottom: 10px;">
+                <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 10px;">Lanza una votación para que los alumnos decidan en la web.</p>
+                <input type="text" id="input-encuesta-pregunta" placeholder="Pregunta (Ej: ¿Qué música preferís para el recreo?)" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--texto-secundario); background: var(--tarjeta-fondo); color: var(--texto-oscuro); margin-bottom: 10px;">
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <input type="text" id="input-opcion-1" placeholder="Opción 1 (Ej: Rock)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--texto-secundario); background: var(--tarjeta-fondo); color: var(--texto-oscuro);">
+                    <input type="text" id="input-opcion-2" placeholder="Opción 2 (Ej: Cumbia)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--texto-secundario); background: var(--tarjeta-fondo); color: var(--texto-oscuro);">
+                </div>
+                <button class="btn-submit" onclick="crearEncuesta()">Lanzar Encuesta</button>
             </div>
         </div>
     </div>
@@ -987,9 +1011,18 @@
             if (!data) {
                 bandejaInbox.innerHTML = "<p style='font-size:0.85rem;color:var(--texto-secundario);text-align:center;padding:15px;'>Buzón vacío de manera absoluta.</p>";
                 document.getElementById('badge-contador').textContent = "0";
+                
+                // Actualizar estadística de propuestas a 0
+                const statPropuestas = document.getElementById('stat-propuestas');
+                if (statPropuestas) statPropuestas.textContent = "0";
                 return;
             }
             const lista = Object.keys(data).map(key => ({ id: key, ...data[key], estado: data[key].estado || 'inbox' }));
+            
+            // Actualizar estadística de propuestas totales
+            const statPropuestas = document.getElementById('stat-propuestas');
+            if (statPropuestas) statPropuestas.textContent = lista.length;
+
             let countInbox = 0;
             lista.reverse().forEach(prop => {
                 const item = document.createElement('div');
@@ -1048,6 +1081,32 @@
     function cerrarSesion() {
         document.getElementById('admin-dashboard').classList.add('hidden');
         document.getElementById('admin-login').classList.remove('hidden');
+    }
+
+    // ── FUNCIONES NUEVAS PARA EL PANEL (Simuladas hasta conectar el backend) ──
+    function publicarAnuncioFlash() {
+        const inputAnuncio = document.getElementById('input-anuncio-flash');
+        if(inputAnuncio.value.trim() === "") {
+            alert("Por favor, escribe un aviso antes de publicarlo.");
+            return;
+        }
+        alert("¡Aviso preparado para publicarse en la página principal!\n\nMensaje: " + inputAnuncio.value);
+        inputAnuncio.value = "";
+    }
+
+    function crearEncuesta() {
+        const pregunta = document.getElementById('input-encuesta-pregunta');
+        const op1 = document.getElementById('input-opcion-1');
+        const op2 = document.getElementById('input-opcion-2');
+
+        if(pregunta.value.trim() === "" || op1.value.trim() === "" || op2.value.trim() === "") {
+            alert("Por favor, completa la pregunta y las dos opciones.");
+            return;
+        }
+        alert("¡Encuesta creada con éxito en la plataforma!\n\nPregunta: " + pregunta.value + "\nOpciones: " + op1.value + " / " + op2.value);
+        pregunta.value = "";
+        op1.value = "";
+        op2.value = "";
     }
 </script>
 </body>
