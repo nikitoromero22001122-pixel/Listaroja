@@ -845,23 +845,21 @@
                 </div>
             </div>
 
-            <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 15px; font-weight: bold;">⚡ Gestor de Anuncios Flash</h3>
+            <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 15px; font-weight: bold;">📅 Calendario Administrativo</h3>
             <div class="inbox-block-wrapper" style="margin-bottom: 30px;">
-                <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 10px;">Escribe un aviso rápido (se verá pronto en la página principal).</p>
-                <input type="text" id="input-anuncio-flash" placeholder="Ej: ¡Mañana reunión de delegados a las 10:00!" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--texto-secundario); background: var(--tarjeta-fondo); color: var(--texto-oscuro); margin-bottom: 10px;">
-                <button class="btn-submit" onclick="publicarAnuncioFlash()">Publicar Anuncio</button>
+                <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 10px;">Agenda reuniones, asambleas o eventos importantes del Centro.</p>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+                    <input type="date" id="input-fecha-evento" style="flex: 1; min-width: 120px; padding: 10px; border-radius: 8px; border: 1px solid var(--texto-secundario); background: var(--tarjeta-fondo); color: var(--texto-oscuro);">
+                    <input type="text" id="input-texto-evento" placeholder="Ej: Reunión con directivos, organizar acto..." style="flex: 2; min-width: 200px; padding: 10px; border-radius: 8px; border: 1px solid var(--texto-secundario); background: var(--tarjeta-fondo); color: var(--texto-oscuro);">
+                </div>
+                <button class="btn-submit" onclick="agregarEvento()">Guardar en Calendario</button>
+                
+                <h4 style="margin-top: 20px; color: var(--texto-oscuro); font-size: 1rem; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px;">Próximos Eventos Programados</h4>
+                <div id="lista-eventos" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; padding-right: 5px;">
+                    </div>
             </div>
 
-            <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 15px; font-weight: bold;">📊 Crear Encuesta Rápida</h3>
-            <div class="inbox-block-wrapper" style="margin-bottom: 10px;">
-                <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 10px;">Lanza una votación para que los alumnos decidan en la web.</p>
-                <input type="text" id="input-encuesta-pregunta" placeholder="Pregunta (Ej: ¿Qué música preferís para el recreo?)" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--texto-secundario); background: var(--tarjeta-fondo); color: var(--texto-oscuro); margin-bottom: 10px;">
-                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                    <input type="text" id="input-opcion-1" placeholder="Opción 1 (Ej: Rock)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--texto-secundario); background: var(--tarjeta-fondo); color: var(--texto-oscuro);">
-                    <input type="text" id="input-opcion-2" placeholder="Opción 2 (Ej: Cumbia)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--texto-secundario); background: var(--tarjeta-fondo); color: var(--texto-oscuro);">
-                </div>
-                <button class="btn-submit" onclick="crearEncuesta()">Lanzar Encuesta</button>
-            </div>
         </div>
     </div>
 </div>
@@ -997,6 +995,7 @@
             document.getElementById('admin-dashboard').classList.remove('hidden');
             document.getElementById('pass-admin').value = "";
             cargarPropuestasEnPanel();
+            cargarEventos(); // Cargar los eventos al entrar
         } else { alert("Contraseña incorrecta."); }
     }
 
@@ -1083,30 +1082,79 @@
         document.getElementById('admin-login').classList.remove('hidden');
     }
 
-    // ── FUNCIONES NUEVAS PARA EL PANEL (Simuladas hasta conectar el backend) ──
-    function publicarAnuncioFlash() {
-        const inputAnuncio = document.getElementById('input-anuncio-flash');
-        if(inputAnuncio.value.trim() === "") {
-            alert("Por favor, escribe un aviso antes de publicarlo.");
-            return;
+    // ── CALENDARIO ADMINISTRATIVO ────────────────────────────────────────────
+    function agregarEvento() {
+        const fecha = document.getElementById('input-fecha-evento').value;
+        const texto = document.getElementById('input-texto-evento').value.trim();
+
+        if (!fecha || !texto) { 
+            alert("Por favor, selecciona una fecha y escribe el detalle del evento."); 
+            return; 
         }
-        alert("¡Aviso preparado para publicarse en la página principal!\n\nMensaje: " + inputAnuncio.value);
-        inputAnuncio.value = "";
+
+        fetch(`${FIREBASE_URL}eventos.json`, {
+            method: 'POST',
+            body: JSON.stringify({ fecha: fecha, texto: texto, creado: new Date().toLocaleString('es-AR') }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(res => {
+            if (res.ok) { 
+                document.getElementById('input-fecha-evento').value = ""; 
+                document.getElementById('input-texto-evento').value = ""; 
+                cargarEventos(); 
+            } else {
+                alert("Error al guardar el evento en Firebase.");
+            }
+        })
+        .catch(err => console.log("Error de conexión:", err));
     }
 
-    function crearEncuesta() {
-        const pregunta = document.getElementById('input-encuesta-pregunta');
-        const op1 = document.getElementById('input-opcion-1');
-        const op2 = document.getElementById('input-opcion-2');
+    function cargarEventos() {
+        const listaEventos = document.getElementById('lista-eventos');
+        listaEventos.innerHTML = "<p style='font-size:0.85rem;color:var(--texto-secundario);text-align:center;padding:10px;'>Sincronizando eventos...</p>";
 
-        if(pregunta.value.trim() === "" || op1.value.trim() === "" || op2.value.trim() === "") {
-            alert("Por favor, completa la pregunta y las dos opciones.");
-            return;
+        fetch(`${FIREBASE_URL}eventos.json`)
+        .then(res => res.json())
+        .then(data => {
+            listaEventos.innerHTML = "";
+            if (!data) {
+                listaEventos.innerHTML = "<p style='font-size:0.85rem;color:var(--texto-secundario); text-align:center; padding:10px;'>No hay eventos programados en el calendario.</p>";
+                return;
+            }
+            
+            // Convertir a array y ordenar por fecha
+            const eventos = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+            eventos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
+            eventos.forEach(ev => {
+                const item = document.createElement('div');
+                item.style.cssText = "background: var(--tarjeta-fondo); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02);";
+                
+                // Formatear la fecha para que se lea mejor (dd/mm/yyyy)
+                let fechaFormateada = ev.fecha;
+                if (ev.fecha.includes('-')) {
+                    const [yyyy, mm, dd] = ev.fecha.split('-');
+                    fechaFormateada = `${dd}/${mm}/${yyyy}`;
+                }
+
+                item.innerHTML = `
+                    <div>
+                        <strong style="color: var(--color-principal); font-size: 0.9rem;">🗓️ ${fechaFormateada}</strong>
+                        <p style="margin-top: 4px; font-size: 0.95rem; color: var(--texto-oscuro); font-weight: 500;">${ev.texto}</p>
+                    </div>
+                    <button class="btn-delete-item" style="background: transparent; color: #dc3545; border: 1px solid #dc3545; padding: 6px 10px;" onclick="eliminarEvento('${ev.id}')">✕</button>
+                `;
+                listaEventos.appendChild(item);
+            });
+        })
+        .catch(err => console.log("Error al cargar eventos:", err));
+    }
+
+    function eliminarEvento(id) {
+        if (confirm("¿Estás seguro de que quieres eliminar este evento del calendario?")) {
+            fetch(`${FIREBASE_URL}eventos/${id}.json`, { method: 'DELETE' })
+            .then(res => { if (res.ok) cargarEventos(); });
         }
-        alert("¡Encuesta creada con éxito en la plataforma!\n\nPregunta: " + pregunta.value + "\nOpciones: " + op1.value + " / " + op2.value);
-        pregunta.value = "";
-        op1.value = "";
-        op2.value = "";
     }
 </script>
 </body>
