@@ -479,6 +479,36 @@
         }
 
         .tabla-horario tr:hover td { filter: brightness(0.94); }
+
+        /* ── MINIJUEGO CLICKEADOR ── */
+        .game-target {
+            width: 45px; height: 45px;
+            background: var(--color-principal);
+            border: 2px solid #fff;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.05s;
+            animation: popIn 0.2s ease-out;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .game-target::after {
+            content: '🎯'; font-size: 1.4rem;
+        }
+        .game-target:active { transform: scale(0.7); }
+        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        
+        .game-particle {
+            position: absolute;
+            color: var(--color-principal);
+            font-weight: bold;
+            font-size: 1.2rem;
+            pointer-events: none;
+            animation: floatUp 0.6s ease-out forwards;
+        }
+        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-30px); } }
+
     </style>
 </head>
 <body>
@@ -507,7 +537,6 @@
     </div>
 </div>
 
-<!-- ★ MODAL HORARIOS ★ -->
 <div class="modal-horarios-overlay" id="modal-horarios" onclick="cerrarHorariosFuera(event)">
     <div class="modal-horarios-content">
         <div class="modal-horarios-header">
@@ -520,7 +549,6 @@
                 <button class="btn-curso" onclick="mostrarHorario('3ero')">3° Año</button>
             </div>
 
-            <!-- HORARIO 3ERO -->
             <div class="horario-wrapper hidden" id="horario-3ero">
                 <table class="tabla-horario">
                     <thead>
@@ -621,10 +649,28 @@
     </div>
 </div>
 
+<div class="modal-horarios-overlay" id="modal-juego" onclick="cerrarJuegoFuera(event)">
+    <div class="modal-horarios-content" style="max-width: 450px;">
+        <div class="modal-horarios-header">
+            <h2>🎮 Clickeador E.M.E.N</h2>
+            <button class="modal-close" onclick="cerrarJuego()">✖</button>
+        </div>
+        <div class="modal-horarios-body" style="text-align: center; padding: 25px;">
+            <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; color: var(--texto-oscuro);">
+                Puntaje: <span id="game-score" class="resaltado-texto" style="font-size: 1.5rem;">0</span> | Tiempo: <span id="game-time">30</span>s
+            </div>
+            
+            <div id="game-container" style="width: 100%; height: 350px; background: var(--tarjeta-seccion); border-radius: 15px; position: relative; overflow: hidden; border: 2px dashed var(--texto-secundario); margin-bottom: 20px; box-shadow: inset 0 0 10px rgba(0,0,0,0.1); user-select: none;">
+                </div>
+            
+            <button id="btn-start-game" class="btn-submit" style="font-size: 1.1rem; padding: 12px 24px; width: 100%;" onclick="iniciarJuego()">EMPEZAR A JUGAR</button>
+        </div>
+    </div>
+</div>
+
 <div class="container" id="main-view">
     <div class="header">
 
-        <!-- ★ MENÚ 3 PUNTOS ★ -->
         <button class="btn-menu-tres" id="btn-menu-tres" onclick="toggleMenu(event)" title="Menú" aria-label="Menú">⋮</button>
 
         <div class="menu-dropdown hidden" id="menu-dropdown">
@@ -633,9 +679,12 @@
                 <span class="menu-icon">📅</span>
                 <span>Horarios</span>
             </div>
+            <div class="menu-item" onclick="abrirJuego()">
+                <span class="menu-icon">🎮</span>
+                <span>Juego</span>
+            </div>
         </div>
 
-        <!-- ★ BOTÓN DE TEMA CLARO / OSCURO ★ -->
         <button class="btn-theme-toggle" onclick="toggleTema()" title="Cambiar modo claro/oscuro" aria-label="Cambiar tema">
             <span class="icon-moon">🌙</span>
             <span class="icon-sun">☀️</span>
@@ -669,7 +718,6 @@
 
         <h2 class="section-title">Novedades</h2>
 
-        <!-- NOVEDAD 1: RIFA (Primera) -->
         <div class="section-card novedad-card">
             <h3>Rifa Solidaria - Baño de Varones 🎟️</h3>
             <p class="text-summary">Participá de la rifa para comprar el espejo del baño.</p>
@@ -683,7 +731,6 @@
             <button class="btn-toggle">Leer más</button>
         </div>
 
-        <!-- NOVEDAD 2: MUNDIAL (Segunda) -->
         <div class="section-card novedad-card">
             <h3>¡Mundial en la Escuela! ⚽</h3>
             <p class="text-summary">Transmisión en vivo del partido de la selección.</p>
@@ -696,7 +743,6 @@
             <button class="btn-toggle">Leer más</button>
         </div>
 
-        <!-- NOVEDAD 3: MASCOTA (Tercera) -->
         <div class="section-card novedad-card">
             <h3>¡Elección de la Mascota de la Escuela! 🐾</h3>
             <p class="text-summary">Cada curso diseñará un dibujo para elegir a nuestra mascota oficial.</p>
@@ -715,7 +761,6 @@
             <button class="btn-toggle">Leer más</button>
         </div>
 
-        <!-- NOVEDAD 4: AGRADECIMIENTOS (Cuarta) -->
         <div class="section-card novedad-card">
             <h3>Agradecimiento 22-05-26</h3>
             <p class="text-summary">Un mensaje especial tras la jornada electoral.</p>
@@ -1048,6 +1093,102 @@
     function cerrarSesion() {
         document.getElementById('admin-dashboard').classList.add('hidden');
         document.getElementById('admin-login').classList.remove('hidden');
+    }
+
+    // ── MINIJUEGO CLICKEADOR ──────────────────────────────────────────────────
+    let gameScore = 0;
+    let gameTime = 30;
+    let isGameActive = false;
+    let gameSpawnInterval;
+    let gameTimerInterval;
+
+    const gameContainer = document.getElementById('game-container');
+    const gameScoreEl = document.getElementById('game-score');
+    const gameTimeEl = document.getElementById('game-time');
+    const btnStartGame = document.getElementById('btn-start-game');
+
+    function abrirJuego() {
+        menuDropdown.classList.add('hidden');
+        document.getElementById('modal-juego').classList.add('active');
+    }
+
+    function cerrarJuego() {
+        document.getElementById('modal-juego').classList.remove('active');
+        terminarJuego(true); // Terminar sin mostrar récord si se cierra la ventana a medias
+    }
+
+    function cerrarJuegoFuera(event) {
+        if (event.target.id === 'modal-juego') cerrarJuego();
+    }
+
+    function spawnGameTarget() {
+        if (!isGameActive) return;
+        const target = document.createElement('div');
+        target.className = 'game-target';
+        
+        // Calcula posición límite para que no se salga
+        const maxX = gameContainer.clientWidth - 45;
+        const maxY = gameContainer.clientHeight - 45;
+        const x = Math.max(0, Math.random() * maxX);
+        const y = Math.max(0, Math.random() * maxY);
+        
+        target.style.left = x + 'px';
+        target.style.top = y + 'px';
+        
+        target.onclick = (e) => {
+            gameScore++;
+            gameScoreEl.textContent = gameScore;
+            
+            // Efecto flotante +1
+            const particle = document.createElement('div');
+            particle.textContent = '+1';
+            particle.className = 'game-particle';
+            // Ajustar posición respecto al contenedor relativo
+            const rect = gameContainer.getBoundingClientRect();
+            particle.style.left = (e.clientX - rect.left) + 'px';
+            particle.style.top = (e.clientY - rect.top) + 'px';
+            
+            gameContainer.appendChild(particle);
+            setTimeout(() => { if (particle.parentNode) particle.remove(); }, 600);
+            
+            target.remove();
+        };
+        
+        gameContainer.appendChild(target);
+        setTimeout(() => { if (target.parentNode) target.remove(); }, 1200);
+    }
+
+    function iniciarJuego() {
+        gameScore = 0;
+        gameTime = 30;
+        isGameActive = true;
+        gameScoreEl.textContent = 0;
+        gameTimeEl.textContent = 30;
+        btnStartGame.style.display = 'none';
+        gameContainer.innerHTML = '';
+        
+        gameSpawnInterval = setInterval(spawnGameTarget, 600);
+        
+        gameTimerInterval = setInterval(() => {
+            gameTime--;
+            gameTimeEl.textContent = gameTime;
+            if (gameTime <= 0) terminarJuego(false);
+        }, 1000);
+    }
+
+    function terminarJuego(cerradoForzado) {
+        isGameActive = false;
+        clearInterval(gameSpawnInterval);
+        clearInterval(gameTimerInterval);
+        gameContainer.innerHTML = '';
+        btnStartGame.style.display = 'block';
+        if (!cerradoForzado) {
+            btnStartGame.textContent = 'JUGAR DE NUEVO - Récord: ' + gameScore;
+        } else {
+            btnStartGame.textContent = 'EMPEZAR A JUGAR';
+            gameScoreEl.textContent = 0;
+            gameTimeEl.textContent = 30;
+        }
     }
 </script>
 </body>
