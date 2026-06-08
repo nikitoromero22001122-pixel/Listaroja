@@ -31,7 +31,6 @@
             --bg-poca: #d1ecf1;
             --theme-btn-bg: rgba(255,255,255,0.2);
             --theme-btn-border: rgba(255,255,255,0.5);
-            --calendario-hover: rgba(210, 39, 48, 0.1);
         }
 
         /* ── MODO OSCURO (manual) ── */
@@ -57,7 +56,6 @@
             --bg-poca: #1c3a4a;
             --theme-btn-bg: rgba(0,0,0,0.25);
             --theme-btn-border: rgba(255,255,255,0.3);
-            --calendario-hover: rgba(231, 76, 60, 0.2);
         }
 
         /* ── MODO OSCURO (preferencia del sistema, solo si es "auto") ── */
@@ -84,7 +82,6 @@
                 --bg-poca: #1c3a4a;
                 --theme-btn-bg: rgba(0,0,0,0.25);
                 --theme-btn-border: rgba(255,255,255,0.3);
-                --calendario-hover: rgba(231, 76, 60, 0.2);
             }
         }
 
@@ -135,10 +132,15 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.35);
         }
 
+        /* Por defecto (modo claro): mostramos luna */
         .btn-theme-toggle .icon-sun  { display: none; }
         .btn-theme-toggle .icon-moon { display: block; }
+
+        /* En modo oscuro: mostramos sol */
         [data-theme="dark"] .btn-theme-toggle .icon-sun  { display: block; }
         [data-theme="dark"] .btn-theme-toggle .icon-moon { display: none; }
+
+        /* En auto + sistema oscuro: mostramos sol */
         @media (prefers-color-scheme: dark) {
             [data-theme="auto"] .btn-theme-toggle .icon-sun  { display: block; }
             [data-theme="auto"] .btn-theme-toggle .icon-moon { display: none; }
@@ -191,6 +193,8 @@
         .novedad-card h3 { color: var(--color-acento); }
         .verde-card { border-left-color: var(--color-verde); }
         .verde-card h3 { color: var(--color-verde); }
+        .suspendida { border-left-color: #dc3545; }
+        .suspendida h3 { color: #dc3545; }
 
         .text-summary { font-style: italic; color: var(--texto-secundario); }
 
@@ -302,6 +306,7 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.35);
         }
 
+        /* ── DROPDOWN DEL MENÚ ── */
         .menu-dropdown {
             position: absolute; top: 68px; left: 15px;
             background: var(--tarjeta-fondo);
@@ -332,7 +337,7 @@
         .menu-item:hover { background: var(--tarjeta-seccion); }
         .menu-item .menu-icon { font-size: 1.15rem; }
 
-        /* ── MODALES COMPARTIDOS (Horarios y Calendario) ── */
+        /* ── MODAL HORARIOS ── */
         .modal-horarios-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.75); display: none;
@@ -355,89 +360,158 @@
             display: flex; align-items: center; justify-content: space-between;
         }
         .modal-horarios-header h2 { font-size: 1.25rem; letter-spacing: 0.5px; }
-        .modal-horarios-header .modal-close { position: static; color: #fff; font-size: 1.4rem; }
+        .modal-horarios-header .modal-close {
+            position: static; color: #fff; font-size: 1.4rem;
+        }
         .modal-horarios-header .modal-close:hover { color: rgba(255,255,255,0.7); }
+
         .modal-horarios-body { padding: 22px; }
 
-        /* ── ALMANAQUE INTERACTIVO (GRILLA) ── */
-        .calendario-container { width: 100%; text-align: center; margin-bottom: 15px; }
-        .calendario-header-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: var(--tarjeta-seccion); padding: 10px; border-radius: 10px; }
-        .calendario-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
-        .calendario-dia-head { font-weight: bold; color: var(--color-principal); font-size: 0.85rem; text-transform: uppercase; padding: 5px 0; }
-        
-        .calendario-dia {
-            background: var(--tarjeta-fondo); border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 8px; padding: 8px 4px; min-height: 70px;
-            display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
-            transition: transform 0.2s, background 0.2s, border-color 0.2s; font-size: 0.95rem;
-            color: var(--texto-oscuro);
+        /* Selector de curso */
+        .cursos-label {
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--texto-secundario); margin-bottom: 10px; font-weight: bold;
         }
-        [data-theme="dark"] .calendario-dia { border-color: rgba(255,255,255,0.1); }
-        
-        .calendario-dia:not(.vacio) { cursor: pointer; }
-        .calendario-dia:not(.vacio):hover { transform: translateY(-2px); border-color: var(--color-principal); background: var(--calendario-hover); }
-        .calendario-dia.hoy { border: 2px solid var(--color-principal); font-weight: bold; background: var(--bg-importante); }
-        .calendario-dia.vacio { background: transparent; border: none; cursor: default; }
-        .calendario-dia.vacio:hover { transform: none; background: transparent; border-color: transparent; }
-        
-        .evento-badge {
-            background: var(--color-principal); color: white;
-            font-size: 0.65rem; border-radius: 4px; padding: 3px;
-            margin-top: 4px; text-align: center; width: 100%;
-            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            animation: fadeIn 0.3s ease-out;
+        .cursos-lista {
+            display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px;
+        }
+        .btn-curso {
+            background: var(--tarjeta-seccion);
+            color: var(--texto-oscuro);
+            border: 2px solid transparent;
+            padding: 8px 20px; border-radius: 50px;
+            cursor: pointer; font-weight: bold; font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .btn-curso:hover { border-color: var(--color-principal); color: var(--color-principal); }
+        .btn-curso.activo {
+            background: var(--color-principal); color: #fff;
+            border-color: var(--color-principal);
+            box-shadow: 0 4px 12px rgba(210,39,48,0.35);
         }
 
-        /* ── TABLA DE HORARIO (Ocultar por defecto en el HTML original) ── */
-        .horario-wrapper { overflow-x: auto; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); animation: slideInLeft 0.3s ease-out; }
-        .cursos-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--texto-secundario); margin-bottom: 10px; font-weight: bold; }
-        .cursos-lista { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
-        .btn-curso { background: var(--tarjeta-seccion); color: var(--texto-oscuro); border: 2px solid transparent; padding: 8px 20px; border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 0.9rem; transition: all 0.2s; }
-        .btn-curso:hover { border-color: var(--color-principal); color: var(--color-principal); }
-        .btn-curso.activo { background: var(--color-principal); color: #fff; border-color: var(--color-principal); box-shadow: 0 4px 12px rgba(210,39,48,0.35); }
-        .tabla-horario { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 0.78rem; font-weight: 600; }
-        .tabla-horario .th-titulo { background: #4a6e2a; color: #fff; padding: 9px 10px; text-align: center; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
-        .th-lunes { background: #a8d932; color: #1a2e00; } .th-martes { background: #f5a623; color: #3a1e00; } .th-miercoles{ background: #f5e623; color: #2a2000; } .th-jueves { background: #b8e030; color: #1a2e00; } .th-viernes { background: #f5c018; color: #3a2200; }
-        .tabla-horario th { padding: 8px 6px; text-align: center; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.3px; }
-        .td-hora { background: #f5f5b0; color: #2a2a00; text-align: center; padding: 7px 8px; font-weight: 700; white-space: nowrap; font-size: 0.72rem; }
-        .td-clase { background: #ffffff; color: #1a1a1a; text-align: center; padding: 7px 5px; border: 1px solid #d8e8c0; }
-        .td-recreo { background: #c8e8a0; color: #1a3a00; text-align: center; padding: 7px 5px; font-style: italic; border: 1px solid #a8cc80; }
-        .td-libre { background: #fffacc; color: #3a3000; text-align: center; padding: 7px 5px; border: 1px solid #e8d870; }
-        .td-salida { background: #ffe0e0; color: #5a0000; text-align: center; padding: 7px 5px; font-weight: 700; border: 1px solid #f0b0b0; }
+        /* ── TABLA DE HORARIO ── */
+        .horario-wrapper {
+            overflow-x: auto; border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            animation: slideInLeft 0.3s ease-out;
+        }
+        .horario-wrapper.hidden { display: none; }
+
+        .tabla-horario {
+            border-collapse: collapse; width: 100%; min-width: 520px;
+            font-size: 0.78rem; font-weight: 600;
+        }
+
+        /* Fila de encabezado principal */
+        .tabla-horario .th-titulo {
+            background: #4a6e2a; color: #fff;
+            padding: 9px 10px; text-align: center;
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        /* Encabezados de días */
+        .th-lunes    { background: #a8d932; color: #1a2e00; }
+        .th-martes   { background: #f5a623; color: #3a1e00; }
+        .th-miercoles{ background: #f5e623; color: #2a2000; }
+        .th-jueves   { background: #b8e030; color: #1a2e00; }
+        .th-viernes  { background: #f5c018; color: #3a2200; }
+
+        .tabla-horario th {
+            padding: 8px 6px; text-align: center;
+            text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.3px;
+        }
+
+        /* Celda de hora */
+        .td-hora {
+            background: #f5f5b0; color: #2a2a00;
+            text-align: center; padding: 7px 8px;
+            font-weight: 700; white-space: nowrap; font-size: 0.72rem;
+        }
         [data-theme="dark"] .td-hora { background: #3a3a10; color: #e8e860; }
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] .td-hora { background: #3a3a10; color: #e8e860; }
+        }
+
+        /* Celda normal */
+        .td-clase {
+            background: #ffffff; color: #1a1a1a;
+            text-align: center; padding: 7px 5px;
+            border: 1px solid #d8e8c0;
+        }
         [data-theme="dark"] .td-clase { background: #1e2a14; color: #d4e8b0; border-color: #2a3a1a; }
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] .td-clase { background: #1e2a14; color: #d4e8b0; border-color: #2a3a1a; }
+        }
+
+        /* Fila de recreo */
+        .td-recreo {
+            background: #c8e8a0; color: #1a3a00;
+            text-align: center; padding: 7px 5px;
+            font-style: italic; border: 1px solid #a8cc80;
+        }
         [data-theme="dark"] .td-recreo { background: #1a3a08; color: #90cc50; border-color: #2a5010; }
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] .td-recreo { background: #1a3a08; color: #90cc50; border-color: #2a5010; }
+        }
+
+        /* Celda libre */
+        .td-libre {
+            background: #fffacc; color: #3a3000;
+            text-align: center; padding: 7px 5px;
+            border: 1px solid #e8d870;
+        }
         [data-theme="dark"] .td-libre { background: #2a2808; color: #d8c840; border-color: #4a4010; }
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] .td-libre { background: #2a2808; color: #d8c840; border-color: #4a4010; }
+        }
+
+        /* Celda salida */
+        .td-salida {
+            background: #ffe0e0; color: #5a0000;
+            text-align: center; padding: 7px 5px;
+            font-weight: 700; border: 1px solid #f0b0b0;
+        }
         [data-theme="dark"] .td-salida { background: #3a0808; color: #f08080; border-color: #5a1010; }
-        @media (prefers-color-scheme: dark) { [data-theme="auto"] .td-hora { background: #3a3a10; color: #e8e860; } [data-theme="auto"] .td-clase { background: #1e2a14; color: #d4e8b0; border-color: #2a3a1a; } [data-theme="auto"] .td-recreo { background: #1a3a08; color: #90cc50; border-color: #2a5010; } [data-theme="auto"] .td-libre { background: #2a2808; color: #d8c840; border-color: #4a4010; } [data-theme="auto"] .td-salida { background: #3a0808; color: #f08080; border-color: #5a1010; } }
+        @media (prefers-color-scheme: dark) {
+            [data-theme="auto"] .td-salida { background: #3a0808; color: #f08080; border-color: #5a1010; }
+        }
+
         .tabla-horario tr:hover td { filter: brightness(0.94); }
     </style>
 </head>
 <body>
 
-<!-- MODAL COMPARTIR PÁGINA -->
 <div class="modal-overlay" id="modal-compartir" onclick="cerrarModalFuera(event)">
     <div class="modal-content-share">
         <button class="modal-close" onclick="cerrarModal()">✖</button>
         <img src="qr.jpg" alt="QR Centro de Estudiantes" class="qr-image">
-        <h2>Bienvenidos a la Página Oficial</h2>
-        <p>Esta página fue creada para mantener informados a todos los estudiantes sobre las actividades y proyectos de la Escuela Media E.M.E.N El Naranjo.</p>
+        <h2>Bienvenidos a la Página Oficial del Centro de Estudiantes</h2>
+        <p>Esta página fue creada para mantener informados a todos los estudiantes sobre las actividades, proyectos y novedades de la Escuela Media E.M.E.N El Naranjo.</p>
         <h3>¿Qué encontrarás aquí?</h3>
-        <h4>📢 Novedades</h4><p>Anuncios importantes, actividades y eventos de la comunidad educativa.</p>
-        <h4>⏳ Cuenta Regresiva</h4><p>Tiempo faltante para la próxima fecha importante.</p>
-        <h4>✅ Promesas a Cumplir</h4><p>Nuestros compromisos para seguir el avance de propuestas.</p>
-        <h4>📬 Buzón Anónimo</h4><p>Envía sugerencias, ideas o comentarios de forma 100% anónima.</p>
-        <h4>📱 Redes Sociales</h4><p>Enlaces a nuestras redes oficiales.</p>
-        <p style="font-weight: bold; text-align: center; margin-top: 25px; color: var(--color-principal);">Gracias por acompañarnos y construir una escuela mejor.</p>
+        <h4>📢 Novedades</h4>
+        <p>En esta sección se publicarán anuncios importantes, actividades escolares, eventos, campañas y cualquier información que sea relevante para toda la comunidad educativa.</p>
+        <h4>⏳ Cuenta Regresiva</h4>
+        <p>Aquí podrás ver el tiempo que falta para la próxima actividad o fecha importante organizada por el Centro.</p>
+        <h4>✅ Promesas a Cumplir</h4>
+        <p>En este espacio se muestran los compromisos asumidos, para que todos los estudiantes puedan conocer las propuestas y seguir el avance de cada una de ellas.</p>
+        <h4>📬 Buzón Anónimo</h4>
+        <p>Esta es una de las herramientas más importantes de la página. Cualquier estudiante puede enviar sugerencias, propuestas, ideas o comentarios de forma completamente anónima. El objetivo es que todas las voces sean escuchadas.</p>
+        <h4>📱 Redes Sociales</h4>
+        <p>Al final de la página encontrarás enlaces a nuestras redes sociales oficiales. Allí compartiremos noticias, avances de proyectos, recordatorios y más.</p>
+        <h3>Nuestro Objetivo</h3>
+        <p>Queremos construir un Centro de Estudiantes participativo, transparente y cercano a todos los alumnos. Esta página es una herramienta para mantener una comunicación constante con ustedes y para que cada estudiante pueda formar parte de las decisiones.</p>
+        <p style="font-weight: bold; text-align: center; margin-top: 25px; color: var(--color-principal);">Gracias por acompañarnos y por seguir construyendo una escuela mejor entre todos.</p>
+        <p style="text-align: center; font-style: italic; font-weight: bold;">Centro de Estudiantes - E.M.E.N El Naranjo</p>
     </div>
 </div>
 
-<!-- MODAL HORARIOS -->
+<!-- ★ MODAL HORARIOS ★ -->
 <div class="modal-horarios-overlay" id="modal-horarios" onclick="cerrarHorariosFuera(event)">
     <div class="modal-horarios-content">
         <div class="modal-horarios-header">
-            <h2>📅 Horarios de Clases</h2>
+            <h2>📅 Horarios</h2>
             <button class="modal-close" onclick="cerrarHorarios()">✖</button>
         </div>
         <div class="modal-horarios-body">
@@ -445,20 +519,101 @@
             <div class="cursos-lista">
                 <button class="btn-curso" onclick="mostrarHorario('3ero')">3° Año</button>
             </div>
+
+            <!-- HORARIO 3ERO -->
             <div class="horario-wrapper hidden" id="horario-3ero">
                 <table class="tabla-horario">
-                    <thead><tr><th class="th-titulo">HORARIO de 3ero</th><th class="th-lunes">LUNES</th><th class="th-martes">MARTES</th><th class="th-miercoles">MIÉRCOLES</th><th class="th-jueves">JUEVES</th><th class="th-viernes">VIERNES</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th class="th-titulo">HORARIO de 3ero</th>
+                            <th class="th-lunes">LUNES</th>
+                            <th class="th-martes">MARTES</th>
+                            <th class="th-miercoles">MIÉRCOLES</th>
+                            <th class="th-jueves">JUEVES</th>
+                            <th class="th-viernes">VIERNES</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr><td class="td-hora">12:30 p.m.</td><td class="td-clase">INGLÉS</td><td class="td-clase">GEOGRAFÍA</td><td class="td-clase">TECNOLOGÍA</td><td class="td-clase">LENGUA</td><td class="td-clase">HISTORIA</td></tr>
-                        <tr><td class="td-hora">1:10 p.m.</td><td class="td-clase">INGLÉS</td><td class="td-clase">GEOGRAFÍA</td><td class="td-clase">TECNOLOGÍA</td><td class="td-clase">LENGUA</td><td class="td-clase">HISTORIA</td></tr>
-                        <tr><td class="td-hora">1:50 p.m.</td><td class="td-clase">INGLÉS</td><td class="td-clase">GEOGRAFÍA</td><td class="td-clase">TECNOLOGÍA</td><td class="td-clase">LENGUA</td><td class="td-clase">HISTORIA</td></tr>
-                        <tr><td class="td-hora">2:30 p.m.</td><td class="td-recreo">RECREO</td><td class="td-recreo">RECREO</td><td class="td-recreo">RECREO</td><td class="td-recreo">RECREO</td><td class="td-recreo">RECREO</td></tr>
-                        <tr><td class="td-hora">2:40 p.m.</td><td class="td-clase">QUÍMICA</td><td class="td-clase">BIOLOGÍA</td><td class="td-clase">PLÁSTICA</td><td class="td-clase">LENGUA</td><td class="td-clase">HISTORIA</td></tr>
-                        <tr><td class="td-hora">3:20 p.m.</td><td class="td-clase">QUÍMICA</td><td class="td-clase">BIOLOGÍA</td><td class="td-clase">PLÁSTICA</td><td class="td-clase">LENGUA</td><td class="td-clase">HISTORIA</td></tr>
-                        <tr><td class="td-hora">4:00 p.m.</td><td class="td-recreo">RECREO</td><td class="td-recreo">RECREO</td><td class="td-recreo">RECREO</td><td class="td-recreo">RECREO</td><td class="td-recreo">RECREO</td></tr>
-                        <tr><td class="td-hora">4:10 p.m.</td><td class="td-clase">QUÍMICA</td><td class="td-clase">MATEMÁTICAS</td><td class="td-clase">CIUDADANÍA</td><td class="td-clase">MATEMÁTICAS</td><td class="td-clase">HISTORIA</td></tr>
-                        <tr><td class="td-hora">4:50 p.m.</td><td class="td-libre">LIBRE</td><td class="td-clase">MATEMÁTICAS</td><td class="td-clase">PLÁSTICA</td><td class="td-clase">MATEMÁTICAS</td><td class="td-clase">HISTORIA</td></tr>
-                        <tr><td class="td-hora">5:30 p.m.</td><td class="td-libre">LIBRE</td><td class="td-salida">SALIDA</td><td class="td-salida">SALIDA</td><td class="td-salida">SALIDA</td><td class="td-salida">SALIDA</td></tr>
+                        <tr>
+                            <td class="td-hora">12:30 p.m.</td>
+                            <td class="td-clase">INGLÉS</td>
+                            <td class="td-clase">GEOGRAFÍA</td>
+                            <td class="td-clase">TECNOLOGÍA</td>
+                            <td class="td-clase">LENGUA</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">1:10 p.m.</td>
+                            <td class="td-clase">INGLÉS</td>
+                            <td class="td-clase">GEOGRAFÍA</td>
+                            <td class="td-clase">TECNOLOGÍA</td>
+                            <td class="td-clase">LENGUA</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">1:50 p.m.</td>
+                            <td class="td-clase">INGLÉS</td>
+                            <td class="td-clase">GEOGRAFÍA</td>
+                            <td class="td-clase">TECNOLOGÍA</td>
+                            <td class="td-clase">LENGUA</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">2:30 p.m.</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">2:40 p.m.</td>
+                            <td class="td-clase">QUÍMICA</td>
+                            <td class="td-clase">BIOLOGÍA</td>
+                            <td class="td-clase">PLÁSTICA</td>
+                            <td class="td-clase">LENGUA</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">3:20 p.m.</td>
+                            <td class="td-clase">QUÍMICA</td>
+                            <td class="td-clase">BIOLOGÍA</td>
+                            <td class="td-clase">PLÁSTICA</td>
+                            <td class="td-clase">LENGUA</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">4:00 p.m.</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                            <td class="td-recreo">RECREO</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">4:10 p.m.</td>
+                            <td class="td-clase">QUÍMICA</td>
+                            <td class="td-clase">MATEMÁTICAS</td>
+                            <td class="td-clase">CIUDADANÍA</td>
+                            <td class="td-clase">MATEMÁTICAS</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">4:50 p.m.</td>
+                            <td class="td-libre">LIBRE</td>
+                            <td class="td-clase">MATEMÁTICAS</td>
+                            <td class="td-clase">PLÁSTICA</td>
+                            <td class="td-clase">MATEMÁTICAS</td>
+                            <td class="td-clase">HISTORIA</td>
+                        </tr>
+                        <tr>
+                            <td class="td-hora">5:30 p.m.</td>
+                            <td class="td-libre">LIBRE</td>
+                            <td class="td-salida">SALIDA</td>
+                            <td class="td-salida">SALIDA</td>
+                            <td class="td-salida">SALIDA</td>
+                            <td class="td-salida">SALIDA</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -466,54 +621,37 @@
     </div>
 </div>
 
-<!-- MODAL CALENDARIO PÚBLICO (ALMANAQUE) -->
-<div class="modal-horarios-overlay" id="modal-calendario-publico" onclick="cerrarCalendarioFuera(event)">
-    <div class="modal-horarios-content">
-        <div class="modal-horarios-header">
-            <h2>🗓️ Calendario de Eventos</h2>
-            <button class="modal-close" onclick="cerrarCalendario()">✖</button>
-        </div>
-        <div class="modal-horarios-body">
-            <p style="text-align:center; font-size:0.85rem; color:var(--texto-secundario); margin-bottom:15px;">Fechas importantes, asambleas y reuniones.</p>
-            <div class="calendario-container">
-                <div class="calendario-header-nav">
-                    <button class="btn-toggle" style="margin-top:0;" onclick="cambiarMesCalendario(-1)">◀ Mes Anterior</button>
-                    <h3 id="public-calendario-mes" style="color: var(--color-oscuro); font-size:1.1rem; text-transform:uppercase;"></h3>
-                    <button class="btn-toggle" style="margin-top:0;" onclick="cambiarMesCalendario(1)">Mes Siguiente ▶</button>
-                </div>
-                <div id="public-calendario-grid"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="container" id="main-view">
     <div class="header">
+
+        <!-- ★ MENÚ 3 PUNTOS ★ -->
         <button class="btn-menu-tres" id="btn-menu-tres" onclick="toggleMenu(event)" title="Menú" aria-label="Menú">⋮</button>
 
         <div class="menu-dropdown hidden" id="menu-dropdown">
             <div class="menu-dropdown-header">Menú</div>
             <div class="menu-item" onclick="abrirHorarios()">
-                <span class="menu-icon">⏰</span>
+                <span class="menu-icon">📅</span>
                 <span>Horarios</span>
-            </div>
-            <div class="menu-item" onclick="abrirCalendario()">
-                <span class="menu-icon">🗓️</span>
-                <span>Calendario</span>
             </div>
         </div>
 
-        <button class="btn-theme-toggle" onclick="toggleTema()" title="Cambiar modo" aria-label="Cambiar tema">
+        <!-- ★ BOTÓN DE TEMA CLARO / OSCURO ★ -->
+        <button class="btn-theme-toggle" onclick="toggleTema()" title="Cambiar modo claro/oscuro" aria-label="Cambiar tema">
             <span class="icon-moon">🌙</span>
             <span class="icon-sun">☀️</span>
         </button>
 
-        <img src="IMG-20260605-WA0019.jpg" alt="Logo Escuela Media" class="logo-escuela">
+        <img src="IMG-20260605-WA0019.jpg" alt="Logo Escuela Media E.M.E.N El Naranjo" class="logo-escuela">
         <h1>Centro de Estudiantes</h1>
         <div class="ce-badge" id="secret-badge">E.M.E.N El Naranjo</div>
         <p style="margin-top: 15px; font-size: 0.95rem; opacity: 0.9;">Gestión Oficial</p>
         <div>
-            <button class="btn-share" onclick="abrirModal()">Compartir Página</button>
+            <button class="btn-share" onclick="abrirModal()">
+                <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+                </svg>
+                Compartir Página
+            </button>
         </div>
     </div>
 
@@ -521,7 +659,7 @@
         <h2 class="section-title">Buzón Anónimo</h2>
         <div class="section-card form-propuesta">
             <h3>¡Envía tu Propuesta!</h3>
-            <p class="text-summary" style="font-style: normal; font-size: 0.9rem;">Tu opinión nos importa. Escribe tu reclamo, qué te gustaría cambiar o añadir de forma 100% anónima.</p>
+            <p class="text-summary" style="font-style: normal; font-size: 0.9rem;">Tu opinión nos importa. Escribe tu reclamo, qué te gustaría cambiar o añadir en la escuela de forma 100% anónima.</p>
             <textarea id="input-propuesta" placeholder="Escribe tu propuesta o reclamo aquí..."></textarea>
             <button class="btn-submit" onclick="enviarPropuesta()">Enviar Propuesta</button>
         </div>
@@ -531,57 +669,100 @@
 
         <h2 class="section-title">Novedades</h2>
 
+        <!-- NOVEDAD 1: RIFA (Primera) -->
         <div class="section-card novedad-card">
             <h3>Rifa Solidaria - Baño de Varones 🎟️</h3>
             <p class="text-summary">Participá de la rifa para comprar el espejo del baño.</p>
-            <div class="expandable-wrapper"><div class="text-full">Desde el Centro vendemos una rifa ($1000) para comprar el espejo del baño. Premios: pack de cervezas y hamburguesas.</div></div>
+            <div class="expandable-wrapper">
+                <div class="text-full">
+                    Desde el <span class="resaltado-texto">Centro de Estudiantes</span> dispusimos vender una rifa para poder recaudar dinero y comprar el espejo para el baño de los varones.<br><br> 
+                    A cada uno se le dio una rifa que cuesta $1000 pesos y los premios son un pack de cervezas como primer premio y hamburguesas como segundo premio.<br><br>
+                    <strong>Nota:</strong> Ante cualquier duda, mandala al buzón anónimo.
+                </div>
+            </div>
             <button class="btn-toggle">Leer más</button>
         </div>
 
+        <!-- NOVEDAD 2: MUNDIAL (Segunda) -->
         <div class="section-card novedad-card">
             <h3>¡Mundial en la Escuela! ⚽</h3>
             <p class="text-summary">Transmisión en vivo del partido de la selección.</p>
-            <div class="expandable-wrapper"><div class="text-full">El Lunes 22 veremos el partido de Argentina vs Austria. Venderemos panchos y gaseosa.</div></div>
+            <div class="expandable-wrapper">
+                <div class="text-full">
+                    Desde el <span class="resaltado-texto">Centro de Estudiantes</span> informamos que veremos en la institución el partido del día <span class="resaltado-texto">Lunes 22</span> en el cual la selección Argentina se enfrenta a Austria.<br><br>
+                    Ese día venderemos panchos y gaseosa. Más adelante informaremos más detalles. ¡No te lo pierdas!
+                </div>
+            </div>
             <button class="btn-toggle">Leer más</button>
         </div>
 
+        <!-- NOVEDAD 3: MASCOTA (Tercera) -->
         <div class="section-card novedad-card">
             <h3>¡Elección de la Mascota de la Escuela! 🐾</h3>
             <p class="text-summary">Cada curso diseñará un dibujo para elegir a nuestra mascota oficial.</p>
-            <div class="expandable-wrapper"><div class="text-full">Del martes al viernes, cada curso creará un dibujo para la mascota oficial. Luego votaremos al ganador. ¡Manos a la obra!</div></div>
+            <div class="expandable-wrapper">
+                <div class="text-full">
+                    <span class="resaltado-texto">AVISO IMPORTANTE</span><br><br>
+                    A todos los alumnos de todos los cursos:<br><br>
+                    Durante esta semana que entra, desde el martes hasta el viernes, vamos a realizar una actividad muy especial para elegir la mascota que nos representará.<br><br>
+                    <strong>Lo que tienen que hacer:</strong><br>
+                    Cada curso debe crear un solo dibujo en conjunto. Puede ser el diseño de un personaje, un animal, un símbolo o cualquier idea creativa que se les ocurra; no hay límites, ¡queremos ver toda su imaginación!<br><br>
+                    <strong>El objetivo:</strong><br>
+                    Todos los dibujos se reunirán y luego realizaremos una votación para elegir cuál es el mejor diseño. El dibujo ganador se convertirá oficialmente en la mascota de nuestra escuela.<br><br>
+                    Esperamos la participación y el esfuerzo de todos, recuerden que ahora somos el Centro de Estudiantes y queremos que esta sea una decisión de todos. ¡Manos a la obra!
+                </div>
+            </div>
             <button class="btn-toggle">Leer más</button>
         </div>
 
+        <!-- NOVEDAD 4: AGRADECIMIENTOS (Cuarta) -->
         <div class="section-card novedad-card">
             <h3>Agradecimiento 22-05-26</h3>
             <p class="text-summary">Un mensaje especial tras la jornada electoral.</p>
-            <div class="expandable-wrapper"><div class="text-full">Gracias por su voto de confianza. Todas las propuestas se cumplirán en nuestra gestión.</div></div>
+            <div class="expandable-wrapper">
+                <div class="text-full">
+                    En nombre del <span class="resaltado-texto">Centro de Estudiantes</span>, queremos agradecerles a cada uno de los alumnos que dieron su voto de confianza.<br><br>
+                    Todas las propuestas y más serán cumplidas en la institución escolar durante nuestra gestión.
+                </div>
+            </div>
             <button class="btn-toggle">Leer más</button>
         </div>
 
         <h2 class="section-title">Promesas y Proyectos</h2>
+
         <div class="section-card verde-card">
             <h3>Jornadas de Cine</h3>
             <p class="text-summary">Creación de espacios de esparcimiento para ver películas y disfrutar juntos.</p>
-            <div class="expandable-wrapper"><div class="text-full">Organizar espacios de esparcimiento y cine unidos como grupo.</div></div>
+            <div class="expandable-wrapper">
+                <div class="text-full">Primero, queremos organizar jornadas de cine: espacios de esparcimiento, donde podamos compartir un buen momento, ver películas y disfrutar juntos, unidos como grupo.</div>
+            </div>
             <button class="btn-toggle">Leer más</button>
         </div>
+
         <div class="section-card">
             <h3>Apoyo Escolar</h3>
             <p class="text-summary">Un grupo de ayuda mutua para que nadie se quede con dudas en las materias.</p>
-            <div class="expandable-wrapper"><div class="text-full">Crearemos un grupo de apoyo escolar para quien tenga dificultades en alguna materia.</div></div>
+            <div class="expandable-wrapper">
+                <div class="text-full">También crearemos un grupo de apoyo escolar: para que quien tenga dificultades en alguna materia pueda recibir ayuda, y para que entre todos nos podamos apoyar y aprender mejor, sin que nadie se quede solo con dudas.</div>
+            </div>
             <button class="btn-toggle">Leer más</button>
         </div>
+
         <div class="section-card">
             <h3>Mejoras en los Baños y Espejos</h3>
             <p class="text-summary">Compromiso de higiene y colocación de un espejo en el baño de varones.</p>
-            <div class="expandable-wrapper"><div class="text-full">Mejoraremos la higiene de los baños y colocaremos un espejo en el de varones.</div></div>
+            <div class="expandable-wrapper">
+                <div class="text-full">Sabemos que los baños son un lugar que todos usamos todos los días, por eso nuestro compromiso es trabajar para que tanto los de mujeres como los de varones estén en mucho mejor estado, más limpios y en mejores condiciones. Y sabemos que hay algo que muchos compañeros pedían: vamos a gestionar para colocar un espejo en el baño de varones, porque sabemos que es una necesidad que tienen ustedes.</div>
+            </div>
             <button class="btn-toggle">Leer más</button>
         </div>
+
         <div class="section-card novedad-card">
             <h3>Cambio de Uniforme</h3>
             <p class="text-summary">Debate abierto para buscar opciones de uniformes más cómodas y prácticas.</p>
-            <div class="expandable-wrapper"><div class="text-full">Buscaremos opciones de uniformes más cómodas con la opinión de todos.</div></div>
+            <div class="expandable-wrapper">
+                <div class="text-full">Además, tenemos una propuesta muy importante: vamos a buscar el cambio de uniforme. Queremos escuchar sus opiniones, pensar entre todos en opciones que sean más cómodas, prácticas y que nos representen mejor, porque sabemos que el uniforme es algo que usamos todos los días y que queremos que sea de agrado para toda la comunidad.</div>
+            </div>
             <button class="btn-toggle">Leer más</button>
         </div>
     </div>
@@ -589,8 +770,18 @@
     <div class="social-footer">
         <h3>¡Síguenos y entérate de todo!</h3>
         <div class="social-buttons-container">
-            <a href="https://www.tiktok.com/@centro.de.estudia184?_r=1&_t=ZS-96yHBRjVW7T" target="_blank" class="social-btn tiktok-btn">TikTok</a>
-            <a href="https://www.instagram.com/centro_de_estudianteemen?igsh=Y3YwZ21lY3R3dGF3" target="_blank" class="social-btn instagram-btn">Instagram</a>
+            <a href="https://www.tiktok.com/@centro.de.estudia184?_r=1&_t=ZS-96yHBRjVW7T" target="_blank" rel="noopener noreferrer" class="social-btn tiktok-btn">
+                <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                </svg>
+                TikTok
+            </a>
+            <a href="https://www.instagram.com/centro_de_estudianteemen?igsh=Y3YwZ21lY3R3dGF3" target="_blank" rel="noopener noreferrer" class="social-btn instagram-btn">
+                <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                </svg>
+                Instagram
+            </a>
         </div>
         <div class="credits">Hecho por Niko.z</div>
     </div>
@@ -606,7 +797,9 @@
         <div id="admin-login" style="text-align: center; padding: 40px 0;">
             <h2 style="color: var(--texto-oscuro);">Llave de Acceso</h2>
             <input type="password" id="pass-admin" class="input-password" placeholder="Contraseña del Centro">
-            <br><button class="btn-admin" onclick="verificarPassword()">Ingresar al Sistema</button><br><br>
+            <br>
+            <button class="btn-admin" onclick="verificarPassword()">Ingresar al Sistema</button>
+            <br><br>
             <button class="btn-toggle" style="background: transparent; color: var(--color-principal); border: 1px solid var(--color-principal);" onclick="salirDelPanel()">Regresar al Inicio</button>
         </div>
 
@@ -619,64 +812,30 @@
                 </div>
             </div>
 
-            <!-- BUZON -->
             <div class="inbox-block-wrapper">
                 <h3 style="color: var(--texto-oscuro); font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
                     📥 Propuestas y Sugerencias Enviadas
                     <span style="font-size: 0.8rem; background: var(--color-principal); color: white; padding: 2px 8px; border-radius: 10px;" id="badge-contador">0</span>
                 </h3>
+                <p style="font-size: 0.8rem; color: var(--texto-secundario); margin-top: 2px;">Mensajes nuevos que esperan ser clasificados en el cuadro inferior.</p>
                 <div id="contenedor-inbox-vertical" class="inbox-list-vertical"></div>
             </div>
 
-            <!-- CUADRO IDEAS -->
             <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 10px; font-weight: bold;">📊 Cuadro de Clasificación de Ideas</h3>
+            <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 15px;">Usa el menú desplegable en cada mensaje para organizarlo aquí.</p>
+
             <div class="board-three-columns">
-                <div class="board-col col-importante"><h4>🚨 Importante</h4><div id="area-importante" class="col-content-area"></div></div>
-                <div class="board-col col-prioridad"><h4>⭐ Prioridad</h4><div id="area-prioridad" class="col-content-area"></div></div>
-                <div class="board-col col-poca"><h4>☕ Poca Prioridad</h4><div id="area-poca" class="col-content-area"></div></div>
-            </div>
-
-            <hr style="margin: 35px 0; border: 0; border-top: 1px dashed var(--texto-secundario); opacity: 0.5;">
-
-            <!-- CALENDARIO INTERACTIVO ADMIN -->
-            <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 15px; font-weight: bold;">📅 Calendario Administrativo (Almanaque)</h3>
-            <div class="inbox-block-wrapper" style="margin-bottom: 30px;">
-                <p style="font-size: 0.85rem; color: var(--texto-secundario); margin-bottom: 15px;">Haz clic en cualquier día del almanaque para programar un evento, asamblea o reunión.</p>
-                
-                <!-- GRILLA DEL CALENDARIO ADMIN -->
-                <div class="calendario-container">
-                    <div class="calendario-header-nav">
-                        <button class="btn-toggle" style="margin-top:0;" onclick="cambiarMesCalendario(-1)">◀ Mes Anterior</button>
-                        <h3 id="admin-calendario-mes" style="color: var(--color-oscuro); font-size:1.1rem; text-transform:uppercase;"></h3>
-                        <button class="btn-toggle" style="margin-top:0;" onclick="cambiarMesCalendario(1)">Mes Siguiente ▶</button>
-                    </div>
-                    <div id="admin-calendario-grid"></div>
+                <div class="board-col col-importante">
+                    <h4>🚨 Importante</h4>
+                    <div id="area-importante" class="col-content-area"></div>
                 </div>
-
-                <hr style="margin: 20px 0; border: 0; border-top: 1px solid rgba(0,0,0,0.1);">
-
-                <!-- CARGA MANUAL (La original, mantenida según petición) -->
-                <h4 style="color: var(--texto-oscuro); font-size: 0.95rem; margin-bottom: 10px;">Carga Manual (Opcional)</h4>
-                <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
-                    <input type="date" id="input-fecha-evento" style="flex: 1; min-width: 120px; padding: 10px; border-radius: 8px; border: 1px solid var(--texto-secundario); background: var(--tarjeta-fondo); color: var(--texto-oscuro);">
-                    <input type="text" id="input-texto-evento" placeholder="Ej: Reunión directiva..." style="flex: 2; min-width: 200px; padding: 10px; border-radius: 8px; border: 1px solid var(--texto-secundario); background: var(--tarjeta-fondo); color: var(--texto-oscuro);">
+                <div class="board-col col-prioridad">
+                    <h4>⭐ Prioridad</h4>
+                    <div id="area-prioridad" class="col-content-area"></div>
                 </div>
-                <button class="btn-submit" onclick="agregarEventoManual()">Guardar Manualmente</button>
-                
-                <h4 style="margin-top: 25px; color: var(--texto-oscuro); font-size: 1rem; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 5px;">Lista Completa de Próximos Eventos</h4>
-                <div id="lista-eventos" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; padding-right: 5px;"></div>
-            </div>
-
-            <!-- ESTADÍSTICAS -->
-            <h3 style="color: var(--texto-oscuro); font-size: 1.2rem; margin-bottom: 15px; font-weight: bold;">📈 Estadísticas Básicas</h3>
-            <div style="display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 150px; background: var(--bg-poca); padding: 20px; border-radius: 12px; text-align: center; border-left: 4px solid var(--color-principal);">
-                    <h4 style="font-size: 0.9rem; color: var(--texto-secundario); text-transform: uppercase;">Visitas Hoy</h4>
-                    <p style="font-size: 1.8rem; font-weight: bold; color: var(--color-oscuro); margin-top: 5px;">42</p>
-                </div>
-                <div style="flex: 1; min-width: 150px; background: var(--bg-prioridad); padding: 20px; border-radius: 12px; text-align: center; border-left: 4px solid var(--color-acento);">
-                    <h4 style="font-size: 0.9rem; color: var(--texto-secundario); text-transform: uppercase;">Propuestas Totales</h4>
-                    <p style="font-size: 1.8rem; font-weight: bold; color: var(--color-acento); margin-top: 5px;" id="stat-propuestas">0</p>
+                <div class="board-col col-poca">
+                    <h4>☕ Poca Prioridad</h4>
+                    <div id="area-poca" class="col-content-area"></div>
                 </div>
             </div>
         </div>
@@ -684,40 +843,45 @@
 </div>
 
 <script>
-    // ── FIREBASE GLOBALES ───────────────────────────────────────────────────
-    const FIREBASE_URL = "https://lista-roja-5ab69-default-rtdb.firebaseio.com/";
-    const PASSWORD_CORRECTA = "roja2026";
-    let eventosGlobales = []; // Array centralizado para el calendario
-
-    // ── ESTADO DEL CALENDARIO (Almanaque) ───────────────────────────────────
-    let calMesActual = new Date().getMonth();
-    let calAnioActual = new Date().getFullYear();
-
-    // ── MENÚ 3 PUNTOS ───────────────────────────────────────────────────────
+    // ── MENÚ 3 PUNTOS ────────────────────────────────────────────────────────
     const menuDropdown = document.getElementById('menu-dropdown');
-    function toggleMenu(e) { e.stopPropagation(); menuDropdown.classList.toggle('hidden'); }
+
+    function toggleMenu(e) {
+        e.stopPropagation();
+        menuDropdown.classList.toggle('hidden');
+    }
+
+    // Cerrar el dropdown al hacer click fuera
     document.addEventListener('click', function(e) {
-        if (!menuDropdown.classList.contains('hidden') && !e.target.closest('#btn-menu-tres') && !e.target.closest('#menu-dropdown')) {
+        if (!menuDropdown.classList.contains('hidden') &&
+            !e.target.closest('#btn-menu-tres') &&
+            !e.target.closest('#menu-dropdown')) {
             menuDropdown.classList.add('hidden');
         }
     });
 
-    // ── MODALES COMPARTIDOS (Horarios y Calendario) ─────────────────────────
-    function abrirHorarios() { menuDropdown.classList.add('hidden'); document.getElementById('modal-horarios').classList.add('active'); }
-    function cerrarHorarios() { document.getElementById('modal-horarios').classList.remove('active'); }
-    function cerrarHorariosFuera(event) { if (event.target.id === 'modal-horarios') cerrarHorarios(); }
-    
-    function abrirCalendario() { 
-        menuDropdown.classList.add('hidden'); 
-        document.getElementById('modal-calendario-publico').classList.add('active');
-        cargarEventosBaseDatos(); // Sincroniza al abrir el modal público
+    // ── HORARIOS ─────────────────────────────────────────────────────────────
+    function abrirHorarios() {
+        menuDropdown.classList.add('hidden');
+        document.getElementById('modal-horarios').classList.add('active');
     }
-    function cerrarCalendario() { document.getElementById('modal-calendario-publico').classList.remove('active'); }
-    function cerrarCalendarioFuera(event) { if (event.target.id === 'modal-calendario-publico') cerrarCalendario(); }
+
+    function cerrarHorarios() {
+        document.getElementById('modal-horarios').classList.remove('active');
+        // Resetear selección
+        document.querySelectorAll('.btn-curso').forEach(b => b.classList.remove('activo'));
+        document.querySelectorAll('.horario-wrapper').forEach(h => h.classList.add('hidden'));
+    }
+
+    function cerrarHorariosFuera(event) {
+        if (event.target.id === 'modal-horarios') cerrarHorarios();
+    }
 
     function mostrarHorario(curso) {
+        // Marcar botón activo
         document.querySelectorAll('.btn-curso').forEach(b => b.classList.remove('activo'));
         event.target.classList.add('activo');
+        // Ocultar todos y mostrar el seleccionado
         document.querySelectorAll('.horario-wrapper').forEach(h => h.classList.add('hidden'));
         const target = document.getElementById(`horario-${curso}`);
         if (target) { target.classList.remove('hidden'); }
@@ -725,24 +889,32 @@
 
     // ── TEMA CLARO / OSCURO ──────────────────────────────────────────────────
     const html = document.documentElement;
+
+    // Restaurar preferencia guardada al cargar
     (function() {
         const saved = localStorage.getItem('tema-ce');
-        if (saved === 'dark' || saved === 'light') { html.setAttribute('data-theme', saved); }
+        if (saved === 'dark' || saved === 'light') {
+            html.setAttribute('data-theme', saved);
+        }
+        // Si no hay preferencia guardada se queda en "auto" (el del HTML)
     })();
 
     function toggleTema() {
         const actual = html.getAttribute('data-theme');
         const sistemaOscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        // Determinar si la pantalla está actualmente oscura
         const estaOscuro = actual === 'dark' || (actual === 'auto' && sistemaOscuro);
         const nuevo = estaOscuro ? 'light' : 'dark';
         html.setAttribute('data-theme', nuevo);
         localStorage.setItem('tema-ce', nuevo);
     }
 
+    // ── MODAL ────────────────────────────────────────────────────────────────
     function abrirModal() { document.getElementById('modal-compartir').classList.add('active'); }
     function cerrarModal() { document.getElementById('modal-compartir').classList.remove('active'); }
     function cerrarModalFuera(event) { if (event.target.id === 'modal-compartir') cerrarModal(); }
 
+    // ── TARJETAS EXPANDIBLES ─────────────────────────────────────────────────
     const botonesToggle = document.querySelectorAll('.btn-toggle:not([onclick])');
     botonesToggle.forEach(boton => {
         boton.addEventListener('click', function() {
@@ -752,7 +924,7 @@
         });
     });
 
-    // ── ACCESO ADMIN ────────────────────────────────────────────────────────
+    // ── ACCESO ADMIN (5 clicks en badge) ────────────────────────────────────
     const secretBadge = document.getElementById('secret-badge');
     const mainView = document.getElementById('main-view');
     const adminView = document.getElementById('admin-view');
@@ -768,18 +940,31 @@
         clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
     });
 
-    function salirDelPanel() { adminView.classList.add('hidden'); mainView.classList.remove('hidden'); cerrarSesion(); }
-    function cerrarSesion() { document.getElementById('admin-dashboard').classList.add('hidden'); document.getElementById('admin-login').classList.remove('hidden'); }
+    function salirDelPanel() {
+        adminView.classList.add('hidden');
+        mainView.classList.remove('hidden');
+        cerrarSesion();
+    }
 
-    // ── BUZON FIREBASE ───────────────────────────────────────────────────────
+    // ── FIREBASE ─────────────────────────────────────────────────────────────
+    const FIREBASE_URL = "https://lista-roja-5ab69-default-rtdb.firebaseio.com/";
+    const PASSWORD_CORRECTA = "roja2026";
+
     function enviarPropuesta() {
         const txtArea = document.getElementById('input-propuesta');
         const propuestaTexto = txtArea.value.trim();
-        if (propuestaTexto === "") { alert("Por favor, escribe algo."); return; }
+        if (propuestaTexto === "") { alert("Por favor, escribe algo antes de enviar."); return; }
 
         fetch(`${FIREBASE_URL}propuestas.json`, {
-            method: 'POST', body: JSON.stringify({ texto: propuestaTexto, fecha: new Date().toLocaleString('es-AR'), estado: 'inbox' }), headers: { 'Content-Type': 'application/json' }
-        }).then(res => { if (res.ok) { alert("¡Enviado a la nube!"); txtArea.value = ""; } });
+            method: 'POST',
+            body: JSON.stringify({ texto: propuestaTexto, fecha: new Date().toLocaleString('es-AR'), estado: 'inbox' }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(res => {
+            if (res.ok) { alert("¡Tu propuesta ha sido enviada a la nube de forma anónima!"); txtArea.value = ""; }
+            else alert("Error de conexión al servidor.");
+        })
+        .catch(err => alert("Error de red: " + err));
     }
 
     function verificarPassword() {
@@ -788,7 +973,6 @@
             document.getElementById('admin-dashboard').classList.remove('hidden');
             document.getElementById('pass-admin').value = "";
             cargarPropuestasEnPanel();
-            cargarEventosBaseDatos(); 
         } else { alert("Contraseña incorrecta."); }
     }
 
@@ -797,182 +981,74 @@
         bandejaInbox.innerHTML = "";
         ['importante','prioridad','poca'].forEach(a => document.getElementById(`area-${a}`).innerHTML = "");
 
-        fetch(`${FIREBASE_URL}propuestas.json`).then(res => res.json()).then(data => {
+        fetch(`${FIREBASE_URL}propuestas.json`)
+        .then(res => res.json())
+        .then(data => {
             if (!data) {
-                bandejaInbox.innerHTML = "<p style='font-size:0.85rem;color:var(--texto-secundario);text-align:center;'>Vacío.</p>";
+                bandejaInbox.innerHTML = "<p style='font-size:0.85rem;color:var(--texto-secundario);text-align:center;padding:15px;'>Buzón vacío de manera absoluta.</p>";
                 document.getElementById('badge-contador').textContent = "0";
-                document.getElementById('stat-propuestas').textContent = "0"; return;
+                return;
             }
             const lista = Object.keys(data).map(key => ({ id: key, ...data[key], estado: data[key].estado || 'inbox' }));
-            document.getElementById('stat-propuestas').textContent = lista.length;
             let countInbox = 0;
             lista.reverse().forEach(prop => {
-                const item = document.createElement('div'); item.className = 'propuesta-item';
+                const item = document.createElement('div');
+                item.className = 'propuesta-item';
                 if (prop.estado === 'inbox') {
                     countInbox++;
-                    item.innerHTML = `<div><span class="propuesta-date">📅 ${prop.fecha}</span><p style="margin-top:4px;font-weight:500;">${prop.texto}</p></div>
+                    item.innerHTML = `
+                        <div><span class="propuesta-date">📅 ${prop.fecha}</span><p style="margin-top:4px;font-weight:500;">${prop.texto}</p></div>
                         <div class="action-bar-admin">
+                            <label style="font-size:0.75rem;color:var(--texto-secundario);">Mover a:</label>
                             <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}',this.value)">
-                                <option value="inbox" selected>➕ Asignar...</option><option value="importante">🚨 Importante</option><option value="prioridad">⭐ Prioridad</option><option value="poca">☕ Poca</option>
+                                <option value="inbox" selected>➕ Asignar cuadro...</option>
+                                <option value="importante">🚨 Importante</option>
+                                <option value="prioridad">⭐ Prioridad</option>
+                                <option value="poca">☕ Poca Prioridad</option>
                             </select>
                             <button class="btn-delete-item" onclick="eliminarMensaje('${prop.id}')">Borrar</button>
                         </div>`;
                     bandejaInbox.appendChild(item);
                 } else {
-                    item.innerHTML = `<div><span class="propuesta-date">📅 ${prop.fecha}</span><p style="margin-top:4px;">${prop.texto}</p></div>
+                    item.innerHTML = `
+                        <div><span class="propuesta-date">📅 ${prop.fecha}</span><p style="margin-top:4px;">${prop.texto}</p></div>
                         <div class="action-bar-admin">
                             <select class="select-directo-organizar" onchange="moverAEstado('${prop.id}',this.value)">
-                                <option value="importante" ${prop.estado==='importante'?'selected':''}>🚨 Importante</option><option value="prioridad" ${prop.estado==='prioridad'?'selected':''}>⭐ Prioridad</option><option value="poca" ${prop.estado==='poca'?'selected':''}>☕ Poca</option><option value="inbox">📥 Buzón</option>
+                                <option value="importante" ${prop.estado==='importante'?'selected':''}>🚨 Importante</option>
+                                <option value="prioridad"  ${prop.estado==='prioridad' ?'selected':''}>⭐ Prioridad</option>
+                                <option value="poca"       ${prop.estado==='poca'      ?'selected':''}>☕ Poca Prioridad</option>
+                                <option value="inbox">📥 Regresar al Buzón</option>
                             </select>
                             <button class="btn-delete-item" onclick="eliminarMensaje('${prop.id}')">✕</button>
                         </div>`;
-                    document.getElementById(`area-${prop.estado}`).appendChild(item);
+                    const dest = document.getElementById(`area-${prop.estado}`);
+                    if (dest) dest.appendChild(item);
                 }
             });
             document.getElementById('badge-contador').textContent = countInbox;
-            if (countInbox === 0) bandejaInbox.innerHTML = "<p style='font-size:0.85rem;text-align:center;'>🎉 Todo clasificado!</p>";
-        });
+            if (countInbox === 0) bandejaInbox.innerHTML = "<p style='font-size:0.85rem;color:var(--texto-secundario);text-align:center;padding:15px;'>🎉 ¡Todo clasificado en el cuadro!</p>";
+        })
+        .catch(err => console.log("Error al sincronizar base de datos:", err));
     }
 
-    function moverAEstado(id, estado) { fetch(`${FIREBASE_URL}propuestas/${id}.json`, { method: 'PATCH', body: JSON.stringify({ estado }), headers: { 'Content-Type': 'application/json' } }).then(res => { if (res.ok) cargarPropuestasEnPanel(); }); }
-    function eliminarMensaje(id) { if (confirm("¿Eliminar comentario?")) { fetch(`${FIREBASE_URL}propuestas/${id}.json`, { method: 'DELETE' }).then(res => { if (res.ok) cargarPropuestasEnPanel(); }); } }
-
-    // ── CALENDARIO ALMANAQUE LOGICA ──────────────────────────────────────────
-
-    function cargarEventosBaseDatos() {
-        fetch(`${FIREBASE_URL}eventos.json`).then(res => res.json()).then(data => {
-            if (!data) { eventosGlobales = []; } 
-            else { eventosGlobales = Object.keys(data).map(key => ({ id: key, ...data[key] })); }
-            
-            actualizarInterfazListado();
-            renderizarAlmanaque('admin-calendario-grid', true);
-            renderizarAlmanaque('public-calendario-grid', false);
-        }).catch(err => console.log("Error eventos:", err));
+    function moverAEstado(id, estado) {
+        fetch(`${FIREBASE_URL}propuestas/${id}.json`, {
+            method: 'PATCH', body: JSON.stringify({ estado }),
+            headers: { 'Content-Type': 'application/json' }
+        }).then(res => { if (res.ok) cargarPropuestasEnPanel(); });
     }
 
-    function cambiarMesCalendario(delta) {
-        calMesActual += delta;
-        if(calMesActual > 11) { calMesActual = 0; calAnioActual++; }
-        if(calMesActual < 0) { calMesActual = 11; calAnioActual--; }
-        renderizarAlmanaque('admin-calendario-grid', true);
-        renderizarAlmanaque('public-calendario-grid', false);
-    }
-
-    function renderizarAlmanaque(containerId, isAdmin) {
-        const gridElement = document.getElementById(containerId);
-        const mesLabel = document.getElementById(containerId + '-mes');
-        if(!gridElement || !mesLabel) return;
-        
-        const mesesNombres = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-        mesLabel.textContent = `${mesesNombres[calMesActual]} ${calAnioActual}`;
-        gridElement.innerHTML = '';
-
-        const diasSemana = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-        diasSemana.forEach(dia => {
-            const el = document.createElement('div');
-            el.className = 'calendario-dia-head';
-            el.textContent = dia;
-            gridElement.appendChild(el);
-        });
-
-        const diasEnMes = new Date(calAnioActual, calMesActual + 1, 0).getDate();
-        const primerDiaSemana = new Date(calAnioActual, calMesActual, 1).getDay();
-
-        // Rellenar espacios vacíos al inicio
-        for(let i = 0; i < primerDiaSemana; i++) {
-            const el = document.createElement('div');
-            el.className = 'calendario-dia vacio';
-            gridElement.appendChild(el);
-        }
-
-        const hoy = new Date();
-        for(let dia = 1; dia <= diasEnMes; dia++) {
-            const el = document.createElement('div');
-            el.className = 'calendario-dia';
-            
-            // Marcar si es "Hoy"
-            if(dia === hoy.getDate() && calMesActual === hoy.getMonth() && calAnioActual === hoy.getFullYear()) {
-                el.classList.add('hoy');
-            }
-            
-            el.textContent = dia;
-
-            // Formato YYYY-MM-DD para buscar en base de datos
-            const mesStr = (calMesActual + 1).toString().padStart(2, '0');
-            const diaStr = dia.toString().padStart(2, '0');
-            const fechaStr = `${calAnioActual}-${mesStr}-${diaStr}`;
-
-            // Buscar eventos en esta fecha específica
-            const eventosDia = eventosGlobales.filter(e => e.fecha === fechaStr);
-            eventosDia.forEach(ev => {
-                const badge = document.createElement('div');
-                badge.className = 'evento-badge';
-                badge.textContent = ev.texto;
-                badge.title = ev.texto;
-                el.appendChild(badge);
-            });
-
-            // Si es admin, permite agregar evento haciendo click
-            if(isAdmin) {
-                el.onclick = () => {
-                    const texto = prompt(`Escribe el evento para el ${diaStr}/${mesStr}/${calAnioActual}:`);
-                    if(texto && texto.trim() !== "") {
-                        guardarEventoBaseDatos(fechaStr, texto.trim());
-                    }
-                };
-            }
-
-            gridElement.appendChild(el);
+    function eliminarMensaje(id) {
+        if (confirm("¿Eliminar este comentario permanentemente de la base de datos?")) {
+            fetch(`${FIREBASE_URL}propuestas/${id}.json`, { method: 'DELETE' })
+            .then(res => { if (res.ok) cargarPropuestasEnPanel(); });
         }
     }
 
-    function guardarEventoBaseDatos(fecha, texto) {
-        fetch(`${FIREBASE_URL}eventos.json`, {
-            method: 'POST', body: JSON.stringify({ fecha: fecha, texto: texto, creado: new Date().toLocaleString('es-AR') }), headers: { 'Content-Type': 'application/json' }
-        }).then(res => { if (res.ok) cargarEventosBaseDatos(); });
+    function cerrarSesion() {
+        document.getElementById('admin-dashboard').classList.add('hidden');
+        document.getElementById('admin-login').classList.remove('hidden');
     }
-
-    // El input manual original se mantiene operativo y conecta con la misma BD
-    function agregarEventoManual() {
-        const fecha = document.getElementById('input-fecha-evento').value;
-        const texto = document.getElementById('input-texto-evento').value.trim();
-        if (!fecha || !texto) { alert("Completa fecha y evento."); return; }
-        
-        guardarEventoBaseDatos(fecha, texto);
-        document.getElementById('input-fecha-evento').value = ""; 
-        document.getElementById('input-texto-evento').value = ""; 
-    }
-
-    // Mantengo la lista clásica inferior para visualizar y borrar rápido
-    function actualizarInterfazListado() {
-        const listaEventos = document.getElementById('lista-eventos');
-        if(!listaEventos) return;
-        listaEventos.innerHTML = "";
-        
-        if (eventosGlobales.length === 0) {
-            listaEventos.innerHTML = "<p style='font-size:0.85rem;color:var(--texto-secundario);text-align:center;'>No hay eventos programados.</p>"; return;
-        }
-
-        const eventosOrdenados = [...eventosGlobales].sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-        eventosOrdenados.forEach(ev => {
-            const item = document.createElement('div');
-            item.style.cssText = "background: var(--tarjeta-fondo); padding: 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center;";
-            let fechaFormateada = ev.fecha;
-            if (ev.fecha.includes('-')) { const [y, m, d] = ev.fecha.split('-'); fechaFormateada = `${d}/${m}/${y}`; }
-            item.innerHTML = `<div><strong style="color:var(--color-principal);font-size:0.9rem;">🗓️ ${fechaFormateada}</strong><p style="margin-top:4px;font-size:0.95rem;font-weight:500;">${ev.texto}</p></div>
-                <button class="btn-delete-item" style="background:transparent;color:#dc3545;border:1px solid #dc3545;" onclick="eliminarEvento('${ev.id}')">✕</button>`;
-            listaEventos.appendChild(item);
-        });
-    }
-
-    function eliminarEvento(id) {
-        if (confirm("¿Eliminar este evento permanentemente?")) {
-            fetch(`${FIREBASE_URL}eventos/${id}.json`, { method: 'DELETE' }).then(res => { if (res.ok) cargarEventosBaseDatos(); });
-        }
-    }
-
-    // Inicializamos el calendario oculto al abrir la web para que esté pre-cargado
-    window.onload = () => { cargarEventosBaseDatos(); };
 </script>
 </body>
 </html>
