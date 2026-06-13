@@ -132,15 +132,10 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.35);
         }
 
-        /* Por defecto (modo claro): mostramos luna */
         .btn-theme-toggle .icon-sun  { display: none; }
         .btn-theme-toggle .icon-moon { display: block; }
-
-        /* En modo oscuro: mostramos sol */
         [data-theme="dark"] .btn-theme-toggle .icon-sun  { display: block; }
         [data-theme="dark"] .btn-theme-toggle .icon-moon { display: none; }
-
-        /* En auto + sistema oscuro: mostramos sol */
         @media (prefers-color-scheme: dark) {
             [data-theme="auto"] .btn-theme-toggle .icon-sun  { display: block; }
             [data-theme="auto"] .btn-theme-toggle .icon-moon { display: none; }
@@ -402,16 +397,12 @@
             border-collapse: collapse; width: 100%; min-width: 520px;
             font-size: 0.78rem; font-weight: 600;
         }
-
-        /* Fila de encabezado principal */
         .tabla-horario .th-titulo {
             background: #4a6e2a; color: #fff;
             padding: 9px 10px; text-align: center;
             font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;
             white-space: nowrap;
         }
-
-        /* Encabezados de días */
         .th-lunes    { background: #a8d932; color: #1a2e00; }
         .th-martes   { background: #f5a623; color: #3a1e00; }
         .th-miercoles{ background: #f5e623; color: #2a2000; }
@@ -422,8 +413,6 @@
             padding: 8px 6px; text-align: center;
             text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.3px;
         }
-
-        /* Celda de hora */
         .td-hora {
             background: #f5f5b0; color: #2a2a00;
             text-align: center; padding: 7px 8px;
@@ -434,7 +423,6 @@
             [data-theme="auto"] .td-hora { background: #3a3a10; color: #e8e860; }
         }
 
-        /* Celda normal */
         .td-clase {
             background: #ffffff; color: #1a1a1a;
             text-align: center; padding: 7px 5px;
@@ -445,7 +433,6 @@
             [data-theme="auto"] .td-clase { background: #1e2a14; color: #d4e8b0; border-color: #2a3a1a; }
         }
 
-        /* Fila de recreo */
         .td-recreo {
             background: #c8e8a0; color: #1a3a00;
             text-align: center; padding: 7px 5px;
@@ -456,7 +443,6 @@
             [data-theme="auto"] .td-recreo { background: #1a3a08; color: #90cc50; border-color: #2a5010; }
         }
 
-        /* Celda libre */
         .td-libre {
             background: #fffacc; color: #3a3000;
             text-align: center; padding: 7px 5px;
@@ -467,7 +453,6 @@
             [data-theme="auto"] .td-libre { background: #2a2808; color: #d8c840; border-color: #4a4010; }
         }
 
-        /* Celda salida */
         .td-salida {
             background: #ffe0e0; color: #5a0000;
             text-align: center; padding: 7px 5px;
@@ -493,9 +478,7 @@
             animation: popIn 0.2s ease-out;
             display: flex; align-items: center; justify-content: center;
         }
-        .game-target::after {
-            content: '🎯'; font-size: 1.4rem;
-        }
+        .game-target::after { content: '🎯'; font-size: 1.4rem; }
         .game-target:active { transform: scale(0.7); }
         @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
         
@@ -661,9 +644,25 @@
             </div>
             
             <div id="game-container" style="width: 100%; height: 350px; background: var(--tarjeta-seccion); border-radius: 15px; position: relative; overflow: hidden; border: 2px dashed var(--texto-secundario); margin-bottom: 20px; box-shadow: inset 0 0 10px rgba(0,0,0,0.1); user-select: none;">
-                </div>
+            </div>
             
             <button id="btn-start-game" class="btn-submit" style="font-size: 1.1rem; padding: 12px 24px; width: 100%;" onclick="iniciarJuego()">EMPEZAR A JUGAR</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-horarios-overlay" id="modal-libros" onclick="cerrarLibrosFuera(event)">
+    <div class="modal-horarios-content" style="max-width: 800px; height: 80vh; display: flex; flex-direction: column;">
+        <div class="modal-horarios-header">
+            <h2>📚 Biblioteca y Materiales</h2>
+            <button class="modal-close" onclick="cerrarLibros()">✖</button>
+        </div>
+        <div class="modal-horarios-body" style="padding: 0; flex-grow: 1; display: flex;">
+            <iframe 
+                src="https://drive.google.com/file/d/0B2V3UrRIXRl1eFNPYzRtSndCLUU/preview?resourcekey=0-KTdjhEw-gy1tO-n676BplQ" 
+                style="width: 100%; height: 100%; border: none;" 
+                allow="autoplay">
+            </iframe>
         </div>
     </div>
 </div>
@@ -682,6 +681,10 @@
             <div class="menu-item" onclick="abrirJuego()">
                 <span class="menu-icon">🎮</span>
                 <span>Juego</span>
+            </div>
+            <div class="menu-item" onclick="abrirLibros()">
+                <span class="menu-icon">📚</span>
+                <span>Libros</span>
             </div>
         </div>
 
@@ -913,7 +916,6 @@
 
     function cerrarHorarios() {
         document.getElementById('modal-horarios').classList.remove('active');
-        // Resetear selección
         document.querySelectorAll('.btn-curso').forEach(b => b.classList.remove('activo'));
         document.querySelectorAll('.horario-wrapper').forEach(h => h.classList.add('hidden'));
     }
@@ -923,10 +925,8 @@
     }
 
     function mostrarHorario(curso) {
-        // Marcar botón activo
         document.querySelectorAll('.btn-curso').forEach(b => b.classList.remove('activo'));
         event.target.classList.add('activo');
-        // Ocultar todos y mostrar el seleccionado
         document.querySelectorAll('.horario-wrapper').forEach(h => h.classList.add('hidden'));
         const target = document.getElementById(`horario-${curso}`);
         if (target) { target.classList.remove('hidden'); }
@@ -935,19 +935,16 @@
     // ── TEMA CLARO / OSCURO ──────────────────────────────────────────────────
     const html = document.documentElement;
 
-    // Restaurar preferencia guardada al cargar
     (function() {
         const saved = localStorage.getItem('tema-ce');
         if (saved === 'dark' || saved === 'light') {
             html.setAttribute('data-theme', saved);
         }
-        // Si no hay preferencia guardada se queda en "auto" (el del HTML)
     })();
 
     function toggleTema() {
         const actual = html.getAttribute('data-theme');
         const sistemaOscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        // Determinar si la pantalla está actualmente oscura
         const estaOscuro = actual === 'dark' || (actual === 'auto' && sistemaOscuro);
         const nuevo = estaOscuro ? 'light' : 'dark';
         html.setAttribute('data-theme', nuevo);
@@ -1114,7 +1111,7 @@
 
     function cerrarJuego() {
         document.getElementById('modal-juego').classList.remove('active');
-        terminarJuego(true); // Terminar sin mostrar récord si se cierra la ventana a medias
+        terminarJuego(true);
     }
 
     function cerrarJuegoFuera(event) {
@@ -1126,7 +1123,6 @@
         const target = document.createElement('div');
         target.className = 'game-target';
         
-        // Calcula posición límite para que no se salga
         const maxX = gameContainer.clientWidth - 45;
         const maxY = gameContainer.clientHeight - 45;
         const x = Math.max(0, Math.random() * maxX);
@@ -1139,11 +1135,9 @@
             gameScore++;
             gameScoreEl.textContent = gameScore;
             
-            // Efecto flotante +1
             const particle = document.createElement('div');
             particle.textContent = '+1';
             particle.className = 'game-particle';
-            // Ajustar posición respecto al contenedor relativo
             const rect = gameContainer.getBoundingClientRect();
             particle.style.left = (e.clientX - rect.left) + 'px';
             particle.style.top = (e.clientY - rect.top) + 'px';
@@ -1189,6 +1183,20 @@
             gameScoreEl.textContent = 0;
             gameTimeEl.textContent = 30;
         }
+    }
+
+    // ── LIBROS Y PDF ─────────────────────────────────────────────────────────
+    function abrirLibros() {
+        menuDropdown.classList.add('hidden');
+        document.getElementById('modal-libros').classList.add('active');
+    }
+
+    function cerrarLibros() {
+        document.getElementById('modal-libros').classList.remove('active');
+    }
+
+    function cerrarLibrosFuera(event) {
+        if (event.target.id === 'modal-libros') cerrarLibros();
     }
 </script>
 </body>
